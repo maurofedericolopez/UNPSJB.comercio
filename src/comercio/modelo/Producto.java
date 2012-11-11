@@ -1,10 +1,8 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import java.util.Collection;
+import javax.persistence.*;
 
 /**
  *
@@ -12,23 +10,46 @@ import javax.persistence.Id;
  */
 @Entity
 public class Producto implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
+
+    public Producto() {}
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idProducto")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long idProducto;
-
-    public Long getIdProducto() {
-        return idProducto;
-    }
-
-    public void setIdProducto(Long idProducto) {
-        this.idProducto = idProducto;
-    }
+    private String codigo;
+    private String descripcion;
+    private Double precioActual;
+    @ManyToOne
+    private Marca marca;
+    @ManyToOne
+    private Origen origen;
+    @ManyToOne
+    private Oferta oferta;
+    @ManyToOne
+    private Unidad unidad;
+    @ManyToOne
+    private Categoria categoria;
+    @ManyToMany
+    private Collection<PrecioAnterior> preciosAnteriores;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (idProducto != null ? idProducto.hashCode() : 0);
+        hash += (getIdProducto() != null ? getIdProducto().hashCode() : 0);
         return hash;
     }
 
@@ -39,7 +60,7 @@ public class Producto implements Serializable {
             return false;
         }
         Producto other = (Producto) object;
-        if ((this.idProducto == null && other.idProducto != null) || (this.idProducto != null && !this.idProducto.equals(other.idProducto))) {
+        if ((this.getIdProducto() == null && other.getIdProducto() != null) || (this.getIdProducto() != null && !this.idProducto.equals(other.idProducto))) {
             return false;
         }
         return true;
@@ -47,7 +68,137 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Producto[ id=" + idProducto + " ]";
+        return "comercio.modelo.Producto[ id=" + getIdProducto() + " ]";
     }
-    
+
+    /**
+     * @return the idProducto
+     */
+    public Long getIdProducto() {
+        return idProducto;
+    }
+
+    /**
+     * @param idProducto the idProducto to set
+     */
+    public void setIdProducto(Long idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the descripcion
+     */
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    /**
+     * @param descripcion the descripcion to set
+     */
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    /**
+     * @return the precioActual
+     */
+    public Double getPrecioActual() {
+        return precioActual;
+    }
+
+    /**
+     * @param precioActual the precioActual to set
+     */
+    public void setPrecioActual(Double precioActual) {
+        this.precioActual = precioActual;
+    }
+
+    /**
+     * @return the marca
+     */
+    public Marca getMarca() {
+        return marca;
+    }
+
+    /**
+     * @param marca the marca to set
+     */
+    public void setMarca(Marca marca) {
+        this.marca = marca;
+    }
+
+    /**
+     * @return the origen
+     */
+    public Origen getOrigen() {
+        return origen;
+    }
+
+    /**
+     * @param origen the origen to set
+     */
+    public void setOrigen(Origen origen) {
+        this.origen = origen;
+    }
+
+    /**
+     * @return the oferta
+     */
+    public Oferta getOferta() {
+        return oferta;
+    }
+
+    /**
+     * @param oferta the oferta to set
+     */
+    public void setOferta(Oferta oferta) {
+        this.oferta = oferta;
+    }
+
+    /**
+     * @return the unidad
+     */
+    public Unidad getUnidad() {
+        return unidad;
+    }
+
+    /**
+     * @param unidad the unidad to set
+     */
+    public void setUnidad(Unidad unidad) {
+        this.unidad = unidad;
+    }
+
+    /**
+     * @return the categoria
+     */
+    public Categoria getCategoria() {
+        return categoria;
+    }
+
+    /**
+     * @param categoria the categoria to set
+     */
+    public void setCategoria(Categoria categoria) {
+        this.categoria = categoria;
+    }
+
+    public Double getDescuentoVigente() {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
 }

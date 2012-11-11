@@ -2,7 +2,13 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="ComercioPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>comercio.modelo.Marca</class>
+    <class>comercio.modelo.Oferta</class>
+    <class>comercio.modelo.Categoria</class>
+    <class>comercio.modelo.Origen</class>
+    <class>comercio.modelo.PrecioAnterior</class>
     <class>comercio.modelo.Producto</class>
+    <class>comercio.modelo.Unidad</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value="comercio"/>
