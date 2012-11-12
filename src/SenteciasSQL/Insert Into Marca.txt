@@ -1,0 +1,14 @@
+insert into marca(nombre, abreviacion) values("NOGANET", "NOGANET");
+insert into marca(nombre, abreviacion) values("ATI RADEON", "ATI RADEON");
+insert into marca(nombre, abreviacion) values("ASUS", "ASUS");
+insert into marca(nombre, abreviacion) values("GFORCE", "GFORCE");
+insert into marca(nombre, abreviacion) values("KINGSTON", "KINGSTON");
+insert into marca(nombre, abreviacion) values("SAMSUNG", "SAMSUNG");
+insert into marca(nombre, abreviacion) values("SONY", "SONY");
+insert into marca(nombre, abreviacion) values("LG", "LG");
+insert into marca(nombre, abreviacion) values("ELECTRONIC ARTS", "EA");
+insert into marca(nombre, abreviacion) values("HEWLETT PACKARD", "HP");
+insert into marca(nombre, abreviacion) values("ASUS", "ASUS");
+insert into marca(nombre, abreviacion) values("INTEL", "INTEL");
+insert into marca(nombre, abreviacion) values("ADVANCED MICRO DEVICES, INC.", "AMD");
+select * from marca;
