@@ -1,8 +1,8 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -12,6 +12,8 @@ import javax.persistence.*;
 @Entity
 public class Remito implements Serializable {
     private static long serialVersionUID = 1L;
+
+    public Remito() {}
 
     /**
      * @return the serialVersionUID
@@ -30,13 +32,11 @@ public class Remito implements Serializable {
     @Column(name = "idRemito")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private String codigo;
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinTable(name = "loteremito",
-            joinColumns = @JoinColumn(name = "Remito_idRemito"),
-            inverseJoinColumns = @JoinColumn(name = "Lote_idLote"))
-    @OneToMany
-    private Collection<Lote> lotes;
+    @OneToMany(mappedBy = "remito")
+    private List<LoteRemito> lotes;
 
     @Override
     public int hashCode() {
@@ -60,7 +60,7 @@ public class Remito implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Remito[ id=" + getId() + " ]";
+        return "Remito[ id=" + getId() + " ]";
     }
 
     /**
@@ -92,16 +92,30 @@ public class Remito implements Serializable {
     }
 
     /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
      * @return the lotes
      */
-    public Collection<Lote> getLotes() {
+    public List<LoteRemito> getLotes() {
         return lotes;
     }
 
     /**
      * @param lotes the lotes to set
      */
-    public void setLotes(Collection<Lote> lotes) {
+    public void setLotes(List<LoteRemito> lotes) {
         this.lotes = lotes;
     }
 

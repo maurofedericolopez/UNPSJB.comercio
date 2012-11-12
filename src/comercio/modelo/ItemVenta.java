@@ -1,7 +1,6 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.*;
 
 /**
@@ -9,10 +8,10 @@ import javax.persistence.*;
  * @author Mauro Federico Lopez
  */
 @Entity
-public class Lote implements Serializable {
+public class ItemVenta implements Serializable {
     private static long serialVersionUID = 1L;
 
-    public Lote() {}
+    public ItemVenta() {}
 
     /**
      * @return the serialVersionUID
@@ -27,17 +26,18 @@ public class Lote implements Serializable {
     public static void setSerialVersionUID(long aSerialVersionUID) {
         serialVersionUID = aSerialVersionUID;
     }
+
     @Id
-    @Column(name = "idLote")
+    @Column(name = "idItemVenta")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String codigo;
-    @Temporal(TemporalType.DATE)
-    private Date fechaProduccion;
-    @Temporal(TemporalType.DATE)
-    private Date fechaVencimiento;
+    @ManyToOne
+    private Venta venta;
     @ManyToOne
     private Producto producto;
+    private Double precio;
+    private Double cantidad;
+    private Double descuento;
 
     @Override
     public int hashCode() {
@@ -49,10 +49,10 @@ public class Lote implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Lote)) {
+        if (!(object instanceof ItemVenta)) {
             return false;
         }
-        Lote other = (Lote) object;
+        ItemVenta other = (ItemVenta) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -61,7 +61,7 @@ public class Lote implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Lote[ id=" + getId() + " ]";
+        return "comercio.modelo.ItemVenta[ id=" + getId() + " ]";
     }
 
     /**
@@ -79,45 +79,17 @@ public class Lote implements Serializable {
     }
 
     /**
-     * @return the codigo
+     * @return the venta
      */
-    public String getCodigo() {
-        return codigo;
+    public Venta getVenta() {
+        return venta;
     }
 
     /**
-     * @param codigo the codigo to set
+     * @param venta the venta to set
      */
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
-    }
-
-    /**
-     * @return the fechaProduccion
-     */
-    public Date getFechaProduccion() {
-        return fechaProduccion;
-    }
-
-    /**
-     * @param fechaProduccion the fechaProduccion to set
-     */
-    public void setFechaProduccion(Date fechaProduccion) {
-        this.fechaProduccion = fechaProduccion;
-    }
-
-    /**
-     * @return the fechaVencimiento
-     */
-    public Date getFechaVencimiento() {
-        return fechaVencimiento;
-    }
-
-    /**
-     * @param fechaVencimiento the fechaVencimiento to set
-     */
-    public void setFechaVencimiento(Date fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 
     /**
@@ -132,6 +104,48 @@ public class Lote implements Serializable {
      */
     public void setProducto(Producto producto) {
         this.producto = producto;
+    }
+
+    /**
+     * @return the precio
+     */
+    public Double getPrecio() {
+        return precio;
+    }
+
+    /**
+     * @param precio the precio to set
+     */
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    /**
+     * @return the cantidad
+     */
+    public Double getCantidad() {
+        return cantidad;
+    }
+
+    /**
+     * @param cantidad the cantidad to set
+     */
+    public void setCantidad(Double cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    /**
+     * @return the descuento
+     */
+    public Double getDescuento() {
+        return descuento;
+    }
+
+    /**
+     * @param descuento the descuento to set
+     */
+    public void setDescuento(Double descuento) {
+        this.descuento = descuento;
     }
 
 }

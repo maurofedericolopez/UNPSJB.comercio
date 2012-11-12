@@ -42,7 +42,7 @@ CREATE INDEX `fk_Marca_Oferta` ON `comercio`.`Marca` (`Oferta_idOferta` ASC) ;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`Origen` (
   `idOrigen` INT NOT NULL AUTO_INCREMENT ,
-  `pais` VARCHAR(45) NOT NULL ,
+  `descripcion` VARCHAR(45) NOT NULL ,
   PRIMARY KEY (`idOrigen`) )
 ENGINE = InnoDB;
 
@@ -81,8 +81,8 @@ CREATE INDEX `fk_Categoria_Oferta` ON `comercio`.`Categoria` (`Oferta_idOferta` 
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`Producto` (
   `idProducto` BIGINT NOT NULL AUTO_INCREMENT ,
-  `codigo` BIGINT NOT NULL ,
-  `descripcion` VARCHAR(45) NULL ,
+  `codigo` VARCHAR(45) NOT NULL ,
+  `descripcion` VARCHAR(100) NULL ,
   `precioActual` DOUBLE NOT NULL ,
   `Marca_idMarca` BIGINT NOT NULL ,
   `Origen_idOrigen` INT NOT NULL ,
@@ -134,7 +134,7 @@ CREATE INDEX `fk_Producto_Categoria` ON `comercio`.`Producto` (`Categoria_idCate
 CREATE  TABLE IF NOT EXISTS `comercio`.`Lote` (
   `idLote` BIGINT NOT NULL AUTO_INCREMENT ,
   `Producto_idProducto` BIGINT NOT NULL ,
-  `codigo` BIGINT NOT NULL ,
+  `codigo` VARCHAR(45) NOT NULL ,
   `fechaProduccion` DATE NOT NULL ,
   `fechaVencimiento` DATE NULL ,
   PRIMARY KEY (`idLote`) ,
@@ -155,7 +155,7 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`Sucursal` (
   `idSucursal` BIGINT NOT NULL AUTO_INCREMENT ,
   `numero` BIGINT NOT NULL ,
   `ciudad` VARCHAR(45) NULL ,
-  `domicilio` VARCHAR(45) NULL ,
+  `domicilio` VARCHAR(100) NULL ,
   `telefono` BIGINT NULL ,
   PRIMARY KEY (`idSucursal`) )
 ENGINE = InnoDB;
@@ -183,18 +183,19 @@ CREATE INDEX `fk_Almacen_Sucursal` ON `comercio`.`Almacen` (`Sucursal_idSucursal
 -- Table `comercio`.`LoteAlmacenado`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`LoteAlmacenado` (
-  `Almacen_idAlmacen` BIGINT NOT NULL ,
+  `idLoteAlmacenado` BIGINT NOT NULL AUTO_INCREMENT ,
   `Lote_idLote` BIGINT NOT NULL ,
+  `Almacen_idAlmacen` BIGINT NOT NULL ,
   `cantidad` DOUBLE NOT NULL ,
-  PRIMARY KEY (`Almacen_idAlmacen`, `Lote_idLote`) ,
-  CONSTRAINT `fk_LoteAlmacenado_Almacen1`
-    FOREIGN KEY (`Almacen_idAlmacen` )
-    REFERENCES `comercio`.`Almacen` (`idAlmacen` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  PRIMARY KEY (`idLoteAlmacenado`) ,
   CONSTRAINT `fk_LoteAlmacenado_Lote1`
     FOREIGN KEY (`Lote_idLote` )
     REFERENCES `comercio`.`Lote` (`idLote` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_LoteAlmacenado_Almacen1`
+    FOREIGN KEY (`Almacen_idAlmacen` )
+    REFERENCES `comercio`.`Almacen` (`idAlmacen` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -263,27 +264,28 @@ CREATE INDEX `fk_Venta_PuntoVenta` ON `comercio`.`Venta` (`PuntoVenta_idPuntoVen
 -- Table `comercio`.`ItemVenta`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`ItemVenta` (
+  `idItemVenta` BIGINT NOT NULL AUTO_INCREMENT ,
   `Producto_idProducto` BIGINT NOT NULL ,
   `Venta_idVenta` BIGINT NOT NULL ,
   `precio` DOUBLE NOT NULL ,
   `cantidad` DOUBLE NOT NULL ,
   `descuento` DOUBLE NOT NULL ,
-  PRIMARY KEY (`Producto_idProducto`, `Venta_idVenta`) ,
-  CONSTRAINT `fk_Producto_has_Venta_Producto1`
+  PRIMARY KEY (`idItemVenta`) ,
+  CONSTRAINT `fk_ItemVenta_Producto1`
     FOREIGN KEY (`Producto_idProducto` )
     REFERENCES `comercio`.`Producto` (`idProducto` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Producto_has_Venta_Venta1`
+  CONSTRAINT `fk_ItemVenta_Venta1`
     FOREIGN KEY (`Venta_idVenta` )
     REFERENCES `comercio`.`Venta` (`idVenta` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Producto_has_Venta_Venta` ON `comercio`.`ItemVenta` (`Venta_idVenta` ASC) ;
+CREATE INDEX `fk_ItemVenta_Producto` ON `comercio`.`ItemVenta` (`Producto_idProducto` ASC) ;
 
-CREATE INDEX `fk_Producto_has_Venta_Producto` ON `comercio`.`ItemVenta` (`Producto_idProducto` ASC) ;
+CREATE INDEX `fk_ItemVenta_Venta` ON `comercio`.`ItemVenta` (`Venta_idVenta` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -302,12 +304,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`Egreso` (
   `idEgreso` BIGINT NOT NULL AUTO_INCREMENT ,
-  `codigo` BIGINT NOT NULL ,
+  `codigo` VARCHAR(45) NOT NULL ,
   `causaEspecial` VARCHAR(45) NOT NULL ,
   `fecha` DATE NOT NULL ,
-  `observaciones` VARCHAR(100) NULL ,
+  `observaciones` VARCHAR(256) NULL ,
   `Almacen_idAlmacen` BIGINT NOT NULL ,
-  `Almacen_Sucursal_idSucursal` BIGINT NOT NULL ,
   PRIMARY KEY (`idEgreso`) ,
   CONSTRAINT `fk_Egreso_Almacen1`
     FOREIGN KEY (`Almacen_idAlmacen` )
@@ -316,17 +317,18 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`Egreso` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_Egreso_Almacen` ON `comercio`.`Egreso` (`Almacen_idAlmacen` ASC, `Almacen_Sucursal_idSucursal` ASC) ;
+CREATE INDEX `fk_Egreso_Almacen` ON `comercio`.`Egreso` (`Almacen_idAlmacen` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `comercio`.`LoteEgresado`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`LoteEgresado` (
+  `idLoteEgresado` BIGINT NOT NULL AUTO_INCREMENT ,
   `Egreso_idEgreso` BIGINT NOT NULL ,
   `Lote_idLote` BIGINT NOT NULL ,
   `cantidad` DOUBLE NOT NULL ,
-  PRIMARY KEY (`Egreso_idEgreso`, `Lote_idLote`) ,
+  PRIMARY KEY (`idLoteEgresado`) ,
   CONSTRAINT `fk_LoteEgresado_Egreso1`
     FOREIGN KEY (`Egreso_idEgreso` )
     REFERENCES `comercio`.`Egreso` (`idEgreso` )
@@ -339,9 +341,9 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`LoteEgresado` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_LoteEgresado_Lote` ON `comercio`.`LoteEgresado` (`Lote_idLote` ASC) ;
-
 CREATE INDEX `fk_LoteEgresado_Egreso` ON `comercio`.`LoteEgresado` (`Egreso_idEgreso` ASC) ;
+
+CREATE INDEX `fk_LoteEgresado_Lote` ON `comercio`.`LoteEgresado` (`Lote_idLote` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -373,6 +375,7 @@ CREATE INDEX `fk_PrecioAnteriorProducto_Producto1` ON `comercio`.`PrecioAnterior
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`Remito` (
   `idRemito` BIGINT NOT NULL AUTO_INCREMENT ,
+  `codigo` VARCHAR(45) NOT NULL ,
   `fecha` DATE NOT NULL ,
   PRIMARY KEY (`idRemito`) )
 ENGINE = InnoDB;
@@ -382,10 +385,11 @@ ENGINE = InnoDB;
 -- Table `comercio`.`LoteRemito`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`LoteRemito` (
+  `idLoteRemito` BIGINT NOT NULL AUTO_INCREMENT ,
   `Remito_idRemito` BIGINT NOT NULL ,
   `Lote_idLote` BIGINT NOT NULL ,
   `cantidadIngresada` DOUBLE NOT NULL ,
-  PRIMARY KEY (`Remito_idRemito`, `Lote_idLote`) ,
+  PRIMARY KEY (`idLoteRemito`) ,
   CONSTRAINT `fk_LoteRemito_Remito1`
     FOREIGN KEY (`Remito_idRemito` )
     REFERENCES `comercio`.`Remito` (`idRemito` )
@@ -398,27 +402,28 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`LoteRemito` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE INDEX `fk_LoteRemito_Lote` ON `comercio`.`LoteRemito` (`Lote_idLote` ASC) ;
-
 CREATE INDEX `fk_LoteRemito_Remito` ON `comercio`.`LoteRemito` (`Remito_idRemito` ASC) ;
+
+CREATE INDEX `fk_LoteRemito_Lote` ON `comercio`.`LoteRemito` (`Lote_idLote` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `comercio`.`ProductoEnVenta`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`ProductoEnVenta` (
-  `Producto_idProducto` BIGINT NOT NULL ,
+  `idProductoEnVenta` BIGINT NOT NULL AUTO_INCREMENT ,
   `PuntoVenta_idPuntoVenta` BIGINT NOT NULL ,
+  `Producto_idProducto` BIGINT NOT NULL ,
   `cantidad` DOUBLE NULL ,
-  PRIMARY KEY (`Producto_idProducto`, `PuntoVenta_idPuntoVenta`) ,
-  CONSTRAINT `fk_ProductoEnVenta_Producto1`
-    FOREIGN KEY (`Producto_idProducto` )
-    REFERENCES `comercio`.`Producto` (`idProducto` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  PRIMARY KEY (`idProductoEnVenta`) ,
   CONSTRAINT `fk_ProductoEnVenta_PuntoVenta1`
     FOREIGN KEY (`PuntoVenta_idPuntoVenta` )
     REFERENCES `comercio`.`PuntoVenta` (`idPuntoVenta` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_ProductoEnVenta_Producto1`
+    FOREIGN KEY (`Producto_idProducto` )
+    REFERENCES `comercio`.`Producto` (`idProducto` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;

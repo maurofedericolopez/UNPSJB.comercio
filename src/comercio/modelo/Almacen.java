@@ -1,7 +1,9 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -10,7 +12,24 @@ import javax.persistence.*;
  */
 @Entity
 public class Almacen implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
+
+    public Almacen() {}
+
     @Id
     @Column(name = "idAlmacen")
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,16 +37,13 @@ public class Almacen implements Serializable {
     private Long numero;
     @ManyToOne
     private Sucursal sucursal;
-    @JoinTable(name = "lotealmacenado",
-            joinColumns = @JoinColumn(name = "Almacen_idAlmacen"),
-            inverseJoinColumns = @JoinColumn(name = "Lote_idLote"))
-    @OneToMany
-    private HashMap<Lote, Double> lotes = new HashMap();
+    @OneToMany(mappedBy = "almacen")
+    private Collection<LoteAlmacenado> lotesAlmacenados;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -38,7 +54,7 @@ public class Almacen implements Serializable {
             return false;
         }
         Almacen other = (Almacen) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -46,7 +62,63 @@ public class Almacen implements Serializable {
 
     @Override
     public String toString() {
-        return "Almacen [" + numero + "]";
+        return "Almacen [" + getNumero() + "]";
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the numero
+     */
+    public Long getNumero() {
+        return numero;
+    }
+
+    /**
+     * @param numero the numero to set
+     */
+    public void setNumero(Long numero) {
+        this.numero = numero;
+    }
+
+    /**
+     * @return the sucursal
+     */
+    public Sucursal getSucursal() {
+        return sucursal;
+    }
+
+    /**
+     * @param sucursal the sucursal to set
+     */
+    public void setSucursal(Sucursal sucursal) {
+        this.sucursal = sucursal;
+    }
+
+    /**
+     * @return the lotesAlmacenados
+     */
+    public Collection<LoteAlmacenado> getLotesAlmacenados() {
+        return lotesAlmacenados;
+    }
+
+    /**
+     * @param lotesAlmacenados the lotesAlmacenados to set
+     */
+    public void setLotesAlmacenados(Collection<LoteAlmacenado> lotesAlmacenados) {
+        this.lotesAlmacenados = lotesAlmacenados;
     }
 
 }

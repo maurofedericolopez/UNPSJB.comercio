@@ -1,7 +1,6 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -9,8 +8,10 @@ import javax.persistence.*;
  * @author Mauro Federico Lopez
  */
 @Entity
-public class PuntoVenta implements Serializable {
+public class MedioPago implements Serializable {
     private static long serialVersionUID = 1L;
+
+    public MedioPago() {}
 
     /**
      * @return the serialVersionUID
@@ -25,18 +26,11 @@ public class PuntoVenta implements Serializable {
     public static void setSerialVersionUID(long aSerialVersionUID) {
         serialVersionUID = aSerialVersionUID;
     }
-
-    public PuntoVenta() {}
-
     @Id
-    @Column(name = "idPuntoVenta")
+    @Column(name = "idMedioDePago")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long numero;
-    @ManyToOne
-    private Sucursal sucursal;
-    @OneToMany(mappedBy = "puntoVenta")
-    private List<ProductoEnVenta> productosEnVenta;
+    private String descripcion;
 
     @Override
     public int hashCode() {
@@ -48,10 +42,10 @@ public class PuntoVenta implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PuntoVenta)) {
+        if (!(object instanceof MedioPago)) {
             return false;
         }
-        PuntoVenta other = (PuntoVenta) object;
+        MedioPago other = (MedioPago) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -60,7 +54,7 @@ public class PuntoVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.PuntoVenta[ id=" + getId() + " ]";
+        return getDescripcion();
     }
 
     /**
@@ -78,45 +72,17 @@ public class PuntoVenta implements Serializable {
     }
 
     /**
-     * @return the numero
+     * @return the descripcion
      */
-    public Long getNumero() {
-        return numero;
+    public String getDescripcion() {
+        return descripcion;
     }
 
     /**
-     * @param numero the numero to set
+     * @param descripcion the descripcion to set
      */
-    public void setNumero(Long numero) {
-        this.numero = numero;
-    }
-
-    /**
-     * @return the sucursal
-     */
-    public Sucursal getSucursal() {
-        return sucursal;
-    }
-
-    /**
-     * @param sucursal the sucursal to set
-     */
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
-    }
-
-    /**
-     * @return the productosEnVenta
-     */
-    public List<ProductoEnVenta> getProductosEnVenta() {
-        return productosEnVenta;
-    }
-
-    /**
-     * @param productosEnVenta the productosEnVenta to set
-     */
-    public void setProductosEnVenta(List<ProductoEnVenta> productosEnVenta) {
-        this.productosEnVenta = productosEnVenta;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
 }

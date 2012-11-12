@@ -2,6 +2,8 @@ package comercio.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -47,7 +49,7 @@ public class Producto implements Serializable {
     @JoinTable(name = "precioanteriorproducto",
             joinColumns = @JoinColumn(name = "Producto_idProducto"),
             inverseJoinColumns = @JoinColumn(name = "PrecioAnterior_idPrecioAnterior"))
-    private ArrayList<PrecioAnterior> preciosAnteriores = new ArrayList();
+    private List<PrecioAnterior> preciosAnteriores = new ArrayList();
 
     @Override
     public int hashCode() {
@@ -207,14 +209,14 @@ public class Producto implements Serializable {
     /**
      * @return the preciosAnteriores
      */
-    public ArrayList<PrecioAnterior> getPreciosAnteriores() {
+    public List<PrecioAnterior> getPreciosAnteriores() {
         return preciosAnteriores;
     }
 
     /**
      * @param preciosAnteriores the preciosAnteriores to set
      */
-    public void setPreciosAnteriores(ArrayList<PrecioAnterior> preciosAnteriores) {
+    public void setPreciosAnteriores(List<PrecioAnterior> preciosAnteriores) {
         this.preciosAnteriores = preciosAnteriores;
     }
 

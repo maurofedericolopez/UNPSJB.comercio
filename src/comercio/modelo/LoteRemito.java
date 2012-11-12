@@ -1,15 +1,14 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 
 /**
  *
- * @author Mauro Federico Lopez
+ * @author Mauro
  */
 @Entity
-public class PuntoVenta implements Serializable {
+public class LoteRemito implements Serializable {
     private static long serialVersionUID = 1L;
 
     /**
@@ -25,18 +24,15 @@ public class PuntoVenta implements Serializable {
     public static void setSerialVersionUID(long aSerialVersionUID) {
         serialVersionUID = aSerialVersionUID;
     }
-
-    public PuntoVenta() {}
-
     @Id
-    @Column(name = "idPuntoVenta")
+    @Column(name = "idLoteRemito")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long numero;
     @ManyToOne
-    private Sucursal sucursal;
-    @OneToMany(mappedBy = "puntoVenta")
-    private List<ProductoEnVenta> productosEnVenta;
+    private Remito remito;
+    @ManyToOne
+    private Lote lote;
+    private Double cantidadIngresada;
 
     @Override
     public int hashCode() {
@@ -48,10 +44,10 @@ public class PuntoVenta implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PuntoVenta)) {
+        if (!(object instanceof LoteRemito)) {
             return false;
         }
-        PuntoVenta other = (PuntoVenta) object;
+        LoteRemito other = (LoteRemito) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -60,7 +56,7 @@ public class PuntoVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.PuntoVenta[ id=" + getId() + " ]";
+        return "comercio.modelo.LoteRemito[ id=" + getId() + " ]";
     }
 
     /**
@@ -78,45 +74,45 @@ public class PuntoVenta implements Serializable {
     }
 
     /**
-     * @return the numero
+     * @return the remito
      */
-    public Long getNumero() {
-        return numero;
+    public Remito getRemito() {
+        return remito;
     }
 
     /**
-     * @param numero the numero to set
+     * @param remito the remito to set
      */
-    public void setNumero(Long numero) {
-        this.numero = numero;
+    public void setRemito(Remito remito) {
+        this.remito = remito;
     }
 
     /**
-     * @return the sucursal
+     * @return the lote
      */
-    public Sucursal getSucursal() {
-        return sucursal;
+    public Lote getLote() {
+        return lote;
     }
 
     /**
-     * @param sucursal the sucursal to set
+     * @param lote the lote to set
      */
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
+    public void setLote(Lote lote) {
+        this.lote = lote;
     }
 
     /**
-     * @return the productosEnVenta
+     * @return the cantidadIngresada
      */
-    public List<ProductoEnVenta> getProductosEnVenta() {
-        return productosEnVenta;
+    public Double getCantidadIngresada() {
+        return cantidadIngresada;
     }
 
     /**
-     * @param productosEnVenta the productosEnVenta to set
+     * @param cantidadIngresada the cantidadIngresada to set
      */
-    public void setProductosEnVenta(List<ProductoEnVenta> productosEnVenta) {
-        this.productosEnVenta = productosEnVenta;
+    public void setCantidadIngresada(Double cantidadIngresada) {
+        this.cantidadIngresada = cantidadIngresada;
     }
 
 }

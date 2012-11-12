@@ -1,4 +1,5 @@
 insert into unidad(descripcion) values("Unidad");
 insert into unidad(descripcion) values("Litros");
+insert into unidad(descripcion) values("Gramos");
 insert into unidad(descripcion) values("Metros");
 select * from unidad;

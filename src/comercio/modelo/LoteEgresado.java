@@ -1,16 +1,17 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 
 /**
  *
- * @author Mauro Federico Lopez
+ * @author Mauro
  */
 @Entity
-public class PuntoVenta implements Serializable {
+public class LoteEgresado implements Serializable {
     private static long serialVersionUID = 1L;
+
+    public LoteEgresado() {}
 
     /**
      * @return the serialVersionUID
@@ -25,18 +26,15 @@ public class PuntoVenta implements Serializable {
     public static void setSerialVersionUID(long aSerialVersionUID) {
         serialVersionUID = aSerialVersionUID;
     }
-
-    public PuntoVenta() {}
-
     @Id
-    @Column(name = "idPuntoVenta")
+    @Column(name = "idLoteEgresado")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private Long numero;
     @ManyToOne
-    private Sucursal sucursal;
-    @OneToMany(mappedBy = "puntoVenta")
-    private List<ProductoEnVenta> productosEnVenta;
+    private Egreso egreso;
+    @ManyToOne
+    private Lote lote;
+    private Double cantidad;
 
     @Override
     public int hashCode() {
@@ -48,10 +46,10 @@ public class PuntoVenta implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PuntoVenta)) {
+        if (!(object instanceof LoteEgresado)) {
             return false;
         }
-        PuntoVenta other = (PuntoVenta) object;
+        LoteEgresado other = (LoteEgresado) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -60,7 +58,7 @@ public class PuntoVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.PuntoVenta[ id=" + getId() + " ]";
+        return "comercio.modelo.LoteEgresado[ id=" + getId() + " ]";
     }
 
     /**
@@ -78,45 +76,45 @@ public class PuntoVenta implements Serializable {
     }
 
     /**
-     * @return the numero
+     * @return the egreso
      */
-    public Long getNumero() {
-        return numero;
+    public Egreso getEgreso() {
+        return egreso;
     }
 
     /**
-     * @param numero the numero to set
+     * @param egreso the egreso to set
      */
-    public void setNumero(Long numero) {
-        this.numero = numero;
+    public void setEgreso(Egreso egreso) {
+        this.egreso = egreso;
     }
 
     /**
-     * @return the sucursal
+     * @return the lote
      */
-    public Sucursal getSucursal() {
-        return sucursal;
+    public Lote getLote() {
+        return lote;
     }
 
     /**
-     * @param sucursal the sucursal to set
+     * @param lote the lote to set
      */
-    public void setSucursal(Sucursal sucursal) {
-        this.sucursal = sucursal;
+    public void setLote(Lote lote) {
+        this.lote = lote;
     }
 
     /**
-     * @return the productosEnVenta
+     * @return the cantidad
      */
-    public List<ProductoEnVenta> getProductosEnVenta() {
-        return productosEnVenta;
+    public Double getCantidad() {
+        return cantidad;
     }
 
     /**
-     * @param productosEnVenta the productosEnVenta to set
+     * @param cantidad the cantidad to set
      */
-    public void setProductosEnVenta(List<ProductoEnVenta> productosEnVenta) {
-        this.productosEnVenta = productosEnVenta;
+    public void setCantidad(Double cantidad) {
+        this.cantidad = cantidad;
     }
 
 }

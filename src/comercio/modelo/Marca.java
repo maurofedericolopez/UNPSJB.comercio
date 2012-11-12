@@ -57,7 +57,7 @@ public class Marca implements Serializable {
 
     @Override
     public String toString() {
-        return getNombre();
+        return getAbreviacion();
     }
 
     /**

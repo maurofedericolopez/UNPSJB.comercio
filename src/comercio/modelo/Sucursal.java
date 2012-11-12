@@ -11,6 +11,8 @@ import javax.persistence.*;
 public class Sucursal implements Serializable {
     private static long serialVersionUID = 1L;
 
+    public Sucursal() {}
+
     /**
      * @return the serialVersionUID
      */

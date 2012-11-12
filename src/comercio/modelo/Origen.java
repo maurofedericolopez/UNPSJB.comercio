@@ -30,7 +30,6 @@ public class Origen implements Serializable {
     @Column(name = "idOrigen")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(name = "descripcion")
     private String descripcion;
 
     @Override
