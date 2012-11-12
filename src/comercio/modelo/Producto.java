@@ -2,8 +2,6 @@ package comercio.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import javax.persistence.*;
 
 /**
@@ -45,11 +43,11 @@ public class Producto implements Serializable {
     private Unidad unidad;
     @ManyToOne
     private Categoria categoria;
-    @ManyToMany
+    @OneToMany
     @JoinTable(name = "precioanteriorproducto",
             joinColumns = @JoinColumn(name = "Producto_idProducto"),
             inverseJoinColumns = @JoinColumn(name = "PrecioAnterior_idPrecioAnterior"))
-    private Collection<PrecioAnterior> preciosAnteriores = new ArrayList();
+    private ArrayList<PrecioAnterior> preciosAnteriores = new ArrayList();
 
     @Override
     public int hashCode() {
@@ -209,14 +207,14 @@ public class Producto implements Serializable {
     /**
      * @return the preciosAnteriores
      */
-    public Collection<PrecioAnterior> getPreciosAnteriores() {
+    public ArrayList<PrecioAnterior> getPreciosAnteriores() {
         return preciosAnteriores;
     }
 
     /**
      * @param preciosAnteriores the preciosAnteriores to set
      */
-    public void setPreciosAnteriores(Collection<PrecioAnterior> preciosAnteriores) {
+    public void setPreciosAnteriores(ArrayList<PrecioAnterior> preciosAnteriores) {
         this.preciosAnteriores = preciosAnteriores;
     }
 

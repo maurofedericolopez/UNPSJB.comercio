@@ -9,6 +9,11 @@
     <class>comercio.modelo.Producto</class>
     <class>comercio.modelo.Unidad</class>
     <class>comercio.modelo.Oferta</class>
+    <class>comercio.modelo.Lote</class>
+    <class>comercio.modelo.Remito</class>
+    <class>comercio.modelo.Sucursal</class>
+    <class>comercio.modelo.Almacen</class>
+    <class>comercio.modelo.PuntoVenta</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value="comercio"/>
