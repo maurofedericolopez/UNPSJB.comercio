@@ -1,7 +1,9 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import javax.persistence.*;
 
 /**
@@ -44,7 +46,10 @@ public class Producto implements Serializable {
     @ManyToOne
     private Categoria categoria;
     @ManyToMany
-    private Collection<PrecioAnterior> preciosAnteriores;
+    @JoinTable(name = "precioanteriorproducto",
+            joinColumns = @JoinColumn(name = "Producto_idProducto"),
+            inverseJoinColumns = @JoinColumn(name = "PrecioAnterior_idPrecioAnterior"))
+    private Collection<PrecioAnterior> preciosAnteriores = new ArrayList();
 
     @Override
     public int hashCode() {
@@ -199,6 +204,20 @@ public class Producto implements Serializable {
 
     public Double getDescuentoVigente() {
         throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    /**
+     * @return the preciosAnteriores
+     */
+    public Collection<PrecioAnterior> getPreciosAnteriores() {
+        return preciosAnteriores;
+    }
+
+    /**
+     * @param preciosAnteriores the preciosAnteriores to set
+     */
+    public void setPreciosAnteriores(Collection<PrecioAnterior> preciosAnteriores) {
+        this.preciosAnteriores = preciosAnteriores;
     }
 
 }

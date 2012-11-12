@@ -1,6 +1,17 @@
 package comercio.vistas;
 
 import comercio.ComercioApp;
+import comercio.controladores.ProductosController;
+import comercio.exceptions.NonexistentEntityException;
+import comercio.modelo.Producto;
+import comercio.vistas.modelos.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -8,11 +19,26 @@ import comercio.ComercioApp;
  */
 public class AdministrarProductosUI extends javax.swing.JPanel {
 
+    private ProductosController controlador;
+
     /**
      * Creates new form AdministrarProductosUI
      */
     public AdministrarProductosUI() {
         initComponents();
+        controlador = new ProductosController();
+
+        TableColumn columnaMarca = tablaProductos.getColumnModel().getColumn(3);
+        columnaMarca.setCellEditor(new DefaultCellEditor(new JComboBox(new MarcaComboBoxModel())));
+
+        TableColumn columnaOrigen = tablaProductos.getColumnModel().getColumn(4);
+        columnaOrigen.setCellEditor(new DefaultCellEditor(new JComboBox(new OrigenComboBoxModel())));
+
+        TableColumn columnaUnidad = tablaProductos.getColumnModel().getColumn(6);
+        columnaUnidad.setCellEditor(new DefaultCellEditor(new JComboBox(new UnidadComboBoxModel())));
+
+        TableColumn columnaCategoria = tablaProductos.getColumnModel().getColumn(7);
+        columnaCategoria.setCellEditor(new DefaultCellEditor(new JComboBox(new CategoriaComboBoxModel())));
     }
 
     /**
@@ -32,25 +58,7 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        tablaProductos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "Código", "Descripcion", "Precio Unitario[$]", "Marca", "Origen", "Descuento[%]", "Unidad", "Categoría"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Long.class, java.lang.String.class, java.lang.Double.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-        });
+        tablaProductos.setModel(new comercio.vistas.modelos.ProductoTableModel());
         jsp.setViewportView(tablaProductos);
 
         add(jsp, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 11, 800, 450));
@@ -65,12 +73,29 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
 
         botonEliminarProducto.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         botonEliminarProducto.setText("Eliminar");
+        botonEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarProductoActionPerformed(evt);
+            }
+        });
         add(botonEliminarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 70, 40));
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarNuevoProductoActionPerformed
         new NuevoProductoUI(ComercioApp.getVentanaInventario(), true).setVisible(true);
     }//GEN-LAST:event_botonAgregarNuevoProductoActionPerformed
+
+    private void botonEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProductoActionPerformed
+        if (tablaProductos.getSelectedRow() >= 0) {
+            try {
+                controlador.eliminarProducto(((ProductoTableModel) tablaProductos.getModel()).obtenerProducto(tablaProductos.getSelectedRow()));
+            } catch (NonexistentEntityException ex) {
+                JOptionPane.showMessageDialog(null, "No pudo ser eliminado el producto seleccionado", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun producto para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonEliminarProductoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarNuevoProducto;

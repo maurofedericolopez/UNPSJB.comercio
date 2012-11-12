@@ -1,7 +1,5 @@
 package comercio;
 
-import comercio.vistas.AdministrarCategoriasUI;
-import comercio.vistas.AdministrarMarcasUI;
 import comercio.vistas.GestionInventarioUI;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -20,10 +18,9 @@ public class ComercioApp {
      */
     public static void main(String[] args) {
         setEntityManager(Persistence.createEntityManagerFactory("ComercioPU"));
-        
-        GestionInventarioUI ventanaInventario = new GestionInventarioUI();
-        ventanaInventario.setVisible(true);
-        setVentanaInventario(ventanaInventario);
+        GestionInventarioUI ventanaGestionInventario = new GestionInventarioUI();
+        ventanaGestionInventario.setVisible(true);
+        setVentanaInventario(ventanaGestionInventario);
     }
 
     /**

@@ -144,4 +144,8 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
         this.fireTableDataChanged();
     }
 
+    public Producto obtenerProducto(int index) {
+        return this.productos.get(index);
+    }
+
 }

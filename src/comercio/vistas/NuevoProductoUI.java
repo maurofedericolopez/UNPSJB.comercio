@@ -3,6 +3,7 @@ package comercio.vistas;
 import comercio.controladores.ProductosController;
 import comercio.modelo.Marca;
 import java.text.DecimalFormat;
+import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 
@@ -20,6 +21,7 @@ public class NuevoProductoUI extends javax.swing.JDialog {
     public NuevoProductoUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        controlador = new ProductosController();
         campoPrecio.setValue(0);
     }
 
@@ -125,7 +127,14 @@ public class NuevoProductoUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
-        controlador.registrarNuevoProducto(campoCodigo.getText(), campoDescripcion.getText(), campoPrecio.getValue(), campoMarca.getSelectedItem(), campoOrigen.getSelectedItem(), campoUnidad.getSelectedItem(), campoCategoria.getSelectedItem());
+        try {
+            controlador.registrarNuevoProducto(campoCodigo.getText(), campoDescripcion.getText(), campoPrecio.getValue(), campoMarca.getSelectedItem(), campoOrigen.getSelectedItem(), campoUnidad.getSelectedItem(), campoCategoria.getSelectedItem());
+            this.setVisible(false);
+        } catch (NullPointerException e) {
+            JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed

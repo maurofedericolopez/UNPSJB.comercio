@@ -1,6 +1,8 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.*;
 
@@ -34,6 +36,8 @@ public class PrecioAnterior implements Serializable {
     private Double valor;
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @ManyToMany(mappedBy = "preciosAnteriores")
+    private Collection<Producto> productos = new ArrayList();
 
     @Override
     public int hashCode() {
