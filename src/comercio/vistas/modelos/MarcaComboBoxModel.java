@@ -16,6 +16,7 @@ public class MarcaComboBoxModel extends AbstractListModel implements ComboBoxMod
     private Marca marcaSeleccionada = null;
 
     public MarcaComboBoxModel() {
+        super();
         marcas = new MarcasController().obtenerMarcas();
     }
 

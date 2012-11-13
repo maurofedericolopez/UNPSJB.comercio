@@ -1,0 +1,3 @@
+insert into sucursal(numero,ciudad,domicilio,telefono) values(1,"Ushuaia","San Martin 1895",2901448454);
+insert into sucursal(numero,ciudad,domicilio,telefono) values(2,"Rio Grande","9 de Julio 456",2921479854);
+select * from sucursal;

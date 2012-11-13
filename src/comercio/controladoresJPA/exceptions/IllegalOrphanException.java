@@ -1,4 +1,4 @@
-package comercio.exceptions;
+package comercio.controladoresJPA.exceptions;
 
 import java.util.ArrayList;
 import java.util.List;

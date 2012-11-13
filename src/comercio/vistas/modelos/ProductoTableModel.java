@@ -1,7 +1,7 @@
 package comercio.vistas.modelos;
 
 import comercio.controladores.ProductosController;
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Producto;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -21,6 +21,7 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
     private ArrayList<Producto> productos;
 
     public ProductoTableModel() {
+        super();
         controlador = new ProductosController();
         controlador.addObserver(this);
         productos = controlador.obtenerProductos();

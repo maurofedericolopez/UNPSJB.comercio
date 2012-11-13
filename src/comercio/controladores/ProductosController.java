@@ -3,7 +3,7 @@ package comercio.controladores;
 import comercio.ComercioApp;
 import comercio.controladoresJPA.PrecioAnteriorJpaController;
 import comercio.controladoresJPA.ProductoJpaController;
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +19,7 @@ public class ProductosController extends Observable {
     private PrecioAnteriorJpaController controladorPrecio;
 
     public ProductosController() {
+        super();
         controladorProductos = new ProductoJpaController(ComercioApp.getEntityManager());
         controladorPrecio = new PrecioAnteriorJpaController(ComercioApp.getEntityManager());
         

@@ -1,7 +1,6 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -12,7 +11,21 @@ import javax.persistence.*;
  */
 @Entity
 public class Venta implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
 
     public Venta() {}
 
@@ -33,7 +46,7 @@ public class Venta implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -44,7 +57,7 @@ public class Venta implements Serializable {
             return false;
         }
         Venta other = (Venta) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -52,7 +65,91 @@ public class Venta implements Serializable {
 
     @Override
     public String toString() {
-        return "Venta[" + codigo + "]";
+        return "Venta[" + getCodigo() + "]";
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public Long getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the fecha
+     */
+    public Date getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the medioDePago
+     */
+    public MedioPago getMedioDePago() {
+        return medioDePago;
+    }
+
+    /**
+     * @param medioDePago the medioDePago to set
+     */
+    public void setMedioDePago(MedioPago medioDePago) {
+        this.medioDePago = medioDePago;
+    }
+
+    /**
+     * @return the puntoVenta
+     */
+    public PuntoVenta getPuntoVenta() {
+        return puntoVenta;
+    }
+
+    /**
+     * @param puntoVenta the puntoVenta to set
+     */
+    public void setPuntoVenta(PuntoVenta puntoVenta) {
+        this.puntoVenta = puntoVenta;
+    }
+
+    /**
+     * @return the items
+     */
+    public List<ItemVenta> getItems() {
+        return items;
+    }
+
+    /**
+     * @param items the items to set
+     */
+    public void setItems(List<ItemVenta> items) {
+        this.items = items;
     }
 
 }

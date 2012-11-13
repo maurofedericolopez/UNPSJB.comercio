@@ -116,7 +116,7 @@ public class Remito implements Serializable {
      * @param lotes the lotes to set
      */
     public void setLotes(List<LoteRemito> lotes) {
-        this.lotes = lotes;
+        this.setLotes(lotes);
     }
 
 }

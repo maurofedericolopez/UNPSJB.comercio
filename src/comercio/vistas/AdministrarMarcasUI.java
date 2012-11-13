@@ -1,7 +1,7 @@
 package comercio.vistas;
 
 import comercio.controladores.MarcasController;
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.vistas.modelos.MarcaTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,7 +46,6 @@ public class AdministrarMarcasUI extends javax.swing.JDialog {
         setTitle("Administrar Marcas");
         setMaximumSize(new java.awt.Dimension(400, 300));
         setMinimumSize(new java.awt.Dimension(400, 300));
-        setPreferredSize(new java.awt.Dimension(400, 300));
         setResizable(false);
 
         tablaMarcas.setModel(new javax.swing.table.DefaultTableModel(

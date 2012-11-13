@@ -11,9 +11,21 @@ import javax.persistence.*;
  */
 @Entity
 public class Egreso implements Serializable {
-    private static final long serialVersionUID = 1L;
-    @OneToMany(mappedBy = "egreso")
-    private List<LoteEgresado> lotesEgresados;
+    private static long serialVersionUID = 1L;
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
 
     public Egreso() {}
 
@@ -28,11 +40,13 @@ public class Egreso implements Serializable {
     private String observaciones;
     @ManyToOne
     private Almacen almacen;
+    @OneToMany(mappedBy = "egreso")
+    private List<LoteEgresado> lotesEgresados;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -43,7 +57,7 @@ public class Egreso implements Serializable {
             return false;
         }
         Egreso other = (Egreso) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -51,7 +65,105 @@ public class Egreso implements Serializable {
 
     @Override
     public String toString() {
-        return "Egreso[" + codigo + "]";
+        return "Egreso[" + getCodigo() + "]";
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the codigo
+     */
+    public String getCodigo() {
+        return codigo;
+    }
+
+    /**
+     * @param codigo the codigo to set
+     */
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    /**
+     * @return the causaEspecial
+     */
+    public String getCausaEspecial() {
+        return causaEspecial;
+    }
+
+    /**
+     * @param causaEspecial the causaEspecial to set
+     */
+    public void setCausaEspecial(String causaEspecial) {
+        this.causaEspecial = causaEspecial;
+    }
+
+    /**
+     * @return the fecha
+     */
+    public Date getFecha() {
+        return fecha;
+    }
+
+    /**
+     * @param fecha the fecha to set
+     */
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    /**
+     * @return the observaciones
+     */
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    /**
+     * @param observaciones the observaciones to set
+     */
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    /**
+     * @return the almacen
+     */
+    public Almacen getAlmacen() {
+        return almacen;
+    }
+
+    /**
+     * @param almacen the almacen to set
+     */
+    public void setAlmacen(Almacen almacen) {
+        this.almacen = almacen;
+    }
+
+    /**
+     * @return the lotesEgresados
+     */
+    public List<LoteEgresado> getLotesEgresados() {
+        return lotesEgresados;
+    }
+
+    /**
+     * @param lotesEgresados the lotesEgresados to set
+     */
+    public void setLotesEgresados(List<LoteEgresado> lotesEgresados) {
+        this.setLotesEgresados(lotesEgresados);
     }
 
 }

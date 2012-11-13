@@ -2,7 +2,7 @@ package comercio.controladores;
 
 import comercio.ComercioApp;
 import comercio.controladoresJPA.MarcaJpaController;
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Marca;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -16,6 +16,7 @@ public class MarcasController extends Observable {
     private MarcaJpaController controlador;
 
     public MarcasController() {
+        super();
         controlador = new MarcaJpaController(ComercioApp.getEntityManager());
     }
 

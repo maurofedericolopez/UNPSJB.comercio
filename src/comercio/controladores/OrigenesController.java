@@ -14,6 +14,7 @@ public class OrigenesController {
     private OrigenJpaController controlador;
 
     public OrigenesController() {
+        super();
         controlador = new OrigenJpaController(ComercioApp.getEntityManager());
     }
 

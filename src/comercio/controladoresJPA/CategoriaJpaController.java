@@ -1,6 +1,6 @@
 package comercio.controladoresJPA;
 
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Categoria;
 import java.io.Serializable;
 import java.util.List;
@@ -13,7 +13,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauro Federico Lopez
+ * @author Mauro
  */
 public class CategoriaJpaController implements Serializable {
 

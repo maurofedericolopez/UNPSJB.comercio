@@ -1,6 +1,7 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.*;
 
 /**
@@ -34,6 +35,10 @@ public class Sucursal implements Serializable {
     private String ciudad;
     private String domicilio;
     private Long telefono;
+    @OneToMany(mappedBy = "sucursal")
+    private List<Almacen> almacenes;
+    @OneToMany(mappedBy = "sucursal")
+    private List<PuntoVenta> puntosDeVentas;
 
     @Override
     public int hashCode() {
@@ -57,7 +62,7 @@ public class Sucursal implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Sucursal[ id=" + getId() + " ]";
+        return "" + getNumero();
     }
 
     /**
@@ -128,6 +133,34 @@ public class Sucursal implements Serializable {
      */
     public void setTelefono(Long telefono) {
         this.telefono = telefono;
+    }
+
+    /**
+     * @return the almacenes
+     */
+    public List<Almacen> getAlmacenes() {
+        return almacenes;
+    }
+
+    /**
+     * @param almacenes the almacenes to set
+     */
+    public void setAlmacenes(List<Almacen> almacenes) {
+        this.almacenes = almacenes;
+    }
+
+    /**
+     * @return the puntosDeVentas
+     */
+    public List<PuntoVenta> getPuntosDeVentas() {
+        return puntosDeVentas;
+    }
+
+    /**
+     * @param puntosDeVentas the puntosDeVentas to set
+     */
+    public void setPuntosDeVentas(List<PuntoVenta> puntosDeVentas) {
+        this.puntosDeVentas = puntosDeVentas;
     }
 
 }

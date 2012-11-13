@@ -22,17 +22,172 @@ public class ImportarUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+        etiquetaTituloFrame = new javax.swing.JLabel();
+        panelDatosDelRemito = new javax.swing.JPanel();
+        etiquetaCodigoRemito = new javax.swing.JLabel();
+        campoCodigoRemito = new javax.swing.JTextField();
+        etiquetaFechaRemito = new javax.swing.JLabel();
+        campoFechaRemito = new javax.swing.JFormattedTextField();
+        etiquetaSucursalAlmacen = new javax.swing.JLabel();
+        campoSucursalAlmacen = new javax.swing.JComboBox();
+        botonRegistrarRemito = new javax.swing.JButton();
+        panelLotesRemito = new javax.swing.JPanel();
+        jsp = new javax.swing.JScrollPane();
+        tablaLotesDelRemito = new javax.swing.JTable();
+        botonNuevoLoteRemito = new javax.swing.JButton();
+        botonEliminarLoteRemito = new javax.swing.JButton();
+
+        setMaximumSize(new java.awt.Dimension(900, 500));
+        setMinimumSize(new java.awt.Dimension(900, 500));
+        setLayout(new java.awt.BorderLayout());
+
+        etiquetaTituloFrame.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        etiquetaTituloFrame.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetaTituloFrame.setText("Importar Lotes de Productos");
+        add(etiquetaTituloFrame, java.awt.BorderLayout.PAGE_START);
+
+        panelDatosDelRemito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del remito", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        panelDatosDelRemito.setMaximumSize(new java.awt.Dimension(900, 100));
+        panelDatosDelRemito.setMinimumSize(new java.awt.Dimension(900, 100));
+        panelDatosDelRemito.setPreferredSize(new java.awt.Dimension(900, 100));
+
+        etiquetaCodigoRemito.setText("Código remito");
+
+        etiquetaFechaRemito.setText("Fecha remito");
+
+        campoFechaRemito.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+
+        etiquetaSucursalAlmacen.setText("Número de sucursal y de almacén donde se alojarán los lotes");
+
+        campoSucursalAlmacen.setModel(new comercio.vistas.modelos.AlmacenComboBoxModel());
+
+        botonRegistrarRemito.setText("Registrar Datos Remito");
+        botonRegistrarRemito.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarRemitoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelDatosDelRemitoLayout = new javax.swing.GroupLayout(panelDatosDelRemito);
+        panelDatosDelRemito.setLayout(panelDatosDelRemitoLayout);
+        panelDatosDelRemitoLayout.setHorizontalGroup(
+            panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatosDelRemitoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(etiquetaCodigoRemito, javax.swing.GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+                    .addComponent(etiquetaFechaRemito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(campoCodigoRemito, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
+                    .addComponent(campoFechaRemito))
+                .addGap(18, 18, 18)
+                .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(etiquetaSucursalAlmacen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoSucursalAlmacen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(botonRegistrarRemito)
+                .addContainerGap(187, Short.MAX_VALUE))
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+        panelDatosDelRemitoLayout.setVerticalGroup(
+            panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDatosDelRemitoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelDatosDelRemitoLayout.createSequentialGroup()
+                        .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(etiquetaCodigoRemito)
+                            .addComponent(campoCodigoRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etiquetaSucursalAlmacen))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(etiquetaFechaRemito)
+                            .addComponent(campoFechaRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoSucursalAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(botonRegistrarRemito))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
+
+        add(panelDatosDelRemito, java.awt.BorderLayout.CENTER);
+
+        panelLotesRemito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Lotes del remito", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        panelLotesRemito.setEnabled(false);
+        panelLotesRemito.setMaximumSize(new java.awt.Dimension(900, 385));
+        panelLotesRemito.setMinimumSize(new java.awt.Dimension(900, 385));
+        panelLotesRemito.setPreferredSize(new java.awt.Dimension(900, 385));
+
+        tablaLotesDelRemito.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tablaLotesDelRemito.setEnabled(false);
+        tablaLotesDelRemito.getTableHeader().setReorderingAllowed(false);
+        jsp.setViewportView(tablaLotesDelRemito);
+
+        botonNuevoLoteRemito.setText("Nuevo");
+        botonNuevoLoteRemito.setEnabled(false);
+
+        botonEliminarLoteRemito.setText("Eliminar");
+        botonEliminarLoteRemito.setEnabled(false);
+
+        javax.swing.GroupLayout panelLotesRemitoLayout = new javax.swing.GroupLayout(panelLotesRemito);
+        panelLotesRemito.setLayout(panelLotesRemitoLayout);
+        panelLotesRemitoLayout.setHorizontalGroup(
+            panelLotesRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLotesRemitoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelLotesRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(botonEliminarLoteRemito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonNuevoLoteRemito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 793, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelLotesRemitoLayout.setVerticalGroup(
+            panelLotesRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLotesRemitoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelLotesRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelLotesRemitoLayout.createSequentialGroup()
+                        .addComponent(botonNuevoLoteRemito)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonEliminarLoteRemito)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        add(panelLotesRemito, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonRegistrarRemitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarRemitoActionPerformed
+        botonNuevoLoteRemito.setEnabled(true);
+        botonEliminarLoteRemito.setEnabled(true);
+        tablaLotesDelRemito.setEnabled(true);
+        panelLotesRemito.setEnabled(true);
+    }//GEN-LAST:event_botonRegistrarRemitoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonEliminarLoteRemito;
+    private javax.swing.JButton botonNuevoLoteRemito;
+    private javax.swing.JButton botonRegistrarRemito;
+    private javax.swing.JTextField campoCodigoRemito;
+    private javax.swing.JFormattedTextField campoFechaRemito;
+    private javax.swing.JComboBox campoSucursalAlmacen;
+    private javax.swing.JLabel etiquetaCodigoRemito;
+    private javax.swing.JLabel etiquetaFechaRemito;
+    private javax.swing.JLabel etiquetaSucursalAlmacen;
+    private javax.swing.JLabel etiquetaTituloFrame;
+    private javax.swing.JScrollPane jsp;
+    private javax.swing.JPanel panelDatosDelRemito;
+    private javax.swing.JPanel panelLotesRemito;
+    private javax.swing.JTable tablaLotesDelRemito;
     // End of variables declaration//GEN-END:variables
 }

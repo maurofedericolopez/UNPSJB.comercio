@@ -16,6 +16,7 @@ public class UnidadComboBoxModel extends AbstractListModel implements ComboBoxMo
     private Unidad unidadSeleccionada = null;
 
     public UnidadComboBoxModel() {
+        super();
         unidades = new UnidadesController().obtenerUnidades();
     }
 

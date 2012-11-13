@@ -1,7 +1,7 @@
 package comercio.controladoresJPA;
 
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import comercio.modelo.PrecioAnterior;
+import comercio.modelo.Lote;
 import java.io.Serializable;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -15,9 +15,9 @@ import javax.persistence.criteria.Root;
  *
  * @author Mauro
  */
-public class PrecioAnteriorJpaController implements Serializable {
+public class LoteJpaController implements Serializable {
 
-    public PrecioAnteriorJpaController(EntityManagerFactory emf) {
+    public LoteJpaController(EntityManagerFactory emf) {
         this.emf = emf;
     }
     private EntityManagerFactory emf = null;
@@ -26,12 +26,12 @@ public class PrecioAnteriorJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(PrecioAnterior precioAnterior) {
+    public void create(Lote lote) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            em.persist(precioAnterior);
+            em.persist(lote);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -40,19 +40,19 @@ public class PrecioAnteriorJpaController implements Serializable {
         }
     }
 
-    public void edit(PrecioAnterior precioAnterior) throws NonexistentEntityException, Exception {
+    public void edit(Lote lote) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            precioAnterior = em.merge(precioAnterior);
+            lote = em.merge(lote);
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Long id = precioAnterior.getId();
-                if (findPrecioAnterior(id) == null) {
-                    throw new NonexistentEntityException("The precioAnterior with id " + id + " no longer exists.");
+                Long id = lote.getId();
+                if (findLote(id) == null) {
+                    throw new NonexistentEntityException("The lote with id " + id + " no longer exists.");
                 }
             }
             throw ex;
@@ -68,14 +68,14 @@ public class PrecioAnteriorJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            PrecioAnterior precioAnterior;
+            Lote lote;
             try {
-                precioAnterior = em.getReference(PrecioAnterior.class, id);
-                precioAnterior.getId();
+                lote = em.getReference(Lote.class, id);
+                lote.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The precioAnterior with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("The lote with id " + id + " no longer exists.", enfe);
             }
-            em.remove(precioAnterior);
+            em.remove(lote);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -84,19 +84,19 @@ public class PrecioAnteriorJpaController implements Serializable {
         }
     }
 
-    public List<PrecioAnterior> findPrecioAnteriorEntities() {
-        return findPrecioAnteriorEntities(true, -1, -1);
+    public List<Lote> findLoteEntities() {
+        return findLoteEntities(true, -1, -1);
     }
 
-    public List<PrecioAnterior> findPrecioAnteriorEntities(int maxResults, int firstResult) {
-        return findPrecioAnteriorEntities(false, maxResults, firstResult);
+    public List<Lote> findLoteEntities(int maxResults, int firstResult) {
+        return findLoteEntities(false, maxResults, firstResult);
     }
 
-    private List<PrecioAnterior> findPrecioAnteriorEntities(boolean all, int maxResults, int firstResult) {
+    private List<Lote> findLoteEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(PrecioAnterior.class));
+            cq.select(cq.from(Lote.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -108,20 +108,20 @@ public class PrecioAnteriorJpaController implements Serializable {
         }
     }
 
-    public PrecioAnterior findPrecioAnterior(Long id) {
+    public Lote findLote(Long id) {
         EntityManager em = getEntityManager();
         try {
-            return em.find(PrecioAnterior.class, id);
+            return em.find(Lote.class, id);
         } finally {
             em.close();
         }
     }
 
-    public int getPrecioAnteriorCount() {
+    public int getLoteCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<PrecioAnterior> rt = cq.from(PrecioAnterior.class);
+            Root<Lote> rt = cq.from(Lote.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();

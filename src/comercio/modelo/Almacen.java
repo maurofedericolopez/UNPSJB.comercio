@@ -1,8 +1,6 @@
 package comercio.modelo;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import javax.persistence.*;
 
@@ -38,7 +36,7 @@ public class Almacen implements Serializable {
     @ManyToOne
     private Sucursal sucursal;
     @OneToMany(mappedBy = "almacen")
-    private Collection<LoteAlmacenado> lotesAlmacenados;
+    private List<LoteAlmacenado> lotesAlmacenados;
 
     @Override
     public int hashCode() {
@@ -62,7 +60,7 @@ public class Almacen implements Serializable {
 
     @Override
     public String toString() {
-        return "Almacen [" + getNumero() + "]";
+        return "Almacén N°" + getNumero() + " de la Sucursal N°" + getSucursal().getNumero();
     }
 
     /**
@@ -110,14 +108,14 @@ public class Almacen implements Serializable {
     /**
      * @return the lotesAlmacenados
      */
-    public Collection<LoteAlmacenado> getLotesAlmacenados() {
+    public List<LoteAlmacenado> getLotesAlmacenados() {
         return lotesAlmacenados;
     }
 
     /**
      * @param lotesAlmacenados the lotesAlmacenados to set
      */
-    public void setLotesAlmacenados(Collection<LoteAlmacenado> lotesAlmacenados) {
+    public void setLotesAlmacenados(List<LoteAlmacenado> lotesAlmacenados) {
         this.lotesAlmacenados = lotesAlmacenados;
     }
 

@@ -14,6 +14,7 @@ public class UnidadesController {
     private UnidadJpaController controlador;
 
     public UnidadesController() {
+        super();
         controlador = new UnidadJpaController(ComercioApp.getEntityManager());
     }
 

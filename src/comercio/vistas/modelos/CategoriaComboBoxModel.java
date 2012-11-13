@@ -16,6 +16,7 @@ public class CategoriaComboBoxModel extends AbstractListModel implements ComboBo
     private Categoria categoriaSeleccionada;
 
     public CategoriaComboBoxModel() {
+        super();
         categorias = new CategoriasController().obtenerCategorias();
     }
 

@@ -1,7 +1,7 @@
 package comercio.vistas;
 
 import comercio.controladores.CategoriasController;
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.vistas.modelos.CategoriaTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;

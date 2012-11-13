@@ -1,7 +1,7 @@
 package comercio.vistas.modelos;
 
 import comercio.controladores.MarcasController;
-import comercio.exceptions.NonexistentEntityException;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Marca;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -21,6 +21,7 @@ public class MarcaTableModel extends AbstractTableModel implements Observer {
     private ArrayList<Marca> marcas;
 
     public MarcaTableModel(MarcasController marcaController) {
+        super();
         this.marcaController = marcaController;
         this.marcaController.addObserver(this);
         marcas = marcaController.obtenerMarcas();

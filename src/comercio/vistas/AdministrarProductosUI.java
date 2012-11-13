@@ -2,16 +2,12 @@ package comercio.vistas;
 
 import comercio.ComercioApp;
 import comercio.controladores.ProductosController;
-import comercio.exceptions.NonexistentEntityException;
-import comercio.modelo.Producto;
+import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.vistas.modelos.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
 
 /**
  *
@@ -50,18 +46,18 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelProductos = new javax.swing.JPanel();
         jsp = new javax.swing.JScrollPane();
         tablaProductos = new javax.swing.JTable();
         botonAgregarNuevoProducto = new javax.swing.JButton();
         botonEliminarProducto = new javax.swing.JButton();
+        etiquetaTituloFrame = new javax.swing.JLabel();
 
         setMinimumSize(new java.awt.Dimension(900, 500));
-        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        setLayout(new java.awt.BorderLayout());
 
         tablaProductos.setModel(new comercio.vistas.modelos.ProductoTableModel());
         jsp.setViewportView(tablaProductos);
-
-        add(jsp, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 11, 800, 450));
 
         botonAgregarNuevoProducto.setText("Nuevo");
         botonAgregarNuevoProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -69,16 +65,47 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
                 botonAgregarNuevoProductoActionPerformed(evt);
             }
         });
-        add(botonAgregarNuevoProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 70, 40));
 
-        botonEliminarProducto.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         botonEliminarProducto.setText("Eliminar");
         botonEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarProductoActionPerformed(evt);
             }
         });
-        add(botonEliminarProducto, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 60, 70, 40));
+
+        javax.swing.GroupLayout panelProductosLayout = new javax.swing.GroupLayout(panelProductos);
+        panelProductos.setLayout(panelProductosLayout);
+        panelProductosLayout.setHorizontalGroup(
+            panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelProductosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(botonAgregarNuevoProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonEliminarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelProductosLayout.setVerticalGroup(
+            panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelProductosLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelProductosLayout.createSequentialGroup()
+                        .addComponent(botonAgregarNuevoProducto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonEliminarProducto)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        add(panelProductos, java.awt.BorderLayout.CENTER);
+
+        etiquetaTituloFrame.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        etiquetaTituloFrame.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        etiquetaTituloFrame.setText("Administrar Productos");
+        add(etiquetaTituloFrame, java.awt.BorderLayout.PAGE_START);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarNuevoProductoActionPerformed
@@ -100,7 +127,9 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarNuevoProducto;
     private javax.swing.JButton botonEliminarProducto;
+    private javax.swing.JLabel etiquetaTituloFrame;
     private javax.swing.JScrollPane jsp;
+    private javax.swing.JPanel panelProductos;
     private javax.swing.JTable tablaProductos;
     // End of variables declaration//GEN-END:variables
 }

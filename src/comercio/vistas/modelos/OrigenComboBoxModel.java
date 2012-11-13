@@ -16,6 +16,7 @@ public class OrigenComboBoxModel extends AbstractListModel implements ComboBoxMo
     private Origen origenSeleccionado = null;
 
     public OrigenComboBoxModel() {
+        super();
         origenes = new OrigenesController().obtenerOrigenes();
     }
 

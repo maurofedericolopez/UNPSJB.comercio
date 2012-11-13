@@ -116,7 +116,7 @@ public class PuntoVenta implements Serializable {
      * @param productosEnVenta the productosEnVenta to set
      */
     public void setProductosEnVenta(List<ProductoEnVenta> productosEnVenta) {
-        this.productosEnVenta = productosEnVenta;
+        this.setProductosEnVenta(productosEnVenta);
     }
 
 }

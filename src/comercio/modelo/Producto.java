@@ -217,7 +217,7 @@ public class Producto implements Serializable {
      * @param preciosAnteriores the preciosAnteriores to set
      */
     public void setPreciosAnteriores(List<PrecioAnterior> preciosAnteriores) {
-        this.preciosAnteriores = preciosAnteriores;
+        this.setPreciosAnteriores(preciosAnteriores);
     }
 
 }
