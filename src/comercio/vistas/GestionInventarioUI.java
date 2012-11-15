@@ -25,12 +25,14 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
+        barraMenu = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
-        menuEditar = new javax.swing.JMenu();
+        menuAdministracion = new javax.swing.JMenu();
         itemMenuAdministrarProductos = new javax.swing.JMenuItem();
         itemMenuAdministrarCategorias = new javax.swing.JMenuItem();
         itemMenuAdministrarMarcas = new javax.swing.JMenuItem();
+        menuOperaciones = new javax.swing.JMenu();
+        itemMenuImportarLotes = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de inventario");
@@ -40,9 +42,9 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         setResizable(false);
 
         menuArchivo.setText("Archivo");
-        jMenuBar1.add(menuArchivo);
+        barraMenu.add(menuArchivo);
 
-        menuEditar.setText("Editar");
+        menuAdministracion.setText("Administración");
 
         itemMenuAdministrarProductos.setText("Administrar Productos");
         itemMenuAdministrarProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -50,7 +52,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
                 itemMenuAdministrarProductosActionPerformed(evt);
             }
         });
-        menuEditar.add(itemMenuAdministrarProductos);
+        menuAdministracion.add(itemMenuAdministrarProductos);
 
         itemMenuAdministrarCategorias.setText("Administrar Categorias");
         itemMenuAdministrarCategorias.addActionListener(new java.awt.event.ActionListener() {
@@ -58,7 +60,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
                 itemMenuAdministrarCategoriasActionPerformed(evt);
             }
         });
-        menuEditar.add(itemMenuAdministrarCategorias);
+        menuAdministracion.add(itemMenuAdministrarCategorias);
 
         itemMenuAdministrarMarcas.setText("Administrar Marcas");
         itemMenuAdministrarMarcas.addActionListener(new java.awt.event.ActionListener() {
@@ -66,11 +68,23 @@ public class GestionInventarioUI extends javax.swing.JFrame {
                 itemMenuAdministrarMarcasActionPerformed(evt);
             }
         });
-        menuEditar.add(itemMenuAdministrarMarcas);
+        menuAdministracion.add(itemMenuAdministrarMarcas);
 
-        jMenuBar1.add(menuEditar);
+        barraMenu.add(menuAdministracion);
 
-        setJMenuBar(jMenuBar1);
+        menuOperaciones.setText("Operaciones");
+
+        itemMenuImportarLotes.setText("Importar lotes de productos");
+        itemMenuImportarLotes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuImportarLotesActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(itemMenuImportarLotes);
+
+        barraMenu.add(menuOperaciones);
+
+        setJMenuBar(barraMenu);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -86,6 +100,10 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private void itemMenuAdministrarMarcasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarMarcasActionPerformed
         new AdministrarMarcasUI(this, false).setVisible(true);
     }//GEN-LAST:event_itemMenuAdministrarMarcasActionPerformed
+
+    private void itemMenuImportarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuImportarLotesActionPerformed
+        this.agregarComponente(new ImportarUI());
+    }//GEN-LAST:event_itemMenuImportarLotesActionPerformed
 
     /**
      * @param args the command line arguments
@@ -130,12 +148,14 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemMenuAdministrarCategorias;
     private javax.swing.JMenuItem itemMenuAdministrarMarcas;
     private javax.swing.JMenuItem itemMenuAdministrarProductos;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem itemMenuImportarLotes;
+    private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenu menuArchivo;
-    private javax.swing.JMenu menuEditar;
+    private javax.swing.JMenu menuOperaciones;
     // End of variables declaration//GEN-END:variables
 
     private void agregarComponente(JComponent componente) {

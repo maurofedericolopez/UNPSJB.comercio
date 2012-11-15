@@ -1,6 +1,7 @@
 package comercio.vistas;
 
 import comercio.ComercioApp;
+import comercio.ControllerSingleton;
 import comercio.controladores.ProductosController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.vistas.modelos.*;
@@ -22,7 +23,11 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
      */
     public AdministrarProductosUI() {
         initComponents();
-        controlador = new ProductosController();
+        controlador = ControllerSingleton.getProductosController();
+
+        tablaProductos.getColumnModel().getColumn(0).setMaxWidth(50);
+
+        tablaProductos.getColumnModel().getColumn(6).setMaxWidth(50);
 
         TableColumn columnaMarca = tablaProductos.getColumnModel().getColumn(3);
         columnaMarca.setCellEditor(new DefaultCellEditor(new JComboBox(new MarcaComboBoxModel())));
@@ -57,7 +62,9 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         setLayout(new java.awt.BorderLayout());
 
         tablaProductos.setModel(new comercio.vistas.modelos.ProductoTableModel());
+        tablaProductos.setColumnSelectionAllowed(true);
         jsp.setViewportView(tablaProductos);
+        tablaProductos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
         botonAgregarNuevoProducto.setText("Nuevo");
         botonAgregarNuevoProducto.addActionListener(new java.awt.event.ActionListener() {

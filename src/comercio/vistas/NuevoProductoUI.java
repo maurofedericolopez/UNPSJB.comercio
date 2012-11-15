@@ -1,7 +1,7 @@
 package comercio.vistas;
 
+import comercio.ControllerSingleton;
 import comercio.controladores.ProductosController;
-import comercio.modelo.Marca;
 import java.text.DecimalFormat;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
@@ -21,7 +21,7 @@ public class NuevoProductoUI extends javax.swing.JDialog {
     public NuevoProductoUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        controlador = new ProductosController();
+        controlador = ControllerSingleton.getProductosController();
         campoPrecio.setValue(0);
     }
 

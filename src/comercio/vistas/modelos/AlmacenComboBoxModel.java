@@ -1,5 +1,6 @@
 package comercio.vistas.modelos;
 
+import comercio.controladores.SucursalesController;
 import comercio.modelo.Almacen;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -16,6 +17,7 @@ public class AlmacenComboBoxModel extends AbstractListModel implements ComboBoxM
 
     public AlmacenComboBoxModel() {
         super();
+        almacenes = new SucursalesController().obtenerAlmacenes();
     }
 
     @Override

@@ -38,4 +38,12 @@ public class SucursalesController {
         return almacenes;
     }
 
+    public ArrayList<Almacen> obtenerAlmacenes() {
+        ArrayList<Almacen> almacenes = new ArrayList();
+        Object[] almacenEntities = controladorAlmacen.findAlmacenEntities().toArray();
+        for(int i = 0; i < almacenEntities.length; i++)
+            almacenes.add((Almacen) almacenEntities[i]);
+        return almacenes;
+    }
+
 }

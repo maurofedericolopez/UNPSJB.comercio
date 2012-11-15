@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.criteria.CriteriaBuilder;
 
 /**
  *
@@ -211,9 +212,10 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public List buscarAlmacenesPorSucursal(Long id) {
+    public List<Almacen> buscarAlmacenesPorSucursal(Long id) {
         EntityManager em = getEntityManager();
         try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
             Query query = em.createQuery("SELECT * FROM almacen WHERE Sucursal_idSucursal = " + id);
             List resultList = query.getResultList();
             return resultList;

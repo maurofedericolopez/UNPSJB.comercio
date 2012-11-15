@@ -1,8 +1,10 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.LotesController;
-import comercio.modelo.Lote;
+import comercio.ControllerSingleton;
+import comercio.controladores.RemitosController;
+import comercio.modelo.LoteRemito;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.table.AbstractTableModel;
@@ -14,13 +16,13 @@ import javax.swing.table.AbstractTableModel;
 public class LoteRemitoTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Código","Producto","Cantidad","Fecha Producción","Fecha Vencimiento"};
-    private LotesController controlador;
-    private ArrayList<Lote> lotes = new ArrayList();;
+    private RemitosController controlador;
+    private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
 
     public LoteRemitoTableModel() {
         super();
-        controlador = new LotesController();
-        controlador.addObserver(this);
+        this.controlador = ControllerSingleton.getRemitosController();
+        this.controlador.addObserver(this);
     }
 
     @Override
@@ -33,47 +35,42 @@ public class LoteRemitoTableModel extends AbstractTableModel implements Observer
             case 2:
                 return Double.class;
             case 3:
-                return Long.class;
+                return Date.class;
             case 4:
-                return Long.class;
+                return Date.class;
             default:
                 return null;
         }
     }
 
-    /**
-     * Retorna el nombre de la columna señalada.
-     * @param c
-     * @return 
-     */
     @Override
     public String getColumnName( int c ) {
-        return columnsNames[c];
+        return getColumnsNames()[c];
     }
 
     @Override
     public int getColumnCount() {
-        return columnsNames.length;
+        return getColumnsNames().length;
     }
 
     @Override
     public int getRowCount() {
-        return lotes.size();
+        return getLotesDelRemito().size();
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
             case 0 :
-                return lotes.get(rowIndex).getLote().getCodigo();
+                return getLotesDelRemito().get(rowIndex).getLote().getCodigo();
             case 1 :
-                return lotes.get(rowIndex).getLote().getProducto().getDescripcion();
+                return getLotesDelRemito().get(rowIndex).getLote().getProducto().getDescripcion();
             case 2 :
-                return lotes.get(rowIndex).getCantidad();
+                return getLotesDelRemito().get(rowIndex).getCantidadIngresada();
             case 3 :
-                return lotes.get(rowIndex).getAlmacen().getSucursal();
+                return getLotesDelRemito().get(rowIndex).getLote().getFechaProduccion();
             case 4 :
-                return lotes.get(rowIndex).getAlmacen();
+                return getLotesDelRemito().get(rowIndex).getLote().getFechaVencimiento();
             default :
                 return null;
         }
@@ -86,7 +83,50 @@ public class LoteRemitoTableModel extends AbstractTableModel implements Observer
 
     @Override
     public void update(Observable o, Object arg) {
-        this.fireTableDataChanged();
+        setLotesDelRemito(getControlador().obtenerLotesDelRemito());
+        fireTableDataChanged();
+    }
+
+    /**
+     * @return the columnsNames
+     */
+    public String[] getColumnsNames() {
+        return columnsNames;
+    }
+
+    /**
+     * @param columnsNames the columnsNames to set
+     */
+    public void setColumnsNames(String[] columnsNames) {
+        this.columnsNames = columnsNames;
+    }
+
+    /**
+     * @return the controlador
+     */
+    public RemitosController getControlador() {
+        return controlador;
+    }
+
+    /**
+     * @param controlador the controlador to set
+     */
+    public void setControlador(RemitosController controlador) {
+        this.controlador = controlador;
+    }
+
+    /**
+     * @return the lotesDelRemito
+     */
+    public ArrayList<LoteRemito> getLotesDelRemito() {
+        return lotesDelRemito;
+    }
+
+    /**
+     * @param lotesDelRemito the lotesDelRemito to set
+     */
+    public void setLotesDelRemito(ArrayList<LoteRemito> lotesDelRemito) {
+        this.lotesDelRemito = lotesDelRemito;
     }
 
 }

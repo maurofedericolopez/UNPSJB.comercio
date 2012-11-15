@@ -1,29 +1,28 @@
 package comercio.vistas;
 
-import comercio.controladores.SucursalesController;
-import comercio.modelo.Sucursal;
-import comercio.vistas.modelos.AlmacenComboBoxModel;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.text.DecimalFormat;
-import javax.swing.ComboBoxModel;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
+import comercio.ControllerSingleton;
+import comercio.controladores.RemitosController;
+import java.util.Date;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Mauro Federico Lopez
  */
-public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListener {
+public class NuevoLoteRemitoUI extends javax.swing.JDialog {
 
-    private SucursalesController controlador;
+    private RemitosController controlador;
+
     /**
      * Creates new form NuevoLoteRemitoUI
      */
     public NuevoLoteRemitoUI(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        campoNumeroSucursal.addItemListener(this);
+        limpiarCampos();
+        controlador = ControllerSingleton.getRemitosController();
     }
 
     /**
@@ -35,10 +34,6 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        etiquetaNumeroSucursal = new javax.swing.JLabel();
-        campoNumeroSucursal = new javax.swing.JComboBox();
-        etiquetaNumeroAlmacen = new javax.swing.JLabel();
-        campoNumeroAlmacen = new javax.swing.JComboBox();
         etiquetaCodigoProducto = new javax.swing.JLabel();
         campoCodigoProducto = new javax.swing.JTextField();
         etiquetaCodigoLote = new javax.swing.JLabel();
@@ -55,16 +50,6 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Importar Nuevo Lote");
 
-        etiquetaNumeroSucursal.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        etiquetaNumeroSucursal.setText("Número sucursal");
-
-        campoNumeroSucursal.setModel(new comercio.vistas.modelos.SucursalComboBoxModel());
-
-        etiquetaNumeroAlmacen.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        etiquetaNumeroAlmacen.setText("Número almacén");
-
-        campoNumeroAlmacen.setModel(new comercio.vistas.modelos.AlmacenComboBoxModel());
-
         etiquetaCodigoProducto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaCodigoProducto.setText("Código producto");
 
@@ -74,7 +59,7 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
         etiquetaCantidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaCantidad.setText("Cantidad");
 
-        campoCantidad.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(new DecimalFormat())));
+        campoCantidad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
         campoCantidad.setToolTipText("");
 
         etiquetaFechaProduccion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -88,8 +73,18 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
         campoFechaVencimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
 
         botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,22 +93,18 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(etiquetaCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(etiquetaNumeroAlmacen, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(etiquetaCodigoLote, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(etiquetaNumeroSucursal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(etiquetaCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(campoCodigoLote)
                                     .addComponent(campoCodigoProducto)
-                                    .addComponent(campoCantidad)
-                                    .addComponent(campoNumeroSucursal, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(campoNumeroAlmacen, 0, 109, Short.MAX_VALUE)))
+                                    .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(etiquetaFechaProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -121,26 +112,19 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(campoFechaProduccion)
-                                    .addComponent(campoFechaVencimiento)))))
+                                    .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
+                        .addGap(47, 47, 47)
                         .addComponent(botonGuardar)
                         .addGap(8, 8, 8)
-                        .addComponent(botonCancelar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(botonCancelar)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaNumeroSucursal)
-                    .addComponent(campoNumeroSucursal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaNumeroAlmacen)
-                    .addComponent(campoNumeroAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etiquetaCodigoLote)
                     .addComponent(campoCodigoLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -160,7 +144,7 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etiquetaFechaVencimiento)
                     .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonGuardar)
                     .addComponent(botonCancelar))
@@ -169,6 +153,32 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        try {
+            controlador.registrarLoteRemito(campoCodigoLote.getText(), campoCodigoProducto.getText(), campoCantidad.getValue(), campoFechaProduccion.getValue(), campoFechaVencimiento.getValue());
+            this.setVisible(false);
+        } catch (NoResultException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "No existe ningun producto con el código ingresado.\n" + ex,
+                    "No existe el producto",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (NonUniqueResultException ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Existen mas de un producto con el código ingresado.\n" + ex,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Ha ocurrido un error.\n" + ex,
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_botonCancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -228,20 +238,19 @@ public class NuevoLoteRemitoUI extends javax.swing.JDialog implements ItemListen
     private javax.swing.JTextField campoCodigoProducto;
     private javax.swing.JFormattedTextField campoFechaProduccion;
     private javax.swing.JFormattedTextField campoFechaVencimiento;
-    private javax.swing.JComboBox campoNumeroAlmacen;
-    private javax.swing.JComboBox campoNumeroSucursal;
     private javax.swing.JLabel etiquetaCantidad;
     private javax.swing.JLabel etiquetaCodigoLote;
     private javax.swing.JLabel etiquetaCodigoProducto;
     private javax.swing.JLabel etiquetaFechaProduccion;
     private javax.swing.JLabel etiquetaFechaVencimiento;
-    private javax.swing.JLabel etiquetaNumeroAlmacen;
-    private javax.swing.JLabel etiquetaNumeroSucursal;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        AlmacenComboBoxModel modelo = (AlmacenComboBoxModel) campoNumeroAlmacen.getModel();
-        modelo.setAlmacenes(controlador.obtenerAlmacenesDeSucursal(campoNumeroSucursal.getSelectedItem()));
+    private void limpiarCampos() {
+        campoCodigoLote.setText("");
+        campoCodigoProducto.setText("");
+        campoCantidad.setValue(0);
+        campoFechaProduccion.setValue(new Date());
+        campoFechaVencimiento.setValue(new Date());
     }
+
 }

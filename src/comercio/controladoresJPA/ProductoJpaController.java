@@ -4,10 +4,8 @@ import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Producto;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -128,6 +126,38 @@ public class ProductoJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public Producto findProductoByCodigo(String codigo) throws NoResultException, NonUniqueResultException, Exception {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Producto> c = cb.createQuery(Producto.class);
+            Root<Producto> p = c.from(Producto.class);
+            c.select(p).where(cb.equal(p.get("codigo"), codigo));
+            Query q = em.createQuery(c);
+            return (Producto) q.getSingleResult();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Boolean isValidCodigo(String codigo) {
+        Boolean isValid = false;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Producto> c = cb.createQuery(Producto.class);
+            Root<Producto> p = c.from(Producto.class);
+            c.select(p).where(cb.equal(p.get("codigo"), codigo));
+            Query q = em.createQuery(c);
+            q.getSingleResult();
+        } catch (NoResultException e) {
+            isValid = true;
+        } finally {
+            em.close();
+        }
+        return isValid;
     }
 
 }
