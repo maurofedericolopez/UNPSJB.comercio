@@ -1,6 +1,0 @@
-insert into origen(descripcion) values("Argentina");
-insert into origen(descripcion) values("Chile");
-insert into origen(descripcion) values("China");
-insert into origen(descripcion) values("Estados Unidos");
-insert into origen(descripcion) values("Japón");
-select * from origen;
