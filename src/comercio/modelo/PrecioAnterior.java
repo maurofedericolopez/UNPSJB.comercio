@@ -34,6 +34,8 @@ public class PrecioAnterior implements Serializable {
     private Double valor;
     @Temporal(TemporalType.DATE)
     private Date fecha;
+    @ManyToOne
+    private Producto producto;
 
     @Override
     public int hashCode() {
@@ -102,6 +104,20 @@ public class PrecioAnterior implements Serializable {
      */
     public void setFecha(Date fecha) {
         this.fecha = fecha;
+    }
+
+    /**
+     * @return the producto
+     */
+    public Producto getProducto() {
+        return producto;
+    }
+
+    /**
+     * @param producto the producto to set
+     */
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
 }

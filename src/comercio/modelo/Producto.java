@@ -45,10 +45,7 @@ public class Producto implements Serializable {
     private Unidad unidad;
     @ManyToOne
     private Categoria categoria;
-    @OneToMany
-    @JoinTable(name = "precioanteriorproducto",
-            joinColumns = @JoinColumn(name = "Producto_idProducto"),
-            inverseJoinColumns = @JoinColumn(name = "PrecioAnterior_idPrecioAnterior"))
+    @OneToMany(mappedBy = "producto")
     private List<PrecioAnterior> preciosAnteriores = new ArrayList();
 
     @Override

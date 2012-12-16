@@ -16,18 +16,18 @@ import java.util.Observable;
 public class ProductosController extends Observable {
 
     private ProductoJpaController controladorProductos;
-    private PrecioAnteriorJpaController controladorPrecio;
+    private PrecioAnteriorJpaController controladorPrecios;
 
     public ProductosController() {
         super();
         controladorProductos = new ProductoJpaController(ComercioApp.getEntityManager());
-        controladorPrecio = new PrecioAnteriorJpaController(ComercioApp.getEntityManager());
+        controladorPrecios = new PrecioAnteriorJpaController(ComercioApp.getEntityManager());
         
     }
 
     public ArrayList<Producto> obtenerProductos() {
         ArrayList<Producto> productos = new ArrayList();
-        Object[] productoEntities = controladorProductos.findProductoEntities().toArray();
+        Object[] productoEntities = getControladorProductos().findProductoEntities().toArray();
         for(int i = 0; i < productoEntities.length; i++)
             productos.add((Producto) productoEntities[i]);
         return productos;
@@ -35,42 +35,42 @@ public class ProductosController extends Observable {
 
     public void editarCodigoProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
         producto.setCodigo(String.valueOf(aValue));
-        controladorProductos.edit(producto);
+        getControladorProductos().edit(producto);
         setChanged();
         notifyObservers();
     }
 
     public void editarDescripcionProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
         producto.setDescripcion(String.valueOf(aValue));
-        controladorProductos.edit(producto);
+        getControladorProductos().edit(producto);
         setChanged();
         notifyObservers();
     }
 
     public void editarMarcaProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
         producto.setMarca((Marca) aValue);
-        controladorProductos.edit(producto);
+        getControladorProductos().edit(producto);
         setChanged();
         notifyObservers();
     }
 
     public void editarOrigenProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
         producto.setOrigen((Origen) aValue);
-        controladorProductos.edit(producto);
+        getControladorProductos().edit(producto);
         setChanged();
         notifyObservers();
     }
 
     public void editarUnidadProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
         producto.setUnidad((Unidad) aValue);
-        controladorProductos.edit(producto);
+        getControladorProductos().edit(producto);
         setChanged();
         notifyObservers();
     }
 
     public void editarCategoriaProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
         producto.setCategoria((Categoria) aValue);
-        controladorProductos.edit(producto);
+        getControladorProductos().edit(producto);
         setChanged();
         notifyObservers();
     }
@@ -79,25 +79,55 @@ public class ProductosController extends Observable {
         Producto nuevoProducto = new Producto();
         nuevoProducto.setCodigo(codigo.toUpperCase());
         nuevoProducto.setDescripcion(descripcion.toUpperCase());
+
         PrecioAnterior nuevoPrecio = new PrecioAnterior();
         nuevoPrecio.setValor(Double.valueOf(String.valueOf(precio)));
         nuevoPrecio.setFecha(new Date(new Date().getTime()));
-        controladorPrecio.create(nuevoPrecio);
+        getControladorPrecios().create(nuevoPrecio);
+
         nuevoProducto.getPreciosAnteriores().add(nuevoPrecio);
         nuevoProducto.setPrecioActual(nuevoPrecio.getValor());
         nuevoProducto.setMarca((Marca) marca);
         nuevoProducto.setOrigen((Origen) origen);
         nuevoProducto.setUnidad((Unidad) unidad);
         nuevoProducto.setCategoria((Categoria) categoria);
-        controladorProductos.create(nuevoProducto);
+        getControladorProductos().create(nuevoProducto);
         setChanged();
         notifyObservers();
     }
 
     public void eliminarProducto(Producto producto) throws NonexistentEntityException {
-        controladorProductos.destroy(producto.getIdProducto());
+        getControladorProductos().destroy(producto.getIdProducto());
         setChanged();
         notifyObservers();
+    }
+
+    /**
+     * @return the controladorProductos
+     */
+    public ProductoJpaController getControladorProductos() {
+        return controladorProductos;
+    }
+
+    /**
+     * @param controladorProductos the controladorProductos to set
+     */
+    public void setControladorProductos(ProductoJpaController controladorProductos) {
+        this.controladorProductos = controladorProductos;
+    }
+
+    /**
+     * @return the controladorPrecios
+     */
+    public PrecioAnteriorJpaController getControladorPrecios() {
+        return controladorPrecios;
+    }
+
+    /**
+     * @param controladorPrecios the controladorPrecios to set
+     */
+    public void setControladorPrecios(PrecioAnteriorJpaController controladorPrecios) {
+        this.controladorPrecios = controladorPrecios;
     }
 
 }

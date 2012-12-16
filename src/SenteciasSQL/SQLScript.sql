@@ -127,6 +127,8 @@ CREATE INDEX `fk_Producto_Magnitud` ON `comercio`.`Producto` (`Unidad_idUnidad` 
 
 CREATE INDEX `fk_Producto_Categoria` ON `comercio`.`Producto` (`Categoria_idCategoria` ASC) ;
 
+CREATE UNIQUE INDEX `codigo_UNIQUE` ON `comercio`.`Producto` (`codigo` ASC) ;
+
 
 -- -----------------------------------------------------
 -- Table `comercio`.`Lote`
@@ -147,6 +149,8 @@ ENGINE = InnoDB;
 
 CREATE INDEX `fk_Lote_Producto1` ON `comercio`.`Lote` (`Producto_idProducto` ASC) ;
 
+CREATE UNIQUE INDEX `codigo_UNIQUE` ON `comercio`.`Lote` (`codigo` ASC) ;
+
 
 -- -----------------------------------------------------
 -- Table `comercio`.`Sucursal`
@@ -159,6 +163,8 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`Sucursal` (
   `telefono` BIGINT NULL ,
   PRIMARY KEY (`idSucursal`) )
 ENGINE = InnoDB;
+
+CREATE UNIQUE INDEX `numero_UNIQUE` ON `comercio`.`Sucursal` (`numero` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -259,6 +265,8 @@ CREATE INDEX `fk_Venta_MedioDePago` ON `comercio`.`Venta` (`MedioDePago_idMedioD
 
 CREATE INDEX `fk_Venta_PuntoVenta` ON `comercio`.`Venta` (`PuntoVenta_idPuntoVenta` ASC) ;
 
+CREATE UNIQUE INDEX `codigo_UNIQUE` ON `comercio`.`Venta` (`codigo` ASC) ;
+
 
 -- -----------------------------------------------------
 -- Table `comercio`.`ItemVenta`
@@ -295,8 +303,16 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`PrecioAnterior` (
   `idPrecioAnterior` BIGINT NOT NULL AUTO_INCREMENT ,
   `valor` DOUBLE NOT NULL ,
   `fecha` DATE NOT NULL ,
-  PRIMARY KEY (`idPrecioAnterior`) )
+  `Producto_idProducto` BIGINT NOT NULL ,
+  PRIMARY KEY (`idPrecioAnterior`) ,
+  CONSTRAINT `fk_PrecioAnterior_Producto1`
+    FOREIGN KEY (`Producto_idProducto` )
+    REFERENCES `comercio`.`Producto` (`idProducto` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
+
+CREATE INDEX `fk_PrecioAnterior_Producto` ON `comercio`.`PrecioAnterior` (`Producto_idProducto` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -318,6 +334,8 @@ CREATE  TABLE IF NOT EXISTS `comercio`.`Egreso` (
 ENGINE = InnoDB;
 
 CREATE INDEX `fk_Egreso_Almacen` ON `comercio`.`Egreso` (`Almacen_idAlmacen` ASC) ;
+
+CREATE UNIQUE INDEX `codigo_UNIQUE` ON `comercio`.`Egreso` (`codigo` ASC) ;
 
 
 -- -----------------------------------------------------
@@ -347,35 +365,10 @@ CREATE INDEX `fk_LoteEgresado_Lote` ON `comercio`.`LoteEgresado` (`Lote_idLote` 
 
 
 -- -----------------------------------------------------
--- Table `comercio`.`PrecioAnteriorProducto`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `comercio`.`PrecioAnteriorProducto` (
-  `Producto_idProducto` BIGINT NOT NULL ,
-  `PrecioAnterior_idPrecioAnterior` BIGINT NOT NULL ,
-  PRIMARY KEY (`Producto_idProducto`, `PrecioAnterior_idPrecioAnterior`) ,
-  CONSTRAINT `fk_PrecioAnteriorProducto_Producto`
-    FOREIGN KEY (`Producto_idProducto` )
-    REFERENCES `comercio`.`Producto` (`idProducto` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_PrecioAnteriorProducto_PrecioAnterior`
-    FOREIGN KEY (`PrecioAnterior_idPrecioAnterior` )
-    REFERENCES `comercio`.`PrecioAnterior` (`idPrecioAnterior` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-CREATE INDEX `fk_PrecioAnteriorProducto_PrecioAnterior1` ON `comercio`.`PrecioAnteriorProducto` (`PrecioAnterior_idPrecioAnterior` ASC) ;
-
-CREATE INDEX `fk_PrecioAnteriorProducto_Producto1` ON `comercio`.`PrecioAnteriorProducto` (`Producto_idProducto` ASC) ;
-
-
--- -----------------------------------------------------
 -- Table `comercio`.`Remito`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `comercio`.`Remito` (
   `idRemito` BIGINT NOT NULL AUTO_INCREMENT ,
-  `codigo` VARCHAR(45) NOT NULL ,
   `fecha` DATE NOT NULL ,
   PRIMARY KEY (`idRemito`) )
 ENGINE = InnoDB;
