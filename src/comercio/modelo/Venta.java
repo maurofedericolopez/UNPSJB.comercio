@@ -37,7 +37,7 @@ public class Venta implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @ManyToOne
-    private MedioPago medioDePago;
+    private MedioDePago medioDePago;
     @ManyToOne
     private PuntoVenta puntoVenta;
     @OneToMany(mappedBy = "venta")
@@ -113,14 +113,14 @@ public class Venta implements Serializable {
     /**
      * @return the medioDePago
      */
-    public MedioPago getMedioDePago() {
+    public MedioDePago getMedioDePago() {
         return medioDePago;
     }
 
     /**
      * @param medioDePago the medioDePago to set
      */
-    public void setMedioDePago(MedioPago medioDePago) {
+    public void setMedioDePago(MedioDePago medioDePago) {
         this.medioDePago = medioDePago;
     }
 

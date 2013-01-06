@@ -102,7 +102,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuAdministrarMarcasActionPerformed
 
     private void itemMenuImportarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuImportarLotesActionPerformed
-        this.agregarComponente(new ImportarUI());
+        this.agregarComponente(new ImportarLoteUI());
     }//GEN-LAST:event_itemMenuImportarLotesActionPerformed
 
     /**
@@ -164,4 +164,5 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         componente.setVisible(true);
         componente.updateUI();
     }
+
 }

@@ -2,11 +2,12 @@ package comercio.controladores;
 
 import comercio.ComercioApp;
 import comercio.controladoresJPA.AlmacenJpaController;
+import comercio.controladoresJPA.PuntoVentaJpaController;
 import comercio.controladoresJPA.SucursalJpaController;
 import comercio.modelo.Almacen;
+import comercio.modelo.PuntoVenta;
 import comercio.modelo.Sucursal;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -14,12 +15,14 @@ import java.util.List;
  */
 public class SucursalesController {
 
-    private SucursalJpaController controladorSucursal;
-    private AlmacenJpaController controladorAlmacen;
+    private SucursalJpaController sucursalJpaController;
+    private AlmacenJpaController almacenJpaController;
+    private PuntoVentaJpaController puntoVentaJpaController;
 
     public SucursalesController() {
-        controladorSucursal = new SucursalJpaController(ComercioApp.getEntityManager());
-        controladorAlmacen = new AlmacenJpaController(ComercioApp.getEntityManager());
+        sucursalJpaController = new SucursalJpaController(ComercioApp.getEntityManager());
+        almacenJpaController = new AlmacenJpaController(ComercioApp.getEntityManager());
+        puntoVentaJpaController = new PuntoVentaJpaController(ComercioApp.getEntityManager());
     }
 
     public ArrayList<Sucursal> obtenerSucursales() {
@@ -30,7 +33,7 @@ public class SucursalesController {
         ArrayList<Almacen> almacenes = new ArrayList();
         if(sucursalSeleccionada != null) {
             Sucursal s = (Sucursal) sucursalSeleccionada;
-            Object[] almacenEntities = controladorAlmacen.buscarAlmacenesPorSucursal(s.getId()).toArray();
+            Object[] almacenEntities = almacenJpaController.buscarAlmacenesPorSucursal(s.getId()).toArray();
             for(int i = 0; i < almacenEntities.length; i++) {
                 almacenes.add((Almacen) almacenEntities[i]);
             }
@@ -40,10 +43,18 @@ public class SucursalesController {
 
     public ArrayList<Almacen> obtenerAlmacenes() {
         ArrayList<Almacen> almacenes = new ArrayList();
-        Object[] almacenEntities = controladorAlmacen.findAlmacenEntities().toArray();
+        Object[] almacenEntities = almacenJpaController.findAlmacenEntities().toArray();
         for(int i = 0; i < almacenEntities.length; i++)
             almacenes.add((Almacen) almacenEntities[i]);
         return almacenes;
+    }
+
+    public ArrayList<PuntoVenta> obtenerPuntosDeVenta() {
+        ArrayList<PuntoVenta> puntosDeVenta = new ArrayList();
+        Object[] array = puntoVentaJpaController.findPuntoVentaEntities().toArray();
+        for(int i = 0; i < array.length; i++)
+            puntosDeVenta.add((PuntoVenta) array[i]);
+        return puntosDeVenta;
     }
 
 }

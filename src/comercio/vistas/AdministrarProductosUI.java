@@ -1,14 +1,16 @@
 package comercio.vistas;
 
-import comercio.ComercioApp;
 import comercio.ControllerSingleton;
 import comercio.controladores.ProductosController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import comercio.vistas.modelos.*;
-import javax.swing.DefaultCellEditor;
-import javax.swing.JComboBox;
+import comercio.modelo.*;
+import comercio.vistas.modelos.ProductoTableModel;
+import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.table.TableColumn;
+import javax.swing.text.DefaultFormatterFactory;
+import javax.swing.text.NumberFormatter;
 
 /**
  *
@@ -17,6 +19,8 @@ import javax.swing.table.TableColumn;
 public class AdministrarProductosUI extends javax.swing.JPanel {
 
     private ProductosController controlador;
+    private ProductoTableModel productoTableModel;
+    private Producto producto;
 
     /**
      * Creates new form AdministrarProductosUI
@@ -24,22 +28,9 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
     public AdministrarProductosUI() {
         initComponents();
         controlador = ControllerSingleton.getProductosController();
-
-        tablaProductos.getColumnModel().getColumn(0).setMaxWidth(50);
-
-        tablaProductos.getColumnModel().getColumn(6).setMaxWidth(50);
-
-        TableColumn columnaMarca = tablaProductos.getColumnModel().getColumn(3);
-        columnaMarca.setCellEditor(new DefaultCellEditor(new JComboBox(new MarcaComboBoxModel())));
-
-        TableColumn columnaOrigen = tablaProductos.getColumnModel().getColumn(4);
-        columnaOrigen.setCellEditor(new DefaultCellEditor(new JComboBox(new OrigenComboBoxModel())));
-
-        TableColumn columnaUnidad = tablaProductos.getColumnModel().getColumn(6);
-        columnaUnidad.setCellEditor(new DefaultCellEditor(new JComboBox(new UnidadComboBoxModel())));
-
-        TableColumn columnaCategoria = tablaProductos.getColumnModel().getColumn(7);
-        columnaCategoria.setCellEditor(new DefaultCellEditor(new JComboBox(new CategoriaComboBoxModel())));
+        productoTableModel = (ProductoTableModel) tablaProductos.getModel();
+        campoPrecio.setValue(0);
+        producto = null;
     }
 
     /**
@@ -51,92 +42,521 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelProductos = new javax.swing.JPanel();
-        jsp = new javax.swing.JScrollPane();
-        tablaProductos = new javax.swing.JTable();
+        nuevoProductoUI = new javax.swing.JDialog();
+        etiquetaCodigo = new javax.swing.JLabel();
+        campoCodigo = new javax.swing.JTextField();
+        campoDescripcion = new javax.swing.JTextField();
+        etiquetaDescripcion = new javax.swing.JLabel();
+        etiquetaPrecio = new javax.swing.JLabel();
+        campoPrecio = new javax.swing.JFormattedTextField();
+        etiquetaMarca = new javax.swing.JLabel();
+        campoMarca = new javax.swing.JComboBox();
+        etiquetaOrigen = new javax.swing.JLabel();
+        campoOrigen = new javax.swing.JComboBox();
+        etiquetaUnidad = new javax.swing.JLabel();
+        campoUnidad = new javax.swing.JComboBox();
+        etiquetaCategoria = new javax.swing.JLabel();
+        campoCategoria = new javax.swing.JComboBox();
+        botonGuardar = new javax.swing.JButton();
+        botonCancelar = new javax.swing.JButton();
+        editarProductoUI = new javax.swing.JDialog();
+        campoCategoriaEditar = new javax.swing.JComboBox();
+        botonGuardarEdicion = new javax.swing.JButton();
+        campoUnidadEditar = new javax.swing.JComboBox();
+        etiquetaCategoria1 = new javax.swing.JLabel();
+        campoOrigenEditar = new javax.swing.JComboBox();
+        etiquetaUnidad1 = new javax.swing.JLabel();
+        campoMarcaEditar = new javax.swing.JComboBox();
+        etiquetaOrigen1 = new javax.swing.JLabel();
+        botonCancelarEdicion = new javax.swing.JButton();
+        etiquetaMarca1 = new javax.swing.JLabel();
+        campoPrecioEditar = new javax.swing.JFormattedTextField();
+        etiquetaPrecio1 = new javax.swing.JLabel();
+        etiquetaDescripcion1 = new javax.swing.JLabel();
+        campoDescripcionEditar = new javax.swing.JTextField();
+        campoCodigoEditar = new javax.swing.JTextField();
+        etiquetaCodigo1 = new javax.swing.JLabel();
+        panelBotones = new javax.swing.JPanel();
         botonAgregarNuevoProducto = new javax.swing.JButton();
         botonEliminarProducto = new javax.swing.JButton();
+        botonEditarProducto = new javax.swing.JButton();
         etiquetaTituloFrame = new javax.swing.JLabel();
+        jsp = new javax.swing.JScrollPane();
+        tablaProductos = new javax.swing.JTable();
 
+        nuevoProductoUI.setTitle("Nuevo Producto");
+        nuevoProductoUI.setMaximumSize(new java.awt.Dimension(241, 227));
+        nuevoProductoUI.setMinimumSize(new java.awt.Dimension(241, 227));
+        nuevoProductoUI.setResizable(false);
+
+        etiquetaCodigo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCodigo.setText("Código");
+
+        etiquetaDescripcion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaDescripcion.setText("Descripción");
+
+        etiquetaPrecio.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaPrecio.setText("Precio unitario");
+
+        campoPrecio.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(new DecimalFormat())));
+
+        etiquetaMarca.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaMarca.setText("Marca");
+
+        campoMarca.setModel(new comercio.vistas.modelos.MarcaComboBoxModel());
+
+        etiquetaOrigen.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaOrigen.setText("Origen");
+
+        campoOrigen.setModel(new comercio.vistas.modelos.OrigenComboBoxModel());
+
+        etiquetaUnidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaUnidad.setText("Unidad");
+
+        campoUnidad.setModel(new comercio.vistas.modelos.UnidadComboBoxModel());
+
+        etiquetaCategoria.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCategoria.setText("Categoría");
+
+        campoCategoria.setModel(new comercio.vistas.modelos.CategoriaComboBoxModel());
+
+        botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
+
+        botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout nuevoProductoUILayout = new javax.swing.GroupLayout(nuevoProductoUI.getContentPane());
+        nuevoProductoUI.getContentPane().setLayout(nuevoProductoUILayout);
+        nuevoProductoUILayout.setHorizontalGroup(
+            nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                        .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(etiquetaPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(etiquetaMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(72, 72, 72))
+                    .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                        .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                                    .addComponent(etiquetaDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                                    .addComponent(etiquetaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(etiquetaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                    .addComponent(etiquetaUnidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(etiquetaOrigen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(campoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(campoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap(14, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, nuevoProductoUILayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonCancelar)
+                        .addGap(41, 41, 41))))
+        );
+        nuevoProductoUILayout.setVerticalGroup(
+            nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaCodigo))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaDescripcion)
+                    .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaPrecio)
+                    .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaMarca)
+                    .addComponent(campoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaOrigen)
+                    .addComponent(campoOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaUnidad)
+                    .addComponent(campoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaCategoria)
+                    .addComponent(campoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonGuardar)
+                    .addComponent(botonCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        editarProductoUI.setTitle("Editar Producto");
+
+        campoCategoriaEditar.setModel(new comercio.vistas.modelos.CategoriaComboBoxModel());
+
+        botonGuardarEdicion.setText("Guardar");
+        botonGuardarEdicion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarEdicionActionPerformed(evt);
+            }
+        });
+
+        campoUnidadEditar.setModel(new comercio.vistas.modelos.UnidadComboBoxModel());
+
+        etiquetaCategoria1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCategoria1.setText("Categoría");
+
+        campoOrigenEditar.setModel(new comercio.vistas.modelos.OrigenComboBoxModel());
+
+        etiquetaUnidad1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaUnidad1.setText("Unidad");
+
+        campoMarcaEditar.setModel(new comercio.vistas.modelos.MarcaComboBoxModel());
+
+        etiquetaOrigen1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaOrigen1.setText("Origen");
+
+        botonCancelarEdicion.setText("Cancelar");
+        botonCancelarEdicion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarEdicionActionPerformed(evt);
+            }
+        });
+
+        etiquetaMarca1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaMarca1.setText("Marca");
+
+        campoPrecioEditar.setEditable(false);
+        campoPrecioEditar.setFormatterFactory(new DefaultFormatterFactory(new NumberFormatter(new DecimalFormat())));
+
+        etiquetaPrecio1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaPrecio1.setText("Precio unitario");
+
+        etiquetaDescripcion1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaDescripcion1.setText("Descripción");
+
+        etiquetaCodigo1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCodigo1.setText("Código");
+
+        javax.swing.GroupLayout editarProductoUILayout = new javax.swing.GroupLayout(editarProductoUI.getContentPane());
+        editarProductoUI.getContentPane().setLayout(editarProductoUILayout);
+        editarProductoUILayout.setHorizontalGroup(
+            editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editarProductoUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(editarProductoUILayout.createSequentialGroup()
+                        .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(etiquetaPrecio1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(etiquetaMarca1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(72, 72, 72))
+                    .addGroup(editarProductoUILayout.createSequentialGroup()
+                        .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(editarProductoUILayout.createSequentialGroup()
+                                    .addComponent(etiquetaDescripcion1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(campoDescripcionEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(editarProductoUILayout.createSequentialGroup()
+                                    .addComponent(etiquetaCodigo1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(campoCodigoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(editarProductoUILayout.createSequentialGroup()
+                                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(etiquetaCategoria1, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                                    .addComponent(etiquetaUnidad1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(etiquetaOrigen1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoOrigenEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(campoPrecioEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(campoMarcaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(campoUnidadEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoCategoriaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())))
+            .addGroup(editarProductoUILayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(botonGuardarEdicion)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonCancelarEdicion)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        editarProductoUILayout.setVerticalGroup(
+            editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(editarProductoUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoCodigoEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaCodigo1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaDescripcion1)
+                    .addComponent(campoDescripcionEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaPrecio1)
+                    .addComponent(campoPrecioEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaMarca1)
+                    .addComponent(campoMarcaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaOrigen1)
+                    .addComponent(campoOrigenEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaUnidad1)
+                    .addComponent(campoUnidadEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaCategoria1)
+                    .addComponent(campoCategoriaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(editarProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonGuardarEdicion)
+                    .addComponent(botonCancelarEdicion))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
+        setPreferredSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
 
-        tablaProductos.setModel(new comercio.vistas.modelos.ProductoTableModel());
-        tablaProductos.setColumnSelectionAllowed(true);
-        jsp.setViewportView(tablaProductos);
-        tablaProductos.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-
-        botonAgregarNuevoProducto.setText("Nuevo");
+        botonAgregarNuevoProducto.setText("Nuevo Producto");
         botonAgregarNuevoProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAgregarNuevoProductoActionPerformed(evt);
             }
         });
 
-        botonEliminarProducto.setText("Eliminar");
+        botonEliminarProducto.setText("Eliminar Producto");
         botonEliminarProducto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonEliminarProductoActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout panelProductosLayout = new javax.swing.GroupLayout(panelProductos);
-        panelProductos.setLayout(panelProductosLayout);
-        panelProductosLayout.setHorizontalGroup(
-            panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProductosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(botonAgregarNuevoProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(botonEliminarProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        botonEditarProducto.setText("Editar Producto");
+        botonEditarProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEditarProductoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
+        panelBotones.setLayout(panelBotonesLayout);
+        panelBotonesLayout.setHorizontalGroup(
+            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBotonesLayout.createSequentialGroup()
+                .addComponent(botonAgregarNuevoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 805, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(botonEditarProducto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonEliminarProducto)
+                .addContainerGap(555, Short.MAX_VALUE))
         );
-        panelProductosLayout.setVerticalGroup(
-            panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProductosLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelProductosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelProductosLayout.createSequentialGroup()
-                        .addComponent(botonAgregarNuevoProducto)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonEliminarProducto)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 461, Short.MAX_VALUE))
-                .addContainerGap())
+        panelBotonesLayout.setVerticalGroup(
+            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(botonAgregarNuevoProducto)
+                .addComponent(botonEliminarProducto)
+                .addComponent(botonEditarProducto))
         );
 
-        add(panelProductos, java.awt.BorderLayout.CENTER);
+        add(panelBotones, java.awt.BorderLayout.PAGE_END);
 
-        etiquetaTituloFrame.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        etiquetaTituloFrame.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         etiquetaTituloFrame.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         etiquetaTituloFrame.setText("Administrar Productos");
         add(etiquetaTituloFrame, java.awt.BorderLayout.PAGE_START);
+
+        tablaProductos.setAutoCreateRowSorter(true);
+        tablaProductos.setModel(new comercio.vistas.modelos.ProductoTableModel());
+        tablaProductos.getTableHeader().setReorderingAllowed(false);
+        jsp.setViewportView(tablaProductos);
+
+        add(jsp, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarNuevoProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarNuevoProductoActionPerformed
-        new NuevoProductoUI(ComercioApp.getVentanaInventario(), true).setVisible(true);
+        nuevoProductoUI.setVisible(true);
+        nuevoProductoUI.pack();
     }//GEN-LAST:event_botonAgregarNuevoProductoActionPerformed
 
     private void botonEliminarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProductoActionPerformed
-        if (tablaProductos.getSelectedRow() >= 0) {
-            try {
-                controlador.eliminarProducto(((ProductoTableModel) tablaProductos.getModel()).obtenerProducto(tablaProductos.getSelectedRow()));
-            } catch (NonexistentEntityException ex) {
-                JOptionPane.showMessageDialog(null, "No pudo ser eliminado el producto seleccionado", "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "No ha seleccionado ningun producto para eliminar", "Error", JOptionPane.ERROR_MESSAGE);
+        try {
+            int indice = tablaProductos.getSelectedRow();
+            if (indice >= 0) {
+                producto = productoTableModel.obtenerProducto(indice);
+                controlador.eliminarProducto(producto);
+            } else
+                throw new Exception("No ha seleccionado ningún producto.");
+        } catch (NonexistentEntityException ex) {
+            JOptionPane.showMessageDialog(null, "El producto seleccionado no pudo ser eliminado.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonEliminarProductoActionPerformed
 
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        try {
+            String codigo = campoCodigo.getText().toUpperCase();
+            String descripcion = campoDescripcion.getText().toUpperCase();
+            Double precio = ((Number) campoPrecio.getValue()).doubleValue();
+            Marca marca = (Marca) campoMarca.getSelectedItem();
+            Origen origen = (Origen) campoOrigen.getSelectedItem();
+            Unidad unidad = (Unidad) campoUnidad.getSelectedItem();
+            Categoria categoria = (Categoria) campoCategoria.getSelectedItem();
+            controlador.registrarNuevoProducto(codigo, descripcion, precio, marca, origen, unidad, categoria);
+            limpiarCampos();
+            nuevoProductoUI.setVisible(false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void botonEditarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEditarProductoActionPerformed
+        try {
+            int indice = tablaProductos.getSelectedRow();
+            if (indice >= 0) {
+                producto = productoTableModel.obtenerProducto(indice);
+                campoCodigoEditar.setText(producto.getCodigo());
+                campoDescripcionEditar.setText(producto.getDescripcion());
+                campoPrecioEditar.setValue(producto.getPrecioActual());
+                campoMarcaEditar.setSelectedItem(producto.getMarca());
+                campoOrigenEditar.setSelectedItem(producto.getOrigen());
+                campoUnidadEditar.setSelectedItem(producto.getUnidad());
+                campoCategoriaEditar.setSelectedItem(producto.getCategoria());
+                editarProductoUI.setVisible(true);
+                editarProductoUI.pack();
+            } else
+                throw new Exception("No ha seleccionado ningún producto.");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonEditarProductoActionPerformed
+
+    private void botonGuardarEdicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarEdicionActionPerformed
+        try {
+            producto.setCodigo(campoCodigoEditar.getText());
+            producto.setDescripcion(campoDescripcionEditar.getText());
+            producto.setMarca((Marca) campoMarcaEditar.getSelectedItem());
+            producto.setOrigen((Origen) campoOrigenEditar.getSelectedItem());
+            producto.setUnidad((Unidad) campoUnidadEditar.getSelectedItem());
+            producto.setCategoria((Categoria) campoCategoriaEditar.getSelectedItem());
+            controlador.editarProducto(producto);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonGuardarEdicionActionPerformed
+
+    private void botonCancelarEdicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarEdicionActionPerformed
+        limpiarCamposEdicion();
+        editarProductoUI.setVisible(false);
+    }//GEN-LAST:event_botonCancelarEdicionActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarNuevoProducto;
+    private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonCancelarEdicion;
+    private javax.swing.JButton botonEditarProducto;
     private javax.swing.JButton botonEliminarProducto;
+    private javax.swing.JButton botonGuardar;
+    private javax.swing.JButton botonGuardarEdicion;
+    private javax.swing.JComboBox campoCategoria;
+    private javax.swing.JComboBox campoCategoriaEditar;
+    private javax.swing.JTextField campoCodigo;
+    private javax.swing.JTextField campoCodigoEditar;
+    private javax.swing.JTextField campoDescripcion;
+    private javax.swing.JTextField campoDescripcionEditar;
+    private javax.swing.JComboBox campoMarca;
+    private javax.swing.JComboBox campoMarcaEditar;
+    private javax.swing.JComboBox campoOrigen;
+    private javax.swing.JComboBox campoOrigenEditar;
+    private javax.swing.JFormattedTextField campoPrecio;
+    private javax.swing.JFormattedTextField campoPrecioEditar;
+    private javax.swing.JComboBox campoUnidad;
+    private javax.swing.JComboBox campoUnidadEditar;
+    private javax.swing.JDialog editarProductoUI;
+    private javax.swing.JLabel etiquetaCategoria;
+    private javax.swing.JLabel etiquetaCategoria1;
+    private javax.swing.JLabel etiquetaCodigo;
+    private javax.swing.JLabel etiquetaCodigo1;
+    private javax.swing.JLabel etiquetaDescripcion;
+    private javax.swing.JLabel etiquetaDescripcion1;
+    private javax.swing.JLabel etiquetaMarca;
+    private javax.swing.JLabel etiquetaMarca1;
+    private javax.swing.JLabel etiquetaOrigen;
+    private javax.swing.JLabel etiquetaOrigen1;
+    private javax.swing.JLabel etiquetaPrecio;
+    private javax.swing.JLabel etiquetaPrecio1;
     private javax.swing.JLabel etiquetaTituloFrame;
+    private javax.swing.JLabel etiquetaUnidad;
+    private javax.swing.JLabel etiquetaUnidad1;
     private javax.swing.JScrollPane jsp;
-    private javax.swing.JPanel panelProductos;
+    private javax.swing.JDialog nuevoProductoUI;
+    private javax.swing.JPanel panelBotones;
     private javax.swing.JTable tablaProductos;
     // End of variables declaration//GEN-END:variables
+
+    private void limpiarCampos() {
+        campoCodigo.setText("");
+        campoDescripcion.setText("");
+        campoPrecio.setValue(0);
+        campoMarca.setSelectedItem(null);
+        campoMarca.updateUI();
+        campoOrigen.setSelectedItem(null);
+        campoOrigen.updateUI();
+        campoUnidad.setSelectedItem(null);
+        campoUnidad.updateUI();
+        campoCategoria.setSelectedItem(null);
+        campoCategoria.updateUI();
+    }
+
+    private void limpiarCamposEdicion() {
+        campoCodigoEditar.setText("");
+        campoDescripcionEditar.setText("");
+        campoPrecioEditar.setValue(0);
+        campoMarcaEditar.setSelectedItem(null);
+        campoMarcaEditar.updateUI();
+        campoOrigenEditar.setSelectedItem(null);
+        campoOrigenEditar.updateUI();
+        campoUnidadEditar.setSelectedItem(null);
+        campoUnidadEditar.updateUI();
+        campoCategoriaEditar.setSelectedItem(null);
+        campoCategoriaEditar.updateUI();
+    }
 }

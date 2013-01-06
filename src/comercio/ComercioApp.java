@@ -2,6 +2,7 @@ package comercio;
 
 import comercio.controladores.RemitosController;
 import comercio.vistas.GestionInventarioUI;
+import comercio.vistas.GestionVenta;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
@@ -13,6 +14,7 @@ public class ComercioApp {
 
     private static EntityManagerFactory entityManager;
     private static GestionInventarioUI ventanaInventario;
+    private static GestionVenta ventanaGestionVenta;
     private static RemitosController remitosController;
 
     /**
@@ -24,9 +26,8 @@ public class ComercioApp {
         //Se inicializan los controller
         setRemitosController(new RemitosController());
 
-        GestionInventarioUI ventanaGestionInventario = new GestionInventarioUI();
-        ventanaGestionInventario.setVisible(true);
-        setVentanaInventario(ventanaGestionInventario);
+        ventanaGestionVenta = new GestionVenta();
+        ventanaGestionVenta.setVisible(true);
     }
 
     /**

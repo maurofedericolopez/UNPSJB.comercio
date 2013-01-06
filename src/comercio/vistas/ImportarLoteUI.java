@@ -1,8 +1,12 @@
 package comercio.vistas;
 
-import comercio.ComercioApp;
 import comercio.ControllerSingleton;
+import comercio.controladores.LotesController;
+import comercio.controladores.ProductosController;
 import comercio.controladores.RemitosController;
+import comercio.modelo.Lote;
+import comercio.modelo.LoteRemito;
+import comercio.modelo.Producto;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -10,17 +14,21 @@ import javax.swing.JOptionPane;
  *
  * @author Mauro Federico Lopez
  */
-public class ImportarUI extends javax.swing.JPanel {
+public class ImportarLoteUI extends javax.swing.JPanel {
 
-    private RemitosController controlador;
+    private RemitosController remitosController;
+    private ProductosController productosController;
+    private LotesController lotesController;
 
     /**
      * Creates new form ImportarUI
      */
-    public ImportarUI() {
+    public ImportarLoteUI() {
         initComponents();
         campoFechaRemito.setValue(new Date());
-        controlador = ControllerSingleton.getRemitosController();
+        remitosController = ControllerSingleton.getRemitosController();
+        productosController = ControllerSingleton.getProductosController();
+        lotesController = ControllerSingleton.getLotesController();
     }
 
     /**
@@ -32,6 +40,19 @@ public class ImportarUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        nuevoLoteRemitoUI = new javax.swing.JDialog();
+        campoCantidad = new javax.swing.JFormattedTextField();
+        etiquetaFechaProduccion = new javax.swing.JLabel();
+        campoFechaProduccion = new javax.swing.JFormattedTextField();
+        etiquetaFechaVencimiento = new javax.swing.JLabel();
+        campoCodigoProducto = new javax.swing.JTextField();
+        etiquetaCodigoLote = new javax.swing.JLabel();
+        campoCodigoLote = new javax.swing.JTextField();
+        etiquetaCantidad = new javax.swing.JLabel();
+        etiquetaCodigoProducto = new javax.swing.JLabel();
+        botonCancelar = new javax.swing.JButton();
+        campoFechaVencimiento = new javax.swing.JFormattedTextField();
+        botonGuardar = new javax.swing.JButton();
         etiquetaTituloFrame = new javax.swing.JLabel();
         botonRegistrarOperación = new javax.swing.JButton();
         panelCentral = new javax.swing.JPanel();
@@ -47,6 +68,109 @@ public class ImportarUI extends javax.swing.JPanel {
         tablaLotesDelRemito = new javax.swing.JTable();
         botonNuevoLoteRemito = new javax.swing.JButton();
         botonEliminarLoteRemito = new javax.swing.JButton();
+
+        nuevoLoteRemitoUI.setTitle("Nuevo Lote");
+        nuevoLoteRemitoUI.setMinimumSize(new java.awt.Dimension(249, 180));
+        nuevoLoteRemitoUI.setResizable(false);
+
+        campoCantidad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+        campoCantidad.setToolTipText("");
+
+        etiquetaFechaProduccion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaFechaProduccion.setText("Fecha producción");
+
+        campoFechaProduccion.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+
+        etiquetaFechaVencimiento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaFechaVencimiento.setText("Fecha vencimiento");
+
+        etiquetaCodigoLote.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCodigoLote.setText("Código lote");
+
+        etiquetaCantidad.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCantidad.setText("Cantidad");
+
+        etiquetaCodigoProducto.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        etiquetaCodigoProducto.setText("Código producto");
+
+        botonCancelar.setText("Cancelar");
+        botonCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarActionPerformed(evt);
+            }
+        });
+
+        campoFechaVencimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
+
+        botonGuardar.setText("Guardar");
+        botonGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonGuardarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout nuevoLoteRemitoUILayout = new javax.swing.GroupLayout(nuevoLoteRemitoUI.getContentPane());
+        nuevoLoteRemitoUI.getContentPane().setLayout(nuevoLoteRemitoUILayout);
+        nuevoLoteRemitoUILayout.setHorizontalGroup(
+            nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nuevoLoteRemitoUILayout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(nuevoLoteRemitoUILayout.createSequentialGroup()
+                        .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(etiquetaCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(etiquetaCodigoLote, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(etiquetaCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoCodigoLote)
+                            .addComponent(campoCodigoProducto)
+                            .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(nuevoLoteRemitoUILayout.createSequentialGroup()
+                        .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(etiquetaFechaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(etiquetaFechaVencimiento))
+                        .addGap(18, 18, 18)
+                        .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoFechaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, nuevoLoteRemitoUILayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(botonGuardar)
+                .addGap(8, 8, 8)
+                .addComponent(botonCancelar)
+                .addGap(42, 42, 42))
+        );
+        nuevoLoteRemitoUILayout.setVerticalGroup(
+            nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(nuevoLoteRemitoUILayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaCodigoLote)
+                    .addComponent(campoCodigoLote, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaCodigoProducto)
+                    .addComponent(campoCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaCantidad)
+                    .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaFechaProduccion)
+                    .addComponent(campoFechaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaFechaVencimiento)
+                    .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(botonGuardar)
+                    .addComponent(botonCancelar))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
@@ -197,58 +321,97 @@ public class ImportarUI extends javax.swing.JPanel {
 
     private void botonRegistrarOperaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarOperaciónActionPerformed
         try {
-            getControlador().registrarDatosRemito(getCampoCodigoRemito().getText(), getCampoFechaRemito().getValue(), getCampoSucursalAlmacen().getSelectedItem());
-            getControlador().persistirOperacion();
-            JOptionPane.showMessageDialog(this,
-                    "Se completó la operación con éxito",
-                    "Enhorabuena",
-                    JOptionPane.INFORMATION_MESSAGE);
+            remitosController.registrarDatosRemito(getCampoCodigoRemito().getText(), getCampoFechaRemito().getValue(), getCampoSucursalAlmacen().getSelectedItem());
+            remitosController.persistirOperacion();
+            JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this,
-                    "Algo pasooooo\n" + e,
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Algo pasooooo\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonRegistrarOperaciónActionPerformed
 
     private void botonNuevoLoteRemitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonNuevoLoteRemitoActionPerformed
-        new NuevoLoteRemitoUI(ComercioApp.getVentanaInventario(),true).setVisible(true);
+        nuevoLoteRemitoUI.setVisible(true);
+        nuevoLoteRemitoUI.pack();
     }//GEN-LAST:event_botonNuevoLoteRemitoActionPerformed
 
     private void botonEliminarLoteRemitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarLoteRemitoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_botonEliminarLoteRemitoActionPerformed
 
+    private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_botonCancelarActionPerformed
+
+    private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
+        try {
+            Producto producto = productosController.obtenerProductoPorCodigo(campoCodigoProducto.getText());
+            String codigoLote = campoCodigoLote.getText();
+            if(lotesController.codigoLoteValido(codigoLote)) {
+                Date fechaProduccion = (Date) campoFechaProduccion.getValue();
+                Date fechaVencimiento = (Date) campoFechaVencimiento.getValue();
+                Lote lote = lotesController.crearLote(codigoLote, producto, fechaProduccion, fechaVencimiento);
+                Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
+                LoteRemito loteRemito = lotesController.crearLoteRemito(lote, cantidad);
+                remitosController.registrarLoteRemito(loteRemito);
+            }
+            limpiarCampos();
+            nuevoLoteRemitoUI.setVisible(false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonGuardarActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonEliminarLoteRemito;
+    private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevoLoteRemito;
     private javax.swing.JButton botonRegistrarOperación;
+    private javax.swing.JFormattedTextField campoCantidad;
+    private javax.swing.JTextField campoCodigoLote;
+    private javax.swing.JTextField campoCodigoProducto;
     private javax.swing.JTextField campoCodigoRemito;
+    private javax.swing.JFormattedTextField campoFechaProduccion;
     private javax.swing.JFormattedTextField campoFechaRemito;
+    private javax.swing.JFormattedTextField campoFechaVencimiento;
     private javax.swing.JComboBox campoSucursalAlmacen;
+    private javax.swing.JLabel etiquetaCantidad;
+    private javax.swing.JLabel etiquetaCodigoLote;
+    private javax.swing.JLabel etiquetaCodigoProducto;
     private javax.swing.JLabel etiquetaCodigoRemito;
+    private javax.swing.JLabel etiquetaFechaProduccion;
     private javax.swing.JLabel etiquetaFechaRemito;
+    private javax.swing.JLabel etiquetaFechaVencimiento;
     private javax.swing.JLabel etiquetaSucursalAlmacen;
     private javax.swing.JLabel etiquetaTituloFrame;
     private javax.swing.JScrollPane jsp;
+    private javax.swing.JDialog nuevoLoteRemitoUI;
     private javax.swing.JPanel panelCentral;
     private javax.swing.JPanel panelDatosDelRemito;
     private javax.swing.JPanel panelLotesRemito;
     private javax.swing.JTable tablaLotesDelRemito;
     // End of variables declaration//GEN-END:variables
 
+    private void limpiarCampos() {
+        campoCodigoLote.setText("");
+        campoCodigoProducto.setText("");
+        campoCantidad.setValue(0);
+        campoFechaProduccion.setValue(null);
+        campoFechaVencimiento.setValue(null);
+    }
+
     /**
      * @return the controlador
      */
-    public RemitosController getControlador() {
-        return controlador;
+    public RemitosController getRemitosController() {
+        return remitosController;
     }
 
     /**
      * @param controlador the controlador to set
      */
-    public void setControlador(RemitosController controlador) {
-        this.controlador = controlador;
+    public void setRemitosController(RemitosController controlador) {
+        this.remitosController = controlador;
     }
 
     /**
@@ -460,4 +623,5 @@ public class ImportarUI extends javax.swing.JPanel {
     public void setTablaLotesDelRemito(javax.swing.JTable tablaLotesDelRemito) {
         this.tablaLotesDelRemito = tablaLotesDelRemito;
     }
+
 }

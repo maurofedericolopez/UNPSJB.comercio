@@ -4,7 +4,10 @@ import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Lote;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -128,8 +131,7 @@ public class LoteJpaController implements Serializable {
         }
     }
 
-    public Boolean isValidCodigo(String codigo) {
-        Boolean isValid = false;
+    public Lote findLoteByCodigo(String codigo) {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -137,13 +139,10 @@ public class LoteJpaController implements Serializable {
             Root<Lote> p = c.from(Lote.class);
             c.select(p).where(cb.equal(p.get("codigo"), codigo));
             Query q = em.createQuery(c);
-            q.getSingleResult();
-        } catch (NoResultException e) {
-            isValid = true;
+            return (Lote) q.getSingleResult();
         } finally {
             em.close();
         }
-        return isValid;
     }
 
 }

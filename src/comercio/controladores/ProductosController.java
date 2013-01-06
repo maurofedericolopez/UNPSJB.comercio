@@ -8,6 +8,8 @@ import comercio.modelo.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Observable;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 
 /**
  *
@@ -15,13 +17,13 @@ import java.util.Observable;
  */
 public class ProductosController extends Observable {
 
-    private ProductoJpaController controladorProductos;
-    private PrecioAnteriorJpaController controladorPrecios;
+    private ProductoJpaController productoJpaController;
+    private PrecioAnteriorJpaController precioJpaController;
 
     public ProductosController() {
         super();
-        controladorProductos = new ProductoJpaController(ComercioApp.getEntityManager());
-        controladorPrecios = new PrecioAnteriorJpaController(ComercioApp.getEntityManager());
+        productoJpaController = new ProductoJpaController(ComercioApp.getEntityManager());
+        precioJpaController = new PrecioAnteriorJpaController(ComercioApp.getEntityManager());
         
     }
 
@@ -33,71 +35,46 @@ public class ProductosController extends Observable {
         return productos;
     }
 
-    public void editarCodigoProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
-        producto.setCodigo(String.valueOf(aValue));
-        getControladorProductos().edit(producto);
-        setChanged();
-        notifyObservers();
+    public void registrarNuevoProducto(String codigo, String descripcion, Double precio, Marca marca, Origen origen, Unidad unidad, Categoria categoria) throws Exception {
+        if(camposCompletos(codigo, descripcion, marca, origen, unidad, categoria)) {
+            if(codigoProductoValido(codigo)) {
+                Producto nuevoProducto = new Producto();
+                nuevoProducto.setCodigo(codigo.toUpperCase());
+                nuevoProducto.setDescripcion(descripcion.toUpperCase());
+
+                PrecioAnterior nuevoPrecio = new PrecioAnterior();
+                nuevoPrecio.setValor(Double.valueOf(String.valueOf(precio)));
+                nuevoPrecio.setFecha(new Date(new Date().getTime()));
+                precioJpaController.create(nuevoPrecio);
+
+                nuevoProducto.getPreciosAnteriores().add(nuevoPrecio);
+                nuevoProducto.setPrecioActual(nuevoPrecio.getValor());
+                nuevoProducto.setMarca((Marca) marca);
+                nuevoProducto.setOrigen((Origen) origen);
+                nuevoProducto.setUnidad((Unidad) unidad);
+                nuevoProducto.setCategoria((Categoria) categoria);
+                productoJpaController.create(nuevoProducto);
+
+                setChanged();
+                notifyObservers();
+            }
+        }
     }
 
-    public void editarDescripcionProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
-        producto.setDescripcion(String.valueOf(aValue));
-        getControladorProductos().edit(producto);
-        setChanged();
-        notifyObservers();
-    }
-
-    public void editarMarcaProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
-        producto.setMarca((Marca) aValue);
-        getControladorProductos().edit(producto);
-        setChanged();
-        notifyObservers();
-    }
-
-    public void editarOrigenProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
-        producto.setOrigen((Origen) aValue);
-        getControladorProductos().edit(producto);
-        setChanged();
-        notifyObservers();
-    }
-
-    public void editarUnidadProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
-        producto.setUnidad((Unidad) aValue);
-        getControladorProductos().edit(producto);
-        setChanged();
-        notifyObservers();
-    }
-
-    public void editarCategoriaProducto(Producto producto, Object aValue) throws NonexistentEntityException, Exception {
-        producto.setCategoria((Categoria) aValue);
-        getControladorProductos().edit(producto);
-        setChanged();
-        notifyObservers();
-    }
-
-    public void registrarNuevoProducto(String codigo, String descripcion, Object precio, Object marca, Object origen, Object unidad, Object categoria) throws NullPointerException {
-        Producto nuevoProducto = new Producto();
-        nuevoProducto.setCodigo(codigo.toUpperCase());
-        nuevoProducto.setDescripcion(descripcion.toUpperCase());
-
-        PrecioAnterior nuevoPrecio = new PrecioAnterior();
-        nuevoPrecio.setValor(Double.valueOf(String.valueOf(precio)));
-        nuevoPrecio.setFecha(new Date(new Date().getTime()));
-        getControladorPrecios().create(nuevoPrecio);
-
-        nuevoProducto.getPreciosAnteriores().add(nuevoPrecio);
-        nuevoProducto.setPrecioActual(nuevoPrecio.getValor());
-        nuevoProducto.setMarca((Marca) marca);
-        nuevoProducto.setOrigen((Origen) origen);
-        nuevoProducto.setUnidad((Unidad) unidad);
-        nuevoProducto.setCategoria((Categoria) categoria);
-        getControladorProductos().create(nuevoProducto);
-        setChanged();
-        notifyObservers();
+    public void editarProducto(Producto producto) throws Exception {
+        try {
+            if(camposCompletos(producto.getCodigo(), producto.getDescripcion(), producto.getMarca(), producto.getOrigen(), producto.getUnidad(), producto.getCategoria())) {
+                if (codigoProductoValido(producto.getCodigo())) {
+                    productoJpaController.edit(producto);
+                }
+            }
+        } catch (NonexistentEntityException ex) {
+            throw new Exception("El producto no existe.");
+        }
     }
 
     public void eliminarProducto(Producto producto) throws NonexistentEntityException {
-        getControladorProductos().destroy(producto.getIdProducto());
+        productoJpaController.destroy(producto.getIdProducto());
         setChanged();
         notifyObservers();
     }
@@ -106,28 +83,73 @@ public class ProductosController extends Observable {
      * @return the controladorProductos
      */
     public ProductoJpaController getControladorProductos() {
-        return controladorProductos;
+        return productoJpaController;
     }
 
     /**
      * @param controladorProductos the controladorProductos to set
      */
     public void setControladorProductos(ProductoJpaController controladorProductos) {
-        this.controladorProductos = controladorProductos;
+        this.productoJpaController = controladorProductos;
     }
 
     /**
      * @return the controladorPrecios
      */
     public PrecioAnteriorJpaController getControladorPrecios() {
-        return controladorPrecios;
+        return precioJpaController;
     }
 
     /**
      * @param controladorPrecios the controladorPrecios to set
      */
     public void setControladorPrecios(PrecioAnteriorJpaController controladorPrecios) {
-        this.controladorPrecios = controladorPrecios;
+        this.precioJpaController = controladorPrecios;
+    }
+
+    public Producto obtenerProductoPorCodigo(String codigoProducto) throws Exception {
+        try {
+            return productoJpaController.findProductoByCodigo(codigoProducto.toUpperCase());
+        } catch (NoResultException ex) {
+            throw new Exception("No existe ningun producto con el código ingresado.");
+        } catch (NonUniqueResultException ex) {
+            throw new Exception("Existen más de un producto con el código ingresado.");
+        }
+    }
+
+    public Boolean codigoProductoValido(String codigo) throws Exception {
+        try {
+            productoJpaController.findProductoByCodigo(codigo.toUpperCase());
+            throw new Exception("El código del producto ya está registrado.");
+        } catch (NoResultException ex) {
+            return true;
+        }
+    }
+
+    private Boolean camposCompletos(String codigo, String descripcion, Marca marca, Origen origen, Unidad unidad, Categoria categoria) throws Exception {
+        if(!codigo.isEmpty())
+            if(!descripcion.isEmpty())
+                if(marca != null)
+                    if(origen != null)
+                        if(unidad != null)
+                            if(categoria != null)
+                                return true;
+                            else
+                                throw new Exception("No ha seleccionado una categoría.");
+                        else
+                            throw new Exception("No ha seleccionado una unidad.");
+                    else
+                        throw new Exception("No ha seleccionado un origen.");
+                else
+                    throw new Exception("No ha seleccionado una marca.");
+            else
+                throw new Exception("No ha indicado una descripción.");
+        else
+            throw new Exception("No ha indicado un código.");
+    }
+
+    public Double obtenerDescuentoVigente(Producto producto) {
+        return 1.0;
     }
 
 }

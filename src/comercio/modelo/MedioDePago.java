@@ -8,10 +8,10 @@ import javax.persistence.*;
  * @author Mauro Federico Lopez
  */
 @Entity
-public class MedioPago implements Serializable {
+public class MedioDePago implements Serializable {
     private static long serialVersionUID = 1L;
 
-    public MedioPago() {}
+    public MedioDePago() {}
 
     /**
      * @return the serialVersionUID
@@ -42,10 +42,10 @@ public class MedioPago implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof MedioPago)) {
+        if (!(object instanceof MedioDePago)) {
             return false;
         }
-        MedioPago other = (MedioPago) object;
+        MedioDePago other = (MedioDePago) object;
         if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }

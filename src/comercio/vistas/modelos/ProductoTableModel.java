@@ -2,13 +2,10 @@ package comercio.vistas.modelos;
 
 import comercio.ControllerSingleton;
 import comercio.controladores.ProductosController;
-import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Producto;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
 
 /**
@@ -97,47 +94,8 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
     }
 
     @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        try {
-            switch (columnIndex){
-                case 0 :
-                    controlador.editarCodigoProducto(productos.get(rowIndex), aValue);
-                    break;
-                case 1 :
-                    controlador.editarDescripcionProducto(productos.get(rowIndex), aValue);
-                    break;
-                case 2 :
-                    break;
-                case 3 :
-                    controlador.editarMarcaProducto(productos.get(rowIndex), aValue);
-                    break;
-                case 4:
-                    controlador.editarOrigenProducto(productos.get(rowIndex), aValue);
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    controlador.editarUnidadProducto(productos.get(rowIndex), aValue);
-                    break;
-                case 7:
-                    controlador.editarCategoriaProducto(productos.get(rowIndex), aValue);
-                    break;
-                default:
-                    break;
-                }
-        } catch (NonexistentEntityException ex) {
-            Logger.getLogger(ProductoTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (Exception ex) {
-            Logger.getLogger(ProductoTableModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
     public boolean isCellEditable(int row, int col) {
-        if(col == 5 || col == 2)
-            return false;
-        else
-            return true;
+        return false;
     }
 
     @Override
@@ -147,7 +105,7 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
     }
 
     public Producto obtenerProducto(int index) {
-        return this.productos.get(index);
+        return productos.get(index);
     }
 
 }

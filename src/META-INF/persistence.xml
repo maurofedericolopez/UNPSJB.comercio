@@ -16,12 +16,15 @@
     <class>comercio.modelo.LoteAlmacenado</class>
     <class>comercio.modelo.LoteEgresado</class>
     <class>comercio.modelo.LoteRemito</class>
-    <class>comercio.modelo.MedioPago</class>
     <class>comercio.modelo.ProductoEnVenta</class>
     <class>comercio.modelo.PuntoVenta</class>
     <class>comercio.modelo.Remito</class>
     <class>comercio.modelo.Sucursal</class>
     <class>comercio.modelo.Venta</class>
+    <class>comercio.modelo.Vendedor</class>
+    <class>comercio.modelo.Gerente</class>
+    <class>comercio.modelo.GestorInventario</class>
+    <class>comercio.modelo.MedioDePago</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value=""/>

@@ -60,7 +60,7 @@ public class PuntoVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.PuntoVenta[ id=" + getId() + " ]";
+        return "S " + sucursal.getNumero() + " - PV " + numero;
     }
 
     /**

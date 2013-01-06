@@ -8,8 +8,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Observable;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
-import javax.persistence.NonUniqueResultException;
 
 /**
  *
@@ -17,6 +15,7 @@ import javax.persistence.NonUniqueResultException;
  */
 public class RemitosController extends Observable {
 
+    private LotesController lotesController;
     private RemitoJpaController controladorRemito;
     private LoteAlmacenadoJpaController controladorLoteAlmacenado;
     private LoteRemitoJpaController controladorLoteRemito;
@@ -29,6 +28,7 @@ public class RemitosController extends Observable {
     public RemitosController() {
         super();
         EntityManagerFactory emf = ComercioApp.getEntityManager();
+        lotesController = new LotesController();
         controladorProducto = new ProductoJpaController(emf);
         controladorLoteAlmacenado = new LoteAlmacenadoJpaController(emf);
         controladorLoteRemito = new LoteRemitoJpaController(emf);
@@ -40,19 +40,8 @@ public class RemitosController extends Observable {
         return getLotesDelRemito();
     }
 
-    public void registrarLoteRemito(String codigoLote, String codigoProducto, Object cantidad, Object fechaProduccion, Object fechaVencimiento) throws NoResultException, NonUniqueResultException, Exception {
-        Producto producto = getControladorProducto().findProductoByCodigo(codigoProducto.toUpperCase());
-        Lote lote = new Lote();
-        lote.setCodigo(codigoLote.toUpperCase());
-        lote.setProducto(producto);
-        lote.setFechaProduccion((Date) fechaProduccion);
-        lote.setFechaVencimiento((Date) fechaVencimiento);
-
-        LoteRemito loteRemito = new LoteRemito();
-        loteRemito.setLote(lote);
-        loteRemito.setCantidadIngresada(((Number) cantidad).doubleValue());        
+    public void registrarLoteRemito(LoteRemito loteRemito) {
         getLotesDelRemito().add(loteRemito);
-
         setChanged();
         notifyObservers();
     }
@@ -61,25 +50,21 @@ public class RemitosController extends Observable {
         setNuevoRemito(new Remito());
         getNuevoRemito().setCodigo(codigoRemito.toUpperCase());
         getNuevoRemito().setFecha((Date) fechaRemito);
-        this.setAlmacen((Almacen) almacen);
+        setAlmacen((Almacen) almacen);
         setChanged();
         notifyObservers();
     }
 
     public void persistirOperacion() {
-        getControladorRemito().create(getNuevoRemito());
-        Iterator<LoteRemito> i = getLotesDelRemito().iterator();
+        controladorRemito.create(nuevoRemito);
+        Iterator<LoteRemito> i = lotesDelRemito.iterator();
         while(i.hasNext()) {
             LoteRemito loteRemito = i.next();
-            getControladorLote().create((Lote) loteRemito.getLote());
-            loteRemito.setRemito(getNuevoRemito());
-            getControladorLoteRemito().create(loteRemito);
-
-            LoteAlmacenado loteAlmacenado = new LoteAlmacenado();
-            loteAlmacenado.setLote(loteRemito.getLote());
-            loteAlmacenado.setCantidad(loteRemito.getCantidadIngresada());
-            loteAlmacenado.setAlmacen(almacen);
-            getControladorLoteAlmacenado().create(loteAlmacenado);
+            lotesController.persistirLote(loteRemito.getLote());
+            loteRemito.setRemito(nuevoRemito);
+            lotesController.persistirLoteRemito(loteRemito);
+            LoteAlmacenado loteAlmacenado = lotesController.crearLoteAlmacenado(loteRemito.getLote(), loteRemito.getCantidadIngresada(), almacen);
+            lotesController.persistirLoteAlmacenado(loteAlmacenado);
         }
     }
 
