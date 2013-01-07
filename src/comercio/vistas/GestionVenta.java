@@ -9,6 +9,8 @@ import comercio.modelo.PuntoVenta;
 import comercio.modelo.Vendedor;
 import comercio.vistas.modelos.ItemVentaTableModel;
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
@@ -32,10 +34,14 @@ public class GestionVenta extends javax.swing.JFrame {
         initComponents();
         campoFecha.setValue(new Date());
         campoCantidadProducto.setValue(1);
+        campoMontoTotal.setValue(0.00);
         agregarComponente(panelIniciarSesion);
         productosController = ControllerSingleton.getProductosController();
         ventasController = ControllerSingleton.getVentasController();
         agregarComponente(panelVenta);
+        tablaItemsDeVenta.getTableHeader().setBackground(Color.GRAY);
+        tablaItemsDeVenta.getTableHeader().setForeground(Color.WHITE);
+        tablaItemsDeVenta.getTableHeader().setFont(new Font("Tahoma", 1, 12));
     }
 
     /**
@@ -139,6 +145,7 @@ public class GestionVenta extends javax.swing.JFrame {
         panelVenta.setBackground(new java.awt.Color(102, 102, 102));
         panelVenta.setMaximumSize(new java.awt.Dimension(950, 550));
         panelVenta.setMinimumSize(new java.awt.Dimension(950, 550));
+        panelVenta.setOpaque(false);
         panelVenta.setPreferredSize(new java.awt.Dimension(950, 550));
         panelVenta.setLayout(new java.awt.BorderLayout());
 
@@ -223,6 +230,7 @@ public class GestionVenta extends javax.swing.JFrame {
         tablaItemsDeVenta.setGridColor(new java.awt.Color(255, 255, 255));
         tablaItemsDeVenta.setSelectionBackground(new java.awt.Color(204, 204, 255));
         tablaItemsDeVenta.setSelectionForeground(new java.awt.Color(0, 0, 0));
+        tablaItemsDeVenta.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaItemsDeVenta);
 
         panelVenta.add(jsp, java.awt.BorderLayout.CENTER);
@@ -260,8 +268,8 @@ public class GestionVenta extends javax.swing.JFrame {
         campoMontoTotal.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(240, 240, 240), 5, true));
         campoMontoTotal.setEditable(false);
         campoMontoTotal.setForeground(new java.awt.Color(240, 240, 240));
+        campoMontoTotal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
         campoMontoTotal.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        campoMontoTotal.setText("1.032.987,00");
         campoMontoTotal.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
 
         campoMedioDePago.setModel(new comercio.vistas.modelos.MedioDePagoComboBoxModel());
@@ -379,6 +387,7 @@ public class GestionVenta extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Venta");
+        setIconImages(null);
         setMaximumSize(new java.awt.Dimension(950, 550));
         setMinimumSize(new java.awt.Dimension(950, 550));
         setPreferredSize(new java.awt.Dimension(950, 550));
@@ -398,15 +407,19 @@ public class GestionVenta extends javax.swing.JFrame {
             String codigoProducto = campoCodigoProducto.getText();
             Double cantidadProducto = ((Number) campoCantidadProducto.getValue()).doubleValue();
             Producto producto = productosController.obtenerProductoPorCodigo(codigoProducto);
+
             ItemVenta itemDeVenta = new ItemVenta();
             itemDeVenta.setProducto(producto);
             itemDeVenta.setCantidad(cantidadProducto);
             itemDeVenta.setPrecio(producto.getPrecioActual());
             Double descuento = productosController.obtenerDescuentoVigente(producto);
             itemDeVenta.setDescuento(descuento);
+
             ventasController.agregarItemDeVenta(itemDeVenta);
             campoCodigoProducto.setText("");
-            campoCantidadProducto.setText("");
+            campoCantidadProducto.setValue(1);
+            Double montoTotal = ((Number) campoMontoTotal.getValue()).doubleValue() + producto.getPrecioActual();
+            campoMontoTotal.setValue(montoTotal);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -1,14 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package comercio;
 
-import java.text.NumberFormat;
+import java.awt.Graphics;
+import java.awt.Image;
+import javax.swing.ImageIcon;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class FrameTesting extends javax.swing.JFrame {
 
@@ -127,4 +125,10 @@ public class FrameTesting extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField campo;
     private javax.swing.JLabel etiqueta;
     // End of variables declaration//GEN-END:variables
+
+    protected void paintComponent(Graphics g) {
+        Image fondo = new ImageIcon(getClass().getResource("/comercio/fondogestionventa.jpg")).getImage();
+        g.drawImage(fondo,0,0,null);
+    }
+
 }

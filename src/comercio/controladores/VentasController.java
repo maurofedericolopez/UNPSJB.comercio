@@ -6,8 +6,10 @@ import comercio.controladoresJPA.MedioDePagoJpaController;
 import comercio.controladoresJPA.VentaJpaController;
 import comercio.modelo.ItemVenta;
 import comercio.modelo.MedioDePago;
+import comercio.modelo.Producto;
 import comercio.modelo.Venta;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Observable;
 
 /**
@@ -87,7 +89,20 @@ public class VentasController extends Observable {
     }
 
     public void agregarItemDeVenta(ItemVenta itemDeVenta) {
-        itemsDeVenta.add(itemDeVenta);
+        String codigoBuscado = itemDeVenta.getProducto().getCodigo();
+        Iterator<ItemVenta> i = itemsDeVenta.iterator();
+        Boolean encontrado = false;
+        while(i.hasNext()) {
+            ItemVenta item = i.next();
+            if(item.getProducto().getCodigo().equals(codigoBuscado)) {
+                Double cantidad = item.getCantidad() + itemDeVenta.getCantidad();
+                item.setCantidad(cantidad);
+                encontrado = true;
+                break;
+            }
+        }
+        if(encontrado == false)
+            itemsDeVenta.add(itemDeVenta);
         setChanged();
         notifyObservers();
     }
@@ -101,7 +116,7 @@ public class VentasController extends Observable {
     }
 
     public void eliminarItemDeVenta(int itemSeleccionado) throws Exception {
-        if(itemSeleccionado > 0) {
+        if(itemSeleccionado >= 0) {
             itemsDeVenta.remove(itemSeleccionado);
             setChanged();
             notifyObservers();
