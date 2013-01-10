@@ -5,6 +5,7 @@ import comercio.controladoresJPA.AlmacenJpaController;
 import comercio.controladoresJPA.PuntoVentaJpaController;
 import comercio.controladoresJPA.SucursalJpaController;
 import comercio.modelo.Almacen;
+import comercio.modelo.LoteAlmacenado;
 import comercio.modelo.PuntoVenta;
 import comercio.modelo.Sucursal;
 import java.util.ArrayList;
@@ -55,6 +56,17 @@ public class SucursalesController {
         for(int i = 0; i < array.length; i++)
             puntosDeVenta.add((PuntoVenta) array[i]);
         return puntosDeVenta;
+    }
+
+    public void descontarDeAlmacen(Almacen almacen, String codigoLote, Double cantidad) {
+        Object[] array = almacen.getLotesAlmacenados().toArray();
+        for(Object o : array) {
+            LoteAlmacenado la = (LoteAlmacenado) o;
+            if(la.getLote().getCodigo().equals(codigoLote)) {
+                
+            }
+        }
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }

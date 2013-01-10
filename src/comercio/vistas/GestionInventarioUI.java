@@ -33,6 +33,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         itemMenuAdministrarMarcas = new javax.swing.JMenuItem();
         menuOperaciones = new javax.swing.JMenu();
         itemMenuImportarLotes = new javax.swing.JMenuItem();
+        itemMenuTransferencia = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de inventario");
@@ -82,6 +83,14 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         });
         menuOperaciones.add(itemMenuImportarLotes);
 
+        itemMenuTransferencia.setText("Realizar transferencias de productos");
+        itemMenuTransferencia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuTransferenciaActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(itemMenuTransferencia);
+
         barraMenu.add(menuOperaciones);
 
         setJMenuBar(barraMenu);
@@ -90,7 +99,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void itemMenuAdministrarProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarProductosActionPerformed
-        this.agregarComponente(new AdministrarProductosUI());
+        agregarComponente(new AdministrarProductosUI());
     }//GEN-LAST:event_itemMenuAdministrarProductosActionPerformed
 
     private void itemMenuAdministrarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarCategoriasActionPerformed
@@ -102,8 +111,12 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuAdministrarMarcasActionPerformed
 
     private void itemMenuImportarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuImportarLotesActionPerformed
-        this.agregarComponente(new ImportarLoteUI());
+        agregarComponente(new ImportarLoteUI());
     }//GEN-LAST:event_itemMenuImportarLotesActionPerformed
+
+    private void itemMenuTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuTransferenciaActionPerformed
+        agregarComponente(new TransferenciaUI());
+    }//GEN-LAST:event_itemMenuTransferenciaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,6 +166,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuAdministrarMarcas;
     private javax.swing.JMenuItem itemMenuAdministrarProductos;
     private javax.swing.JMenuItem itemMenuImportarLotes;
+    private javax.swing.JMenuItem itemMenuTransferencia;
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenu menuArchivo;
     private javax.swing.JMenu menuOperaciones;

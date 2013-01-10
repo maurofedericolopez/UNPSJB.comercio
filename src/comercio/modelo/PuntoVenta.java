@@ -60,7 +60,7 @@ public class PuntoVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "S " + sucursal.getNumero() + " - PV " + numero;
+        return "Punto de venta N°" + numero + " de la Sucursal N°" + sucursal.getNumero();
     }
 
     /**

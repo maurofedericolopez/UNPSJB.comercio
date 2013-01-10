@@ -174,6 +174,7 @@ public class ImportarLoteUI extends javax.swing.JPanel {
 
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
+        setPreferredSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
 
         etiquetaTituloFrame.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N

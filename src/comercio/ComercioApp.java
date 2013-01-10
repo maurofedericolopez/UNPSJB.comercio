@@ -26,8 +26,10 @@ public class ComercioApp {
         //Se inicializan los controller
         setRemitosController(new RemitosController());
 
-        ventanaGestionVenta = new GestionVenta();
-        ventanaGestionVenta.setVisible(true);
+//        ventanaGestionVenta = new GestionVenta();
+//        ventanaGestionVenta.setVisible(true);
+        ventanaInventario = new GestionInventarioUI();
+        ventanaInventario.setVisible(true);
     }
 
     /**
