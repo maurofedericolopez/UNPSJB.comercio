@@ -1,6 +1,7 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -41,7 +42,7 @@ public class Venta implements Serializable {
     @ManyToOne
     private PuntoVenta puntoVenta;
     @OneToMany(mappedBy = "venta")
-    private List<ItemVenta> items;
+    private List<ItemVenta> items = new ArrayList();
 
     @Override
     public int hashCode() {

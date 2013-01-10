@@ -58,15 +58,20 @@ public class SucursalesController {
         return puntosDeVenta;
     }
 
-    public void descontarDeAlmacen(Almacen almacen, String codigoLote, Double cantidad) {
+    public void descontarDeAlmacen(Almacen almacen, String codigoLote, Double cantidad) throws Exception {
         Object[] array = almacen.getLotesAlmacenados().toArray();
         for(Object o : array) {
             LoteAlmacenado la = (LoteAlmacenado) o;
             if(la.getLote().getCodigo().equals(codigoLote)) {
-                
+                if(la.getCantidad() >= cantidad) {
+                    la.setCantidad(la.getCantidad() - cantidad);
+                    break;
+                } else {
+                    throw new Exception("No hay cantidad suficiente para satisfacer la transferencia.");
+                }
             }
         }
-        throw new UnsupportedOperationException("Not yet implemented");
+        throw new Exception("El almacén no contienen ningun lote con el código de lote ingresado.");
     }
 
 }

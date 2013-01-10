@@ -1,6 +1,7 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -36,9 +37,9 @@ public class Sucursal implements Serializable {
     private String domicilio;
     private Long telefono;
     @OneToMany(mappedBy = "sucursal")
-    private List<Almacen> almacenes;
+    private List<Almacen> almacenes = new ArrayList();
     @OneToMany(mappedBy = "sucursal")
-    private List<PuntoVenta> puntosDeVentas;
+    private List<PuntoVenta> puntosDeVentas = new ArrayList();
 
     @Override
     public int hashCode() {

@@ -1,6 +1,7 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 
@@ -36,7 +37,7 @@ public class Almacen implements Serializable {
     @ManyToOne
     private Sucursal sucursal;
     @OneToMany(mappedBy = "almacen")
-    private List<LoteAlmacenado> lotesAlmacenados;
+    private List<LoteAlmacenado> lotesAlmacenados = new ArrayList();
 
     @Override
     public int hashCode() {

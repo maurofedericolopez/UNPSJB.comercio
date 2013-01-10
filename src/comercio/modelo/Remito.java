@@ -1,6 +1,7 @@
 package comercio.modelo;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
@@ -36,7 +37,7 @@ public class Remito implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @OneToMany(mappedBy = "remito")
-    private List<LoteRemito> lotes;
+    private List<LoteRemito> lotes = new ArrayList();
 
     @Override
     public int hashCode() {
