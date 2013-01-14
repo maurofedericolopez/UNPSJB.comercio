@@ -30,6 +30,7 @@ public class MedioDePago implements Serializable {
     @Column(name = "idMedioDePago")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String descripcion;
 
     @Override

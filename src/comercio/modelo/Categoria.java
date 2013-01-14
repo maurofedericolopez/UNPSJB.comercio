@@ -30,6 +30,7 @@ public class Categoria implements Serializable {
     @Column(name = "idCategoria")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String nombre;
     private String descripcion;
     @ManyToOne
@@ -85,7 +86,7 @@ public class Categoria implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
     }
 
     /**
@@ -99,7 +100,7 @@ public class Categoria implements Serializable {
      * @param descripcion the descripcion to set
      */
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.toUpperCase();
     }
 
     /**

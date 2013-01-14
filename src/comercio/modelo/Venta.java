@@ -34,6 +34,7 @@ public class Venta implements Serializable {
     @Column(name = "idVenta")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private Long codigo;
     @Temporal(TemporalType.DATE)
     private Date fecha;

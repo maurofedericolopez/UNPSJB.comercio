@@ -1,6 +1,7 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.CategoriasController;
+import comercio.ControllerSingleton;
+import comercio.controladoresJPA.CategoriaJpaController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Categoria;
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ import javax.swing.table.AbstractTableModel;
 public class CategoriaTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Nombre", "Descripción"};
-    private CategoriasController categoriaController;
+    private CategoriaJpaController categoriaJpaController;
     private ArrayList<Categoria> categorias;
 
-    public CategoriaTableModel(CategoriasController categoriaController) {
+    public CategoriaTableModel() {
         super();
-        this.categoriaController = categoriaController;
-        this.categoriaController.addObserver(this);
-        categorias = categoriaController.obtenerCategorias();
+        categoriaJpaController = ControllerSingleton.getCategoriaJpaController();
+        categoriaJpaController.addObserver(this);
+        categorias = categoriaJpaController.obtenerTodasLasCategorias();
     }
 
     @Override
@@ -70,12 +71,15 @@ public class CategoriaTableModel extends AbstractTableModel implements Observer 
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         try {
             Categoria c = categorias.get(rowIndex);
+            String valor = String.valueOf(aValue);
             switch (columnIndex){
                 case 0 :
-                    categoriaController.editarNombreCategoria(c, aValue);
+                    c.setNombre(valor);
+                    categoriaJpaController.edit(c);
                     break;
                 case 1 :
-                    categoriaController.editarDescripcionCategoria(c, aValue);
+                    c.setDescripcion(valor);
+                    categoriaJpaController.edit(c);
                     break;
                 default:;
             }
@@ -93,12 +97,12 @@ public class CategoriaTableModel extends AbstractTableModel implements Observer 
 
     @Override
     public void update(Observable o, Object arg) {
-        categorias = categoriaController.obtenerCategorias();
-        this.fireTableDataChanged();
+        categorias = categoriaJpaController.obtenerTodasLasCategorias();
+        fireTableDataChanged();
     }
 
-    public Categoria obtenerCategoria(int selectedRow) {
-        return categorias.get(selectedRow);
+    public Categoria obtenerCategoria(Integer index) {
+        return categorias.get(index);
     }
 
 }

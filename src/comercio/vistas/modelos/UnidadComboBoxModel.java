@@ -1,6 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.UnidadesController;
+import comercio.ControllerSingleton;
 import comercio.modelo.Unidad;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -17,7 +17,7 @@ public class UnidadComboBoxModel extends AbstractListModel implements ComboBoxMo
 
     public UnidadComboBoxModel() {
         super();
-        unidades = new UnidadesController().obtenerUnidades();
+        unidades = ControllerSingleton.getUnidadJpaController().obtenerTodasLasUnidades();
     }
 
     @Override

@@ -160,4 +160,20 @@ public class ProductoJpaController implements Serializable {
         return isValid;
     }
 
+    public Producto buscarProductoPorCodigo(String codigo) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Producto> c = cb.createQuery(Producto.class);
+            Root<Producto> p = c.from(Producto.class);
+            c.select(p).where(cb.equal(p.get("codigo"), codigo.toUpperCase()));
+            Query q = em.createQuery(c);
+            return (Producto) q.getSingleResult();
+        } catch (NoResultException ex) {
+            throw new Exception("El código del producto ingresado no está registrado");
+        } finally {
+            em.close();
+        }
+    }
+
 }

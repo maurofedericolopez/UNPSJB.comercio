@@ -1,9 +1,6 @@
 package comercio.vistas.modelos;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.CategoriasController;
-import comercio.controladores.VentasController;
-import comercio.modelo.Categoria;
 import comercio.modelo.MedioDePago;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -20,7 +17,7 @@ public class MedioDePagoComboBoxModel extends AbstractListModel implements Combo
 
     public MedioDePagoComboBoxModel() {
         super();
-        mediosDePago = ControllerSingleton.getVentasController().obtenerMediosDePago();
+        mediosDePago = ControllerSingleton.getMedioDePagoJpaController().obtenerTodosLosMediosDePago();
     }
 
     @Override

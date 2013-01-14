@@ -103,11 +103,11 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuAdministrarProductosActionPerformed
 
     private void itemMenuAdministrarCategoriasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarCategoriasActionPerformed
-        new AdministrarCategoriasUI(this, false).setVisible(true);
+        agregarComponente(new AdministrarCategoriasUI());
     }//GEN-LAST:event_itemMenuAdministrarCategoriasActionPerformed
 
     private void itemMenuAdministrarMarcasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarMarcasActionPerformed
-        new AdministrarMarcasUI(this, false).setVisible(true);
+        agregarComponente(new AdministrarMarcasUI());
     }//GEN-LAST:event_itemMenuAdministrarMarcasActionPerformed
 
     private void itemMenuImportarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuImportarLotesActionPerformed

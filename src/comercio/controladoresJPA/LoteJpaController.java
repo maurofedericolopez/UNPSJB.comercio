@@ -4,10 +4,7 @@ import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Lote;
 import java.io.Serializable;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -131,17 +128,37 @@ public class LoteJpaController implements Serializable {
         }
     }
 
-    public Lote findLoteByCodigo(String codigo) {
+    public Lote BuscarLotePorCodigo(String codigo) throws Exception {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
             CriteriaQuery<Lote> c = cb.createQuery(Lote.class);
             Root<Lote> p = c.from(Lote.class);
-            c.select(p).where(cb.equal(p.get("codigo"), codigo));
+            c.select(p).where(cb.equal(p.get("codigo"), codigo.toUpperCase()));
             Query q = em.createQuery(c);
             return (Lote) q.getSingleResult();
+        } catch (NoResultException ex) {
+            throw new Exception("El código del lote ingresado no está registrado");
         } finally {
             em.close();
+        }
+    }
+
+    public Boolean codigoLoteDisponible(String codigo) throws Exception {
+        try {
+            BuscarLotePorCodigo(codigo);
+            throw new Exception("El código del lote ingresado ya está registrado.");
+        } catch (NoResultException ex) {
+            return true;
+        }
+    }
+
+    public Boolean codigoLoteValido(String codigo) throws Exception {
+        try {
+            BuscarLotePorCodigo(codigo);
+            return true;
+        } catch (NoResultException ex) {
+            throw new Exception("El código del lote ingresado no está registrado.");
         }
     }
 

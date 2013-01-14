@@ -3,11 +3,13 @@ package comercio.controladoresJPA;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Categoria;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -15,7 +17,7 @@ import javax.persistence.criteria.Root;
  *
  * @author Mauro
  */
-public class CategoriaJpaController implements Serializable {
+public class CategoriaJpaController extends Observable implements Serializable {
 
     public CategoriaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -37,6 +39,7 @@ public class CategoriaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -60,6 +63,7 @@ public class CategoriaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -81,6 +85,7 @@ public class CategoriaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -128,6 +133,19 @@ public class CategoriaJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public ArrayList<Categoria> obtenerTodasLasCategorias() {
+        ArrayList<Categoria> categorias = new ArrayList();
+        Object[] array = findCategoriaEntities().toArray();
+        for(Object o : array)
+            categorias.add((Categoria) o);
+        return categorias;
+    }
+
+    private void notificarCambios() {
+        setChanged();
+        notifyObservers();
     }
 
 }

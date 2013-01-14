@@ -34,6 +34,7 @@ public class Egreso implements Serializable {
     @Column(name = "idEgreso")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private String codigo;
     private String causaEspecial;
     @Temporal(TemporalType.DATE)

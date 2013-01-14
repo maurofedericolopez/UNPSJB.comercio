@@ -1,18 +1,18 @@
 package comercio.controladoresJPA;
 
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import comercio.modelo.Almacen;
-import java.util.ArrayList;
-import java.util.List;
 import comercio.modelo.PuntoVenta;
 import comercio.modelo.Sucursal;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -230,6 +230,14 @@ public class SucursalJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public ArrayList<Sucursal> obtenerTodasLasSucursales() {
+        ArrayList<Sucursal> sucursales = new ArrayList();
+        Object[] array = findSucursalEntities().toArray();
+        for(Object o : array)
+            sucursales.add((Sucursal) o);
+        return sucursales;
     }
 
 }

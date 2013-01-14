@@ -1,6 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.OrigenesController;
+import comercio.ControllerSingleton;
 import comercio.modelo.Origen;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -17,7 +17,7 @@ public class OrigenComboBoxModel extends AbstractListModel implements ComboBoxMo
 
     public OrigenComboBoxModel() {
         super();
-        origenes = new OrigenesController().obtenerOrigenes();
+        origenes = ControllerSingleton.getOrigenJpaController().obtenerTodosLosOrigen();
     }
 
     @Override

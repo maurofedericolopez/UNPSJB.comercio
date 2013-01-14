@@ -1,7 +1,7 @@
 package comercio.vistas.modelos;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.RemitosController;
+import comercio.controladores.ImportacionesController;
 import comercio.modelo.LoteRemito;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,14 +15,15 @@ import javax.swing.table.AbstractTableModel;
  */
 public class LoteRemitoTableModel extends AbstractTableModel implements Observer {
 
-    private String[] columnsNames = {"Código","Producto","Cantidad","Fecha Producción","Fecha Vencimiento"};
-    private RemitosController controlador;
+    private String[] columnsNames = {"Código", "Producto", "Cantidad", "Fecha Producción", "Fecha Vencimiento"};
+    private ImportacionesController controlador;
     private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
 
     public LoteRemitoTableModel() {
         super();
-        this.controlador = ControllerSingleton.getRemitosController();
-        this.controlador.addObserver(this);
+        controlador = ControllerSingleton.getRemitosController();
+        lotesDelRemito = controlador.getLotesDelRemito();
+        controlador.addObserver(this);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class LoteRemitoTableModel extends AbstractTableModel implements Observer
 
     @Override
     public void update(Observable o, Object arg) {
-        setLotesDelRemito(getControlador().obtenerLotesDelRemito());
+        lotesDelRemito = controlador.getLotesDelRemito();
         fireTableDataChanged();
     }
 
@@ -104,14 +105,14 @@ public class LoteRemitoTableModel extends AbstractTableModel implements Observer
     /**
      * @return the controlador
      */
-    public RemitosController getControlador() {
+    public ImportacionesController getControlador() {
         return controlador;
     }
 
     /**
      * @param controlador the controlador to set
      */
-    public void setControlador(RemitosController controlador) {
+    public void setControlador(ImportacionesController controlador) {
         this.controlador = controlador;
     }
 

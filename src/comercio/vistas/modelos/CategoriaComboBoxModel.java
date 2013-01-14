@@ -1,6 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.CategoriasController;
+import comercio.ControllerSingleton;
 import comercio.modelo.Categoria;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -17,7 +17,7 @@ public class CategoriaComboBoxModel extends AbstractListModel implements ComboBo
 
     public CategoriaComboBoxModel() {
         super();
-        categorias = new CategoriasController().obtenerCategorias();
+        categorias = ControllerSingleton.getCategoriaJpaController().obtenerTodasLasCategorias();
     }
 
     @Override

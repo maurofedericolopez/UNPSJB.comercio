@@ -1,7 +1,9 @@
 package comercio.vistas;
 
-import comercio.controladores.MarcasController;
+import comercio.ControllerSingleton;
+import comercio.controladoresJPA.MarcaJpaController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
+import comercio.modelo.Marca;
 import comercio.vistas.modelos.MarcaTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,18 +12,19 @@ import java.util.logging.Logger;
  *
  * @author Mauro Federico Lopez
  */
-public class AdministrarMarcasUI extends javax.swing.JDialog {
+public class AdministrarMarcasUI extends javax.swing.JPanel {
 
-    private MarcasController controlador;
+    private MarcaJpaController controlador;
+    private MarcaTableModel modeloTabla;
 
     /**
      * Creates new form AdministrarMarcasUI
      */
-    public AdministrarMarcasUI(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public AdministrarMarcasUI() {
         initComponents();
-        controlador = new MarcasController();
-        tablaMarcas.setModel(new MarcaTableModel(controlador));
+        controlador = ControllerSingleton.getMarcaJpaController();
+        modeloTabla = new MarcaTableModel();
+        tablaMarcas.setModel(modeloTabla);
     }
 
     /**
@@ -42,12 +45,11 @@ public class AdministrarMarcasUI extends javax.swing.JDialog {
         botonAgregarNuevaMarca = new javax.swing.JButton();
         botonEliminarMarca = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Administrar Marcas");
-        setMaximumSize(new java.awt.Dimension(400, 300));
-        setMinimumSize(new java.awt.Dimension(400, 300));
-        setResizable(false);
+        setMaximumSize(new java.awt.Dimension(900, 500));
+        setMinimumSize(new java.awt.Dimension(900, 500));
+        setPreferredSize(new java.awt.Dimension(900, 500));
 
+        tablaMarcas.setAutoCreateRowSorter(true);
         tablaMarcas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -81,25 +83,25 @@ public class AdministrarMarcasUI extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
-                .addGap(26, 26, 26)
+                .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 731, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(botonEliminarMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etiquetaAbreviacion)
                             .addComponent(etiquetaNombre))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(campoAbreviacion)
-                            .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(botonAgregarNuevaMarca))
+                            .addComponent(campoNombre)))
+                    .addComponent(botonEliminarMarca, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonAgregarNuevaMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -120,74 +122,29 @@ public class AdministrarMarcasUI extends javax.swing.JDialog {
                         .addComponent(botonAgregarNuevaMarca)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonEliminarMarca)
-                        .addGap(31, 173, Short.MAX_VALUE)))
+                        .addGap(31, 373, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarNuevaMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarNuevaMarcaActionPerformed
-        controlador.registrarNuevaMarca(campoNombre.getText(), campoAbreviacion.getText());
+        Marca nuevaMarca = new Marca();
+        nuevaMarca.setNombre(campoNombre.getText());
+        nuevaMarca.setAbreviacion(campoAbreviacion.getText());
+        controlador.create(nuevaMarca);
         limpiarCampos();
     }//GEN-LAST:event_botonAgregarNuevaMarcaActionPerformed
 
     private void botonEliminarMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarMarcaActionPerformed
-        Integer rowSelected = tablaMarcas.getSelectedRow();
-        if(rowSelected >= 0) {
-            try {
-                MarcaTableModel modelo = (MarcaTableModel) tablaMarcas.getModel();
-                controlador.eliminarMarca(modelo.obtenerMarca(rowSelected));
-            } catch (NonexistentEntityException ex) {
-                Logger.getLogger(AdministrarMarcasUI.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        try {
+            Integer rowSelected = tablaMarcas.getSelectedRow();
+            if (rowSelected >= 0)
+                controlador.destroy(modeloTabla.obtenerMarca(rowSelected).getId());
+        } catch (NonexistentEntityException ex) {
+            Logger.getLogger(AdministrarMarcasUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_botonEliminarMarcaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministrarMarcasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the dialog
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                AdministrarMarcasUI dialog = new AdministrarMarcasUI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarNuevaMarca;
     private javax.swing.JButton botonEliminarMarca;
@@ -203,4 +160,5 @@ public class AdministrarMarcasUI extends javax.swing.JDialog {
         campoNombre.setText("");
         campoAbreviacion.setText("");
     }
+
 }

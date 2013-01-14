@@ -1,6 +1,7 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.MarcasController;
+import comercio.ControllerSingleton;
+import comercio.controladoresJPA.MarcaJpaController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Marca;
 import java.util.ArrayList;
@@ -17,14 +18,14 @@ import javax.swing.table.AbstractTableModel;
 public class MarcaTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Nombre", "Abreviación"};
-    private MarcasController marcaController;
+    private MarcaJpaController marcaController;
     private ArrayList<Marca> marcas;
 
-    public MarcaTableModel(MarcasController marcaController) {
+    public MarcaTableModel() {
         super();
-        this.marcaController = marcaController;
-        this.marcaController.addObserver(this);
-        marcas = marcaController.obtenerMarcas();
+        marcaController = ControllerSingleton.getMarcaJpaController();
+        marcaController.addObserver(this);
+        marcas = marcaController.obtenerTodasLasMarcas();
     }
 
     @Override
@@ -70,14 +71,15 @@ public class MarcaTableModel extends AbstractTableModel implements Observer {
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         try {
             Marca m = marcas.get(rowIndex);
+            String valor = String.valueOf(aValue);
             switch (columnIndex){
                 case 0 :
-                    m.setNombre(String.valueOf(aValue));
-                    marcaController.editarNombreMarca(m, aValue);
+                    m.setNombre(valor);
+                    marcaController.edit(m);
                     break;
                 case 1 :
-                    m.setAbreviacion(String.valueOf(aValue));
-                    marcaController.editarAbreviacionMarca(m, aValue);
+                    m.setAbreviacion(valor);
+                    marcaController.edit(m);
                     break;
                 default:;
             }
@@ -95,12 +97,12 @@ public class MarcaTableModel extends AbstractTableModel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        marcas = marcaController.obtenerMarcas();
-        this.fireTableDataChanged();
+        marcas = marcaController.obtenerTodasLasMarcas();
+        fireTableDataChanged();
     }
 
-    public Marca obtenerMarca(int selectedRow) {
-        return marcas.get(selectedRow);
+    public Marca obtenerMarca(int index) {
+        return marcas.get(index);
     }
 
 }

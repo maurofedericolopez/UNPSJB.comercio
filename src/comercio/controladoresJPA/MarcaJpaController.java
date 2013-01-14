@@ -3,11 +3,13 @@ package comercio.controladoresJPA;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Marca;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -15,7 +17,7 @@ import javax.persistence.criteria.Root;
  *
  * @author Mauro
  */
-public class MarcaJpaController implements Serializable {
+public class MarcaJpaController extends Observable implements Serializable {
 
     public MarcaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
@@ -37,6 +39,7 @@ public class MarcaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -60,6 +63,7 @@ public class MarcaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -81,6 +85,7 @@ public class MarcaJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -128,6 +133,19 @@ public class MarcaJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public ArrayList<Marca> obtenerTodasLasMarcas() {
+        ArrayList<Marca> marcas = new ArrayList();
+        Object[] array = findMarcaEntities().toArray();
+        for(Object o : array)
+            marcas.add((Marca) o);
+        return marcas;
+    }
+
+    private void notificarCambios() {
+        setChanged();
+        notifyObservers();
     }
 
 }

@@ -1,11 +1,10 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.LotesController;
-import comercio.controladores.ProductosController;
-import comercio.controladores.RemitosController;
-import comercio.modelo.Lote;
-import comercio.modelo.LoteRemito;
+import comercio.controladores.ImportacionesController;
+import comercio.controladoresJPA.LoteJpaController;
+import comercio.controladoresJPA.ProductoJpaController;
+import comercio.modelo.Almacen;
 import comercio.modelo.Producto;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -16,9 +15,9 @@ import javax.swing.JOptionPane;
  */
 public class ImportarLoteUI extends javax.swing.JPanel {
 
-    private RemitosController remitosController;
-    private ProductosController productosController;
-    private LotesController lotesController;
+    private ImportacionesController importacionesController;
+    private ProductoJpaController productoJpaController;
+    private LoteJpaController loteJpaController;
 
     /**
      * Creates new form ImportarUI
@@ -26,9 +25,9 @@ public class ImportarLoteUI extends javax.swing.JPanel {
     public ImportarLoteUI() {
         initComponents();
         campoFechaRemito.setValue(new Date());
-        remitosController = ControllerSingleton.getRemitosController();
-        productosController = ControllerSingleton.getProductosController();
-        lotesController = ControllerSingleton.getLotesController();
+        importacionesController = ControllerSingleton.getRemitosController();
+        productoJpaController = ControllerSingleton.getProductoJpaController();
+        loteJpaController = ControllerSingleton.getLoteJpaController();
     }
 
     /**
@@ -245,6 +244,7 @@ public class ImportarLoteUI extends javax.swing.JPanel {
         panelLotesRemito.setMinimumSize(new java.awt.Dimension(900, 300));
         panelLotesRemito.setPreferredSize(new java.awt.Dimension(900, 385));
 
+        tablaLotesDelRemito.setAutoCreateRowSorter(true);
         tablaLotesDelRemito.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         tablaLotesDelRemito.setModel(new comercio.vistas.modelos.LoteRemitoTableModel());
         tablaLotesDelRemito.setColumnSelectionAllowed(true);
@@ -322,11 +322,14 @@ public class ImportarLoteUI extends javax.swing.JPanel {
 
     private void botonRegistrarOperaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarOperaciónActionPerformed
         try {
-            remitosController.registrarDatosRemito(getCampoCodigoRemito().getText(), getCampoFechaRemito().getValue(), getCampoSucursalAlmacen().getSelectedItem());
-            remitosController.persistirOperacion();
+            String codigoRemito = campoCodigoRemito.getText();
+            Date fechaRemito = (Date) campoFechaRemito.getValue();
+            Almacen almacen = (Almacen) campoSucursalAlmacen.getSelectedItem();
+            importacionesController.registrarDatosRemito(codigoRemito, fechaRemito, almacen);
+            importacionesController.persistirOperacion();
             JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Algo pasooooo\n" + e, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonRegistrarOperaciónActionPerformed
 
@@ -345,16 +348,12 @@ public class ImportarLoteUI extends javax.swing.JPanel {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         try {
-            Producto producto = productosController.obtenerProductoPorCodigo(campoCodigoProducto.getText());
             String codigoLote = campoCodigoLote.getText();
-            if(lotesController.codigoLoteValido(codigoLote)) {
-                Date fechaProduccion = (Date) campoFechaProduccion.getValue();
-                Date fechaVencimiento = (Date) campoFechaVencimiento.getValue();
-                Lote lote = lotesController.crearLote(codigoLote, producto, fechaProduccion, fechaVencimiento);
-                Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
-                LoteRemito loteRemito = lotesController.crearLoteRemito(lote, cantidad);
-                remitosController.registrarLoteRemito(loteRemito);
-            }
+            String codigoProducto = campoCodigoProducto.getText();
+            Date fechaProduccion = (Date) campoFechaProduccion.getValue();
+            Date fechaVencimiento = (Date) campoFechaVencimiento.getValue();
+            Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
+            importacionesController.agregarLote(codigoLote, codigoProducto, fechaProduccion, fechaVencimiento, cantidad);
             limpiarCampos();
             nuevoLoteRemitoUI.setVisible(false);
         } catch (Exception ex) {
@@ -404,15 +403,15 @@ public class ImportarLoteUI extends javax.swing.JPanel {
     /**
      * @return the controlador
      */
-    public RemitosController getRemitosController() {
-        return remitosController;
+    public ImportacionesController getImportacionesController() {
+        return importacionesController;
     }
 
     /**
      * @param controlador the controlador to set
      */
-    public void setRemitosController(RemitosController controlador) {
-        this.remitosController = controlador;
+    public void setImportacionesController(ImportacionesController controlador) {
+        this.importacionesController = controlador;
     }
 
     /**

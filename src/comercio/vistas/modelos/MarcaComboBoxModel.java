@@ -1,6 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.MarcasController;
+import comercio.ControllerSingleton;
 import comercio.modelo.Marca;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -17,7 +17,7 @@ public class MarcaComboBoxModel extends AbstractListModel implements ComboBoxMod
 
     public MarcaComboBoxModel() {
         super();
-        marcas = new MarcasController().obtenerMarcas();
+        marcas = ControllerSingleton.getMarcaJpaController().obtenerTodasLasMarcas();
     }
 
     @Override

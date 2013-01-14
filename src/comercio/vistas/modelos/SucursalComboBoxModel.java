@@ -1,6 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.SucursalesController;
+import comercio.ControllerSingleton;
 import comercio.modelo.Sucursal;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -17,7 +17,7 @@ public class SucursalComboBoxModel extends AbstractListModel implements ComboBox
 
     public SucursalComboBoxModel() {
         super();
-        sucursales = new SucursalesController().obtenerSucursales();
+        sucursales = ControllerSingleton.getSucursalJpaController().obtenerTodasLasSucursales();
     }
 
     @Override

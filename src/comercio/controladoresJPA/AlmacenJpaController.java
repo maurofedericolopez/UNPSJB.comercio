@@ -2,18 +2,18 @@ package comercio.controladoresJPA;
 
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Almacen;
-import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import comercio.modelo.Sucursal;
 import comercio.modelo.LoteAlmacenado;
+import comercio.modelo.Sucursal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -212,16 +212,12 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public List<Almacen> buscarAlmacenesPorSucursal(Long id) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaBuilder cb = em.getCriteriaBuilder();
-            Query query = em.createQuery("SELECT * FROM almacen WHERE Sucursal_idSucursal = " + id);
-            List resultList = query.getResultList();
-            return resultList;
-        } finally {
-            em.close();
-        }
+    public ArrayList<Almacen> obtenerTodasLasCategorias() {
+        ArrayList<Almacen> almacenes = new ArrayList();
+        Object[] array = findAlmacenEntities().toArray();
+        for(Object o : array)
+            almacenes.add((Almacen) o);
+        return almacenes;
     }
 
 }

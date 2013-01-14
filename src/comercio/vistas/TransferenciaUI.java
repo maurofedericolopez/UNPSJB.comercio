@@ -1,10 +1,11 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.LotesController;
-import comercio.controladores.SucursalesController;
+import comercio.controladores.TransferenciasController;
+import comercio.controladoresJPA.LoteJpaController;
 import comercio.modelo.Almacen;
-import comercio.modelo.LoteAlmacenado;
+import comercio.modelo.Lote;
+import comercio.modelo.Producto;
 import comercio.modelo.PuntoVenta;
 import javax.swing.JOptionPane;
 
@@ -14,16 +15,16 @@ import javax.swing.JOptionPane;
  */
 public class TransferenciaUI extends javax.swing.JPanel {
 
-    private LotesController lotesController;
-    private SucursalesController sucursalesController;
+    private LoteJpaController loteJpaController;
+    private TransferenciasController transferenciasController;
 
     /**
      * Creates new form TransferenciaUI
      */
     public TransferenciaUI() {
         initComponents();
-        lotesController = ControllerSingleton.getLotesController();
-        sucursalesController = ControllerSingleton.getSucursalesController();
+        loteJpaController = ControllerSingleton.getLoteJpaController();
+        transferenciasController = ControllerSingleton.getTransferenciasController();
     }
 
     /**
@@ -79,6 +80,11 @@ public class TransferenciaUI extends javax.swing.JPanel {
         campoAlmacenDestino.setModel(new comercio.vistas.modelos.AlmacenComboBoxModel());
 
         botonTransferenciaAlmacen.setText("Transferir");
+        botonTransferenciaAlmacen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonTransferenciaAlmacenActionPerformed(evt);
+            }
+        });
 
         botonCancelarTransferenciaAlmacen.setText("Cancelar Transferencia");
         botonCancelarTransferenciaAlmacen.addActionListener(new java.awt.event.ActionListener() {
@@ -149,6 +155,8 @@ public class TransferenciaUI extends javax.swing.JPanel {
         etiquetaCodigoLoteP.setText("Código del lote");
 
         etiquetaCantidadProductoP.setText("Cantidad a transferir");
+
+        campoCantidadProductoP.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
 
         etiquetaAlmacen.setText("Almacen origen");
 
@@ -246,17 +254,24 @@ public class TransferenciaUI extends javax.swing.JPanel {
 
     private void botonTransferenciaPuntoDeVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTransferenciaPuntoDeVentaActionPerformed
         try {
-            String codigoLote = campoCodigoLoteP.getText();
-            if(lotesController.codigoLoteValido(codigoLote)) {
-                Almacen almacen = (Almacen) campoAlmacen.getSelectedItem();
-                Double cantidad = ((Number) campoCantidadProductoP.getValue()).doubleValue();
-                sucursalesController.descontarDeAlmacen(almacen, codigoLote, cantidad);
-                PuntoVenta puntoDeVenta = (PuntoVenta) campoPuntoDeVenta.getSelectedItem();
-            }
+            Lote lote = loteJpaController.BuscarLotePorCodigo(campoCodigoLoteP.getText());
+            Almacen almacen = (Almacen) campoAlmacen.getSelectedItem();
+            Double cantidad = ((Number) campoCantidadProductoP.getValue()).doubleValue();
+            transferenciasController.descontarDeAlmacen(almacen, lote, cantidad);
+
+            Producto producto = lote.getProducto();
+            PuntoVenta puntoDeVenta = (PuntoVenta) campoPuntoDeVenta.getSelectedItem();
+            transferenciasController.aumentarStockEnVenta(puntoDeVenta, producto, cantidad);
+
+            JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonTransferenciaPuntoDeVentaActionPerformed
+
+    private void botonTransferenciaAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTransferenciaAlmacenActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_botonTransferenciaAlmacenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelarTransferenciaAlmacen;

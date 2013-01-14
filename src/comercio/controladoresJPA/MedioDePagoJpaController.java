@@ -3,11 +3,12 @@ package comercio.controladoresJPA;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.MedioDePago;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -128,6 +129,14 @@ public class MedioDePagoJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public ArrayList<MedioDePago> obtenerTodosLosMediosDePago() {
+        ArrayList<MedioDePago> mediosDePago = new ArrayList();
+        Object[] array = findMedioPagoEntities().toArray();
+        for(Object o : array)
+            mediosDePago.add((MedioDePago) o);
+        return mediosDePago;
     }
 
 }

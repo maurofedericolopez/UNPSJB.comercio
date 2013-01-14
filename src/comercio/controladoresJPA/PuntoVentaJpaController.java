@@ -211,4 +211,12 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    public ArrayList<PuntoVenta> obtenerTodosLosPuntosDeVenta() {
+        ArrayList<PuntoVenta> puntosDeVenta = new ArrayList();
+        Object[] array = findPuntoVentaEntities().toArray();
+        for(Object o : array)
+            puntosDeVenta.add((PuntoVenta) o);
+        return puntosDeVenta;
+    }
+
 }

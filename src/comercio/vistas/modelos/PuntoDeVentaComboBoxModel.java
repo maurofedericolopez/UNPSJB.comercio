@@ -1,6 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.controladores.SucursalesController;
+import comercio.ControllerSingleton;
 import comercio.modelo.PuntoVenta;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
@@ -17,7 +17,7 @@ public class PuntoDeVentaComboBoxModel extends AbstractListModel implements Comb
 
     public PuntoDeVentaComboBoxModel() {
         super();
-        puntosDeVenta = new SucursalesController().obtenerPuntosDeVenta();
+        puntosDeVenta = ControllerSingleton.getPuntoVentaJpaController().obtenerTodosLosPuntosDeVenta();
     }
 
     @Override

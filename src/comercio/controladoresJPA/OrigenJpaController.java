@@ -3,11 +3,12 @@ package comercio.controladoresJPA;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Origen;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -128,6 +129,14 @@ public class OrigenJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public ArrayList<Origen> obtenerTodosLosOrigen() {
+        ArrayList<Origen> origenes = new ArrayList();
+        Object[] array = findOrigenEntities().toArray();
+        for(Object o : array)
+            origenes.add((Origen) o);
+        return origenes;
     }
 
 }

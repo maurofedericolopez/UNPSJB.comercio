@@ -1,7 +1,9 @@
 package comercio.vistas;
 
-import comercio.controladores.CategoriasController;
+import comercio.ControllerSingleton;
+import comercio.controladoresJPA.CategoriaJpaController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
+import comercio.modelo.Categoria;
 import comercio.vistas.modelos.CategoriaTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,19 +12,19 @@ import java.util.logging.Logger;
  *
  * @author Mauro Federico Lopez
  */
-public class AdministrarCategoriasUI extends javax.swing.JDialog {
+public class AdministrarCategoriasUI extends javax.swing.JPanel {
 
-    private CategoriasController controlador;
+    private CategoriaJpaController controlador;
+    private CategoriaTableModel modeloTabla;
 
     /**
      * Creates new form AdministrarCategoriasUI
      */
-    public AdministrarCategoriasUI(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public AdministrarCategoriasUI() {
         initComponents();
-        controlador = new CategoriasController();
-        tablaCategorias.setModel(new CategoriaTableModel(controlador));
-        this.pack();
+        controlador = ControllerSingleton.getCategoriaJpaController();
+        modeloTabla = new CategoriaTableModel();
+        tablaCategorias.setModel(modeloTabla);
     }
 
     /**
@@ -43,12 +45,10 @@ public class AdministrarCategoriasUI extends javax.swing.JDialog {
         botonAgregarNuevaCategoria = new javax.swing.JButton();
         botonEliminarCategoria = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Administrar Categorias");
-        setMaximumSize(new java.awt.Dimension(400, 300));
-        setMinimumSize(new java.awt.Dimension(400, 300));
-        setResizable(false);
+        setMaximumSize(new java.awt.Dimension(900, 500));
+        setMinimumSize(new java.awt.Dimension(900, 500));
 
+        tablaCategorias.setAutoCreateRowSorter(true);
         tablaCategorias.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -82,33 +82,34 @@ public class AdministrarCategoriasUI extends javax.swing.JDialog {
             }
         });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(10, 10, 10)
-                .addComponent(jsp, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
+                .addContainerGap()
+                .addComponent(jsp, javax.swing.GroupLayout.DEFAULT_SIZE, 694, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(etiquetaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoNombre))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(etiquetaDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, 0)
-                        .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(botonAgregarNuevaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonEliminarCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoDescripcion))
+                    .addComponent(botonAgregarNuevaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
+                    .addComponent(botonEliminarCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jsp, javax.swing.GroupLayout.PREFERRED_SIZE, 467, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(20, 20, 20)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(etiquetaNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -119,83 +120,30 @@ public class AdministrarCategoriasUI extends javax.swing.JDialog {
                         .addGap(10, 10, 10)
                         .addComponent(botonAgregarNuevaCategoria)
                         .addGap(7, 7, 7)
-                        .addComponent(botonEliminarCategoria))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jsp, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addComponent(botonEliminarCategoria)))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
-
-        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonAgregarNuevaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarNuevaCategoriaActionPerformed
-        controlador.registrarNuevaCategoria(campoNombre.getText(), campoDescripcion.getText());
+        Categoria nuevaCategoria = new Categoria();
+        nuevaCategoria.setNombre(campoNombre.getText());
+        nuevaCategoria.setDescripcion(campoDescripcion.getText());
+        controlador.create(nuevaCategoria);
         limpiarCampos();
     }//GEN-LAST:event_botonAgregarNuevaCategoriaActionPerformed
 
     private void botonEliminarCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarCategoriaActionPerformed
         Integer rowSelected = tablaCategorias.getSelectedRow();
-        if(rowSelected >= 0) {
+        if (rowSelected >= 0) {
             try {
-                CategoriaTableModel modelo = (CategoriaTableModel) tablaCategorias.getModel();
-                controlador.eliminarCategoria(modelo.obtenerCategoria(rowSelected));
+                controlador.destroy(modeloTabla.obtenerCategoria(rowSelected).getId());
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(AdministrarCategoriasUI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }//GEN-LAST:event_botonEliminarCategoriaActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /*
-         * Set the Nimbus look and feel
-         */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /*
-         * If Nimbus (introduced in Java SE 6) is not available, stay with the
-         * default look and feel. For details see
-         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCategoriasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCategoriasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCategoriasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AdministrarCategoriasUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /*
-         * Create and display the dialog
-         */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-
-            @Override
-            public void run() {
-                AdministrarCategoriasUI dialog = new AdministrarCategoriasUI(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarNuevaCategoria;
     private javax.swing.JButton botonEliminarCategoria;
@@ -211,4 +159,5 @@ public class AdministrarCategoriasUI extends javax.swing.JDialog {
         campoNombre.setText("");
         campoDescripcion.setText("");
     }
+
 }
