@@ -21,8 +21,6 @@ public class ImportacionesController extends Observable {
     private ProductoJpaController productoJpaController;
 
     private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
-    private ArrayList<LoteAlmacenado> lotesAlmacenados = new ArrayList();
-
     private Remito remito = null;
     private Almacen almacen = null;
 
@@ -66,8 +64,7 @@ public class ImportacionesController extends Observable {
                 getNuevoRemito().setCodigo(codigoRemito.toUpperCase());
                 getNuevoRemito().setFecha((Date) fechaRemito);
                 setAlmacen((Almacen) almacen);
-                setChanged();
-                notifyObservers();
+                notificarCambios();
             } else {
                 throw new Exception("No ha ingresado la fecha");
             }
@@ -95,6 +92,29 @@ public class ImportacionesController extends Observable {
             loteAlmacenado.setCantidad(cantidad);
             loteAlmacenadoJpaController.create(loteAlmacenado);
         }
+    }
+
+    public void cancelarIngresoDeLotesDeProductos() {
+        limpiarVariables();
+    }
+
+    private Boolean codigoNoSeAgrego(String codigo) {
+        Iterator<LoteRemito> i = lotesDelRemito.iterator();
+        while(i.hasNext())
+            if(i.next().getLote().getCodigo().equals(codigo))
+                return false;
+        return true;
+    }
+
+    private void limpiarVariables() {
+        remito = null;
+        almacen = null;
+        lotesDelRemito = new ArrayList();
+    }
+
+    private void notificarCambios() {
+        setChanged();
+        notifyObservers();
     }
 
     /**
@@ -137,19 +157,6 @@ public class ImportacionesController extends Observable {
      */
     public void setAlmacen(Almacen almacen) {
         this.almacen = almacen;
-    }
-
-    private void notificarCambios() {
-        setChanged();
-        notifyObservers();
-    }
-
-    private Boolean codigoNoSeAgrego(String codigo) {
-        Iterator<LoteRemito> i = lotesDelRemito.iterator();
-        while(i.hasNext())
-            if(i.next().getLote().getCodigo().equals(codigo))
-                return false;
-        return true;
     }
 
 }

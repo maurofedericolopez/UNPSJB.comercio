@@ -1,16 +1,13 @@
 package comercio.controladoresJPA;
 
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import comercio.modelo.Almacen;
+import comercio.modelo.Lote;
 import comercio.modelo.LoteAlmacenado;
+import java.io.Serializable;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.*;
+import javax.persistence.criteria.*;
 
 /**
  *
@@ -158,6 +155,20 @@ public class LoteAlmacenadoJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public LoteAlmacenado buscarLoteAlmacenadoPorAlmacenYLote(Almacen almacen, Lote lote) {
+        Object[] array = almacen.getLotesAlmacenados().toArray();
+        String codigoLote = lote.getCodigo();
+        LoteAlmacenado loteAlmacenado = null;
+        for(Object o : array) {
+            LoteAlmacenado la = (LoteAlmacenado) o;
+            if(la.getLote().getCodigo().equals(codigoLote)) {
+                loteAlmacenado = la;
+                break;
+            }
+        }
+        return loteAlmacenado;
     }
 
 }

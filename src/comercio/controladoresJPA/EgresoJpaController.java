@@ -2,16 +2,14 @@ package comercio.controladoresJPA;
 
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Egreso;
-import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import comercio.modelo.LoteEgresado;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -177,6 +175,23 @@ public class EgresoJpaController implements Serializable {
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Boolean codigoEgresoDisponible(String codigo) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Egreso> c = cb.createQuery(Egreso.class);
+            Root<Egreso> p = c.from(Egreso.class);
+            c.select(p).where(cb.equal(p.get("codigo"), codigo.toUpperCase()));
+            Query q = em.createQuery(c);
+            Egreso resultado = (Egreso) q.getSingleResult();
+            return false;
+        } catch (NoResultException ex) {
+            return true;
         } finally {
             em.close();
         }

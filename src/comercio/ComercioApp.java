@@ -12,7 +12,7 @@ import javax.persistence.Persistence;
  */
 public class ComercioApp {
 
-    private static EntityManagerFactory entityManager;
+    private static EntityManagerFactory entityManagerFactory;
     private static GestionInventarioUI ventanaInventario;
     private static GestionVenta ventanaGestionVenta;
     private static ImportacionesController remitosController;
@@ -21,7 +21,7 @@ public class ComercioApp {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        setEntityManager(Persistence.createEntityManagerFactory("ComercioPU"));
+        setEntityManagerFactory(Persistence.createEntityManagerFactory("ComercioPU"));
 
         //Se inicializan los controller
         setRemitosController(new ImportacionesController());
@@ -33,17 +33,17 @@ public class ComercioApp {
     }
 
     /**
-     * @return the entityManager
+     * @return the entityManagerFactory
      */
-    public static EntityManagerFactory getEntityManager() {
-        return entityManager;
+    public static EntityManagerFactory getEntityManagerFactory() {
+        return entityManagerFactory;
     }
 
     /**
-     * @param aEntityManager the entityManager to set
+     * @param aEntityManager the entityManagerFactory to set
      */
-    public static void setEntityManager(EntityManagerFactory aEntityManager) {
-        entityManager = aEntityManager;
+    public static void setEntityManagerFactory(EntityManagerFactory aEntityManager) {
+        entityManagerFactory = aEntityManager;
     }
 
     /**

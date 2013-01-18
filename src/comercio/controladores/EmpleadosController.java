@@ -17,9 +17,9 @@ public class EmpleadosController {
     private VendedorJpaController vendedorJpaController;
 
     public EmpleadosController() {
-        gerenteJpaController = new GerenteJpaController(ComercioApp.getEntityManager());
-        gestorInventarioJpaController = new GestorInventarioJpaController(ComercioApp.getEntityManager());
-        vendedorJpaController = new VendedorJpaController(ComercioApp.getEntityManager());
+        gerenteJpaController = new GerenteJpaController(ComercioApp.getEntityManagerFactory());
+        gestorInventarioJpaController = new GestorInventarioJpaController(ComercioApp.getEntityManagerFactory());
+        vendedorJpaController = new VendedorJpaController(ComercioApp.getEntityManagerFactory());
     }
 
     public void iniciarSesionGerente(String nombreUsuario, String contraseña) {

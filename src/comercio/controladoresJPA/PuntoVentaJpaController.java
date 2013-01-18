@@ -1,18 +1,20 @@
 package comercio.controladoresJPA;
 
+import comercio.ControllerSingleton;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import java.io.Serializable;
-import javax.persistence.Query;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import comercio.modelo.Sucursal;
+import comercio.modelo.Producto;
 import comercio.modelo.ProductoEnVenta;
 import comercio.modelo.PuntoVenta;
+import comercio.modelo.Sucursal;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 /**
  *
@@ -217,6 +219,48 @@ public class PuntoVentaJpaController implements Serializable {
         for(Object o : array)
             puntosDeVenta.add((PuntoVenta) o);
         return puntosDeVenta;
+    }
+
+    public void descontarDePuntoDeVenta(PuntoVenta puntoDeVenta, String codigoProducto, Double cantidad) throws Exception {
+        Object[] array = puntoDeVenta.getProductosEnVenta().toArray();
+        Boolean encontrado = false;
+        for(Object o : array) {
+            ProductoEnVenta productoEnVenta = (ProductoEnVenta) o;
+            if(productoEnVenta.getProducto().getCodigo().equals(codigoProducto)) {
+                if(productoEnVenta.getCantidad() >= cantidad) {
+                    Double cantidadNueva = productoEnVenta.getCantidad() - cantidad;
+                    productoEnVenta.setCantidad(cantidadNueva);
+                    encontrado = true;
+                    ControllerSingleton.getProductoEnVentaJpaController().edit(productoEnVenta);
+                    break;
+                } else {
+                    throw new Exception("No hay stock para satisfacer la venta.");
+                }
+            }
+        }
+        if(!encontrado)
+            throw new Exception("El punto de venta no registra el producto.");
+    }
+
+    public void aumentarStockEnVenta(PuntoVenta puntoDeVenta, Producto producto, Double cantidad) throws Exception {
+        Object[] array = puntoDeVenta.getProductosEnVenta().toArray();
+        Boolean encontrado = false;
+        for(Object o : array) {
+            ProductoEnVenta pev = (ProductoEnVenta) o;
+            if(pev.getProducto().getCodigo().equals(producto.getCodigo())) {
+                pev.setCantidad(pev.getCantidad() + cantidad);
+                encontrado = true;
+                ControllerSingleton.getProductoEnVentaJpaController().edit(pev);
+                break;
+            }
+        }
+        if(!encontrado) {
+            ProductoEnVenta nuevo = new ProductoEnVenta();
+            nuevo.setProducto(producto);
+            nuevo.setPuntoVenta(puntoDeVenta);
+            nuevo.setCantidad(cantidad);
+            ControllerSingleton.getProductoEnVentaJpaController().create(nuevo);
+        }
     }
 
 }

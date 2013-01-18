@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  *
  * @author Mauro Federico Lopez
  */
-public class ImportarLoteUI extends javax.swing.JPanel {
+public class ImportarUI extends javax.swing.JPanel {
 
     private ImportacionesController importacionesController;
     private ProductoJpaController productoJpaController;
@@ -22,7 +22,7 @@ public class ImportarLoteUI extends javax.swing.JPanel {
     /**
      * Creates new form ImportarUI
      */
-    public ImportarLoteUI() {
+    public ImportarUI() {
         initComponents();
         campoFechaRemito.setValue(new Date());
         importacionesController = ControllerSingleton.getRemitosController();
@@ -53,7 +53,6 @@ public class ImportarLoteUI extends javax.swing.JPanel {
         campoFechaVencimiento = new javax.swing.JFormattedTextField();
         botonGuardar = new javax.swing.JButton();
         etiquetaTituloFrame = new javax.swing.JLabel();
-        botonRegistrarOperación = new javax.swing.JButton();
         panelCentral = new javax.swing.JPanel();
         panelDatosDelRemito = new javax.swing.JPanel();
         etiquetaCodigoRemito = new javax.swing.JLabel();
@@ -67,6 +66,9 @@ public class ImportarLoteUI extends javax.swing.JPanel {
         tablaLotesDelRemito = new javax.swing.JTable();
         botonNuevoLoteRemito = new javax.swing.JButton();
         botonEliminarLoteRemito = new javax.swing.JButton();
+        panelBotones = new javax.swing.JPanel();
+        botonRegistrarOperación = new javax.swing.JButton();
+        botonCancelarOperacion = new javax.swing.JButton();
 
         nuevoLoteRemitoUI.setTitle("Nuevo Lote");
         nuevoLoteRemitoUI.setMinimumSize(new java.awt.Dimension(249, 180));
@@ -181,14 +183,6 @@ public class ImportarLoteUI extends javax.swing.JPanel {
         etiquetaTituloFrame.setText("Importar Lotes de Productos");
         add(etiquetaTituloFrame, java.awt.BorderLayout.PAGE_START);
 
-        botonRegistrarOperación.setText("Registrar Ingreso de Lotes de Productos");
-        botonRegistrarOperación.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRegistrarOperaciónActionPerformed(evt);
-            }
-        });
-        add(botonRegistrarOperación, java.awt.BorderLayout.PAGE_END);
-
         panelDatosDelRemito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del remito", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         panelDatosDelRemito.setMaximumSize(new java.awt.Dimension(900, 100));
         panelDatosDelRemito.setMinimumSize(new java.awt.Dimension(900, 100));
@@ -246,7 +240,7 @@ public class ImportarLoteUI extends javax.swing.JPanel {
 
         tablaLotesDelRemito.setAutoCreateRowSorter(true);
         tablaLotesDelRemito.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        tablaLotesDelRemito.setModel(new comercio.vistas.modelos.LoteRemitoTableModel());
+        tablaLotesDelRemito.setModel(new comercio.vistas.modelos.LotesDelRemitoTableModel());
         tablaLotesDelRemito.setColumnSelectionAllowed(true);
         tablaLotesDelRemito.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaLotesDelRemito);
@@ -318,6 +312,42 @@ public class ImportarLoteUI extends javax.swing.JPanel {
         );
 
         add(panelCentral, java.awt.BorderLayout.CENTER);
+
+        panelBotones.setMaximumSize(new java.awt.Dimension(900, 52));
+        panelBotones.setMinimumSize(new java.awt.Dimension(900, 52));
+
+        botonRegistrarOperación.setText("Registrar Ingreso de Lotes de Productos");
+        botonRegistrarOperación.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarOperaciónActionPerformed(evt);
+            }
+        });
+
+        botonCancelarOperacion.setText("Cancelar Ingreso de Lotes de Productos");
+        botonCancelarOperacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCancelarOperacionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
+        panelBotones.setLayout(panelBotonesLayout);
+        panelBotonesLayout.setHorizontalGroup(
+            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(botonCancelarOperacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelBotonesLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(botonRegistrarOperación, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        panelBotonesLayout.setVerticalGroup(
+            panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBotonesLayout.createSequentialGroup()
+                .addComponent(botonRegistrarOperación)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonCancelarOperacion))
+        );
+
+        add(panelBotones, java.awt.BorderLayout.PAGE_END);
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonRegistrarOperaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarOperaciónActionPerformed
@@ -361,8 +391,13 @@ public class ImportarLoteUI extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
+    private void botonCancelarOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarOperacionActionPerformed
+        importacionesController.cancelarIngresoDeLotesDeProductos();
+    }//GEN-LAST:event_botonCancelarOperacionActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
+    private javax.swing.JButton botonCancelarOperacion;
     private javax.swing.JButton botonEliminarLoteRemito;
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevoLoteRemito;
@@ -386,6 +421,7 @@ public class ImportarLoteUI extends javax.swing.JPanel {
     private javax.swing.JLabel etiquetaTituloFrame;
     private javax.swing.JScrollPane jsp;
     private javax.swing.JDialog nuevoLoteRemitoUI;
+    private javax.swing.JPanel panelBotones;
     private javax.swing.JPanel panelCentral;
     private javax.swing.JPanel panelDatosDelRemito;
     private javax.swing.JPanel panelLotesRemito;

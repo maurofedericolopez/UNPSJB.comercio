@@ -111,7 +111,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuAdministrarMarcasActionPerformed
 
     private void itemMenuImportarLotesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuImportarLotesActionPerformed
-        agregarComponente(new ImportarLoteUI());
+        agregarComponente(new ImportarUI());
     }//GEN-LAST:event_itemMenuImportarLotesActionPerformed
 
     private void itemMenuTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuTransferenciaActionPerformed

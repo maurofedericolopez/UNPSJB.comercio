@@ -1,7 +1,9 @@
 package comercio.controladoresJPA;
 
+import comercio.ControllerSingleton;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Almacen;
+import comercio.modelo.Lote;
 import comercio.modelo.LoteAlmacenado;
 import comercio.modelo.Sucursal;
 import java.io.Serializable;
@@ -11,18 +13,22 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class AlmacenJpaController implements Serializable {
 
+    private LoteJpaController loteJpaController;
+    private LoteAlmacenadoJpaController loteAlmacenadoJpaController;
+
     public AlmacenJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+        loteJpaController = ControllerSingleton.getLoteJpaController();
+        loteAlmacenadoJpaController = ControllerSingleton.getLoteAlmacenadoJpaController();
     }
     private EntityManagerFactory emf = null;
 
@@ -218,6 +224,37 @@ public class AlmacenJpaController implements Serializable {
         for(Object o : array)
             almacenes.add((Almacen) o);
         return almacenes;
+    }
+
+    public void descontarDeAlmacen(Almacen almacen, String codigoLote, Double cantidad) throws Exception {
+        Lote lote = loteJpaController.BuscarLotePorCodigo(codigoLote);
+        LoteAlmacenado loteAlmacenado = loteAlmacenadoJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
+        if(loteAlmacenado != null){
+            if(loteAlmacenado.getCantidad() >= cantidad) {
+                    Double cantidadNueva = loteAlmacenado.getCantidad() - cantidad;
+                    loteAlmacenado.setCantidad(cantidadNueva);
+                    loteAlmacenadoJpaController.edit(loteAlmacenado);
+            } else {
+                throw new Exception("No hay cantidad suficiente para satisfacer la transferencia.");
+            }
+        } else {
+            throw new Exception("El almacén no contienen ningun lote con el código de lote ingresado.");
+        }
+    }
+
+    public void aumentarStockEnAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
+        LoteAlmacenado loteAlmacenado = loteAlmacenadoJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
+        if(loteAlmacenado != null) {
+            Double cantidadNueva = loteAlmacenado.getCantidad() + cantidad;
+            loteAlmacenado.setCantidad(cantidadNueva);
+            loteAlmacenadoJpaController.edit(loteAlmacenado);
+        } else {
+            LoteAlmacenado nuevoLoteAlmacenado = new LoteAlmacenado();
+            nuevoLoteAlmacenado.setAlmacen(almacen);
+            nuevoLoteAlmacenado.setLote(lote);
+            nuevoLoteAlmacenado.setCantidad(cantidad);
+            loteAlmacenadoJpaController.create(nuevoLoteAlmacenado);
+        }
     }
 
 }

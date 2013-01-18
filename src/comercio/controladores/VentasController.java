@@ -1,12 +1,11 @@
 package comercio.controladores;
 
-import comercio.ComercioApp;
+import comercio.ControllerSingleton;
 import comercio.controladoresJPA.ItemVentaJpaController;
 import comercio.controladoresJPA.MedioDePagoJpaController;
 import comercio.controladoresJPA.VentaJpaController;
 import comercio.modelo.ItemVenta;
 import comercio.modelo.MedioDePago;
-import comercio.modelo.Producto;
 import comercio.modelo.Venta;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,15 +18,15 @@ import java.util.Observable;
 public class VentasController extends Observable {
 
     private VentaJpaController ventaJpaController;
-    private MedioDePagoJpaController medioPagoJpaController;
-    private ItemVentaJpaController itemVentaJpaController;
+    private MedioDePagoJpaController medioDePagoJpaController;
+    private ItemVentaJpaController itemDeVentaJpaController;
     private Venta venta;
     private ArrayList<ItemVenta> itemsDeVenta;
 
     public VentasController() {
-        ventaJpaController = new VentaJpaController(ComercioApp.getEntityManager());
-        medioPagoJpaController = new MedioDePagoJpaController(ComercioApp.getEntityManager());
-        itemVentaJpaController = new ItemVentaJpaController(ComercioApp.getEntityManager());
+        ventaJpaController = ControllerSingleton.getVentaJpaController();
+        medioDePagoJpaController = ControllerSingleton.getMedioDePagoJpaController();
+        itemDeVentaJpaController = ControllerSingleton.getItemDeVentaJpaController();
         venta = new Venta();
         itemsDeVenta = new ArrayList();
     }
@@ -47,17 +46,17 @@ public class VentasController extends Observable {
     }
 
     /**
-     * @return the itemVentaJpaController
+     * @return the itemDeVentaJpaController
      */
     public ItemVentaJpaController getItemVentaJpaController() {
-        return itemVentaJpaController;
+        return itemDeVentaJpaController;
     }
 
     /**
-     * @param itemVentaJpaController the itemVentaJpaController to set
+     * @param itemDeVentaJpaController the itemDeVentaJpaController to set
      */
     public void setItemVentaJpaController(ItemVentaJpaController itemVentaJpaController) {
-        this.itemVentaJpaController = itemVentaJpaController;
+        this.itemDeVentaJpaController = itemVentaJpaController;
     }
 
     /**
@@ -103,23 +102,21 @@ public class VentasController extends Observable {
         }
         if(encontrado == false)
             itemsDeVenta.add(itemDeVenta);
-        setChanged();
-        notifyObservers();
+        notificarCambios();
     }
 
     public ArrayList<MedioDePago> obtenerMediosDePago() {
         ArrayList<MedioDePago> mediosDePago = new ArrayList();
-        Object[] array = medioPagoJpaController.findMedioPagoEntities().toArray();
+        Object[] array = medioDePagoJpaController.findMedioPagoEntities().toArray();
         for(int i = 0; i < array.length; i++)
             mediosDePago.add((MedioDePago) array[i]);
         return mediosDePago;
     }
 
-    public void eliminarItemDeVenta(int itemSeleccionado) throws Exception {
-        if(itemSeleccionado >= 0) {
-            itemsDeVenta.remove(itemSeleccionado);
-            setChanged();
-            notifyObservers();
+    public void eliminarItemDeVenta(int index) throws Exception {
+        if(index >= 0) {
+            itemsDeVenta.remove(index);
+            notificarCambios();
         } else {
             throw new Exception("No ha seleccionado ningún item.");
         }
@@ -128,6 +125,10 @@ public class VentasController extends Observable {
     public void cancelarVenta() {
         venta = new Venta();
         itemsDeVenta = new ArrayList();
+        notificarCambios();
+    }
+
+    private void notificarCambios() {
         setChanged();
         notifyObservers();
     }

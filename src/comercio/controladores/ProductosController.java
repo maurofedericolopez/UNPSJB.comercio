@@ -22,8 +22,8 @@ public class ProductosController extends Observable {
 
     public ProductosController() {
         super();
-        productoJpaController = new ProductoJpaController(ComercioApp.getEntityManager());
-        precioJpaController = new PrecioAnteriorJpaController(ComercioApp.getEntityManager());
+        productoJpaController = new ProductoJpaController(ComercioApp.getEntityManagerFactory());
+        precioJpaController = new PrecioAnteriorJpaController(ComercioApp.getEntityManagerFactory());
         
     }
 

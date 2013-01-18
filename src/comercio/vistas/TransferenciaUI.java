@@ -2,10 +2,7 @@ package comercio.vistas;
 
 import comercio.ControllerSingleton;
 import comercio.controladores.TransferenciasController;
-import comercio.controladoresJPA.LoteJpaController;
 import comercio.modelo.Almacen;
-import comercio.modelo.Lote;
-import comercio.modelo.Producto;
 import comercio.modelo.PuntoVenta;
 import javax.swing.JOptionPane;
 
@@ -15,7 +12,6 @@ import javax.swing.JOptionPane;
  */
 public class TransferenciaUI extends javax.swing.JPanel {
 
-    private LoteJpaController loteJpaController;
     private TransferenciasController transferenciasController;
 
     /**
@@ -23,7 +19,6 @@ public class TransferenciaUI extends javax.swing.JPanel {
      */
     public TransferenciaUI() {
         initComponents();
-        loteJpaController = ControllerSingleton.getLoteJpaController();
         transferenciasController = ControllerSingleton.getTransferenciasController();
     }
 
@@ -235,6 +230,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCancelarTransferenciaAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarTransferenciaAlmacenActionPerformed
+        transferenciasController.cancelarTransferenciaAlmacen();
         campoCodigoLoteA.setText("");
         campoCantidadProductoA.setText("");
         campoAlmacenOrigen.setSelectedItem(null);
@@ -244,6 +240,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonCancelarTransferenciaAlmacenActionPerformed
 
     private void botonCancelarTransferenciaPuntoDeVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarTransferenciaPuntoDeVentaActionPerformed
+        transferenciasController.cancelarTransferenciaAVenta();
         campoCodigoLoteP.setText("");
         campoCantidadProductoP.setText("");
         campoAlmacen.setSelectedItem(null);
@@ -254,15 +251,11 @@ public class TransferenciaUI extends javax.swing.JPanel {
 
     private void botonTransferenciaPuntoDeVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTransferenciaPuntoDeVentaActionPerformed
         try {
-            Lote lote = loteJpaController.BuscarLotePorCodigo(campoCodigoLoteP.getText());
-            Almacen almacen = (Almacen) campoAlmacen.getSelectedItem();
+            String codigoLote = campoCodigoLoteP.getText();
             Double cantidad = ((Number) campoCantidadProductoP.getValue()).doubleValue();
-            transferenciasController.descontarDeAlmacen(almacen, lote, cantidad);
-
-            Producto producto = lote.getProducto();
+            Almacen almacen = (Almacen) campoAlmacen.getSelectedItem();
             PuntoVenta puntoDeVenta = (PuntoVenta) campoPuntoDeVenta.getSelectedItem();
-            transferenciasController.aumentarStockEnVenta(puntoDeVenta, producto, cantidad);
-
+            transferenciasController.transferirProductosAVenta(codigoLote, cantidad, almacen, puntoDeVenta);
             JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -270,7 +263,16 @@ public class TransferenciaUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonTransferenciaPuntoDeVentaActionPerformed
 
     private void botonTransferenciaAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonTransferenciaAlmacenActionPerformed
-        // TODO add your handling code here:
+        try {
+            String codigoLote = campoCodigoLoteA.getText();
+            Double cantidad = ((Number) campoCantidadProductoA.getValue()).doubleValue();
+            Almacen almacenOrigen = (Almacen) campoAlmacenOrigen.getSelectedItem();
+            Almacen almacenDestino = (Almacen) campoAlmacenDestino.getSelectedItem();
+            transferenciasController.transferirProductosAlmacen(codigoLote, cantidad, almacenOrigen, almacenDestino);
+            JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonTransferenciaAlmacenActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

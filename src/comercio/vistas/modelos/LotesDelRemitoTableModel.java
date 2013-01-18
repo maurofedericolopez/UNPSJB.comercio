@@ -13,13 +13,13 @@ import javax.swing.table.AbstractTableModel;
  *
  * @author Mauro Federico Lopez
  */
-public class LoteRemitoTableModel extends AbstractTableModel implements Observer {
+public class LotesDelRemitoTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Código", "Producto", "Cantidad", "Fecha Producción", "Fecha Vencimiento"};
     private ImportacionesController controlador;
     private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
 
-    public LoteRemitoTableModel() {
+    public LotesDelRemitoTableModel() {
         super();
         controlador = ControllerSingleton.getRemitosController();
         lotesDelRemito = controlador.getLotesDelRemito();
@@ -46,32 +46,32 @@ public class LoteRemitoTableModel extends AbstractTableModel implements Observer
 
     @Override
     public String getColumnName( int c ) {
-        return getColumnsNames()[c];
+        return columnsNames[c];
     }
 
     @Override
     public int getColumnCount() {
-        return getColumnsNames().length;
+        return columnsNames.length;
     }
 
     @Override
     public int getRowCount() {
-        return getLotesDelRemito().size();
+        return lotesDelRemito.size();
     }
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex){
             case 0 :
-                return getLotesDelRemito().get(rowIndex).getLote().getCodigo();
+                return lotesDelRemito.get(rowIndex).getLote().getCodigo();
             case 1 :
-                return getLotesDelRemito().get(rowIndex).getLote().getProducto().getDescripcion();
+                return lotesDelRemito.get(rowIndex).getLote().getProducto().getDescripcion();
             case 2 :
-                return getLotesDelRemito().get(rowIndex).getCantidadIngresada();
+                return lotesDelRemito.get(rowIndex).getCantidadIngresada();
             case 3 :
-                return getLotesDelRemito().get(rowIndex).getLote().getFechaProduccion();
+                return lotesDelRemito.get(rowIndex).getLote().getFechaProduccion();
             case 4 :
-                return getLotesDelRemito().get(rowIndex).getLote().getFechaVencimiento();
+                return lotesDelRemito.get(rowIndex).getLote().getFechaVencimiento();
             default :
                 return null;
         }
@@ -86,48 +86,6 @@ public class LoteRemitoTableModel extends AbstractTableModel implements Observer
     public void update(Observable o, Object arg) {
         lotesDelRemito = controlador.getLotesDelRemito();
         fireTableDataChanged();
-    }
-
-    /**
-     * @return the columnsNames
-     */
-    public String[] getColumnsNames() {
-        return columnsNames;
-    }
-
-    /**
-     * @param columnsNames the columnsNames to set
-     */
-    public void setColumnsNames(String[] columnsNames) {
-        this.columnsNames = columnsNames;
-    }
-
-    /**
-     * @return the controlador
-     */
-    public ImportacionesController getControlador() {
-        return controlador;
-    }
-
-    /**
-     * @param controlador the controlador to set
-     */
-    public void setControlador(ImportacionesController controlador) {
-        this.controlador = controlador;
-    }
-
-    /**
-     * @return the lotesDelRemito
-     */
-    public ArrayList<LoteRemito> getLotesDelRemito() {
-        return lotesDelRemito;
-    }
-
-    /**
-     * @param lotesDelRemito the lotesDelRemito to set
-     */
-    public void setLotesDelRemito(ArrayList<LoteRemito> lotesDelRemito) {
-        this.lotesDelRemito = lotesDelRemito;
     }
 
 }
