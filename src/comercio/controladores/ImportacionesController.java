@@ -1,7 +1,9 @@
 package comercio.controladores;
 
 import comercio.ControllerSingleton;
-import comercio.controladoresJPA.*;
+import comercio.controladoresJPA.LoteJpaController;
+import comercio.controladoresJPA.ProductoJpaController;
+import comercio.controladoresJPA.RemitoJpaController;
 import comercio.modelo.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,8 +17,6 @@ import java.util.Observable;
 public class ImportacionesController extends Observable {
 
     private RemitoJpaController remitoJpaController;
-    private LoteAlmacenadoJpaController loteAlmacenadoJpaController;
-    private LoteRemitoJpaController loteRemitoJpaController;
     private LoteJpaController loteJpaController;
     private ProductoJpaController productoJpaController;
 
@@ -26,8 +26,6 @@ public class ImportacionesController extends Observable {
 
     public ImportacionesController() {
         super();
-        loteAlmacenadoJpaController = ControllerSingleton.getLoteAlmacenadoJpaController();
-        loteRemitoJpaController = ControllerSingleton.getLoteRemitoJpaController();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
         remitoJpaController = ControllerSingleton.getRemitoJpaController();
@@ -47,23 +45,21 @@ public class ImportacionesController extends Observable {
             loteRemito.setLote(lote);
             loteRemito.setRemito(null);
             loteRemito.setCantidadIngresada(cantidad);
-            lotesDelRemito.add(loteRemito);
+            getLotesDelRemito().add(loteRemito);
 
             notificarCambios();
         }
     }
 
     public void eliminarLote(LoteRemito loteRemito) {
-        lotesDelRemito.remove(loteRemito);
+        getLotesDelRemito().remove(loteRemito);
     }
 
-    public void registrarDatosRemito(String codigoRemito, Date fechaRemito, Object almacen) throws Exception {
+    public void registrarDatosRemito(Remito remito, Almacen almacen) throws Exception {
         if (almacen != null) {
-            if (fechaRemito != null) {
-                setNuevoRemito(new Remito());
-                getNuevoRemito().setCodigo(codigoRemito.toUpperCase());
-                getNuevoRemito().setFecha((Date) fechaRemito);
-                setAlmacen((Almacen) almacen);
+            if (remito != null) {
+                this.remito = remito;
+                this.almacen = almacen;
                 notificarCambios();
             } else {
                 throw new Exception("No ha ingresado la fecha");
@@ -75,22 +71,22 @@ public class ImportacionesController extends Observable {
 
     public void persistirOperacion() {
         remitoJpaController.create(remito);
-        Iterator<LoteRemito> i = lotesDelRemito.iterator();
+        Iterator<LoteRemito> i = getLotesDelRemito().iterator();
         while(i.hasNext()) {
             LoteRemito loteRemito = i.next();
 
             Lote lote = loteRemito.getLote();
-            loteJpaController.create(lote);
+            loteJpaController.crearLote(lote);
 
             loteRemito.setRemito(remito);
-            loteRemitoJpaController.create(loteRemito);
+            loteJpaController.crearLoteRemito(loteRemito);
 
             Double cantidad = loteRemito.getCantidadIngresada();
             LoteAlmacenado loteAlmacenado = new LoteAlmacenado();
             loteAlmacenado.setAlmacen(almacen);
             loteAlmacenado.setLote(lote);
             loteAlmacenado.setCantidad(cantidad);
-            loteAlmacenadoJpaController.create(loteAlmacenado);
+            loteJpaController.crearLoteAlmacenado(loteAlmacenado);
         }
     }
 
@@ -99,7 +95,7 @@ public class ImportacionesController extends Observable {
     }
 
     private Boolean codigoNoSeAgrego(String codigo) {
-        Iterator<LoteRemito> i = lotesDelRemito.iterator();
+        Iterator<LoteRemito> i = getLotesDelRemito().iterator();
         while(i.hasNext())
             if(i.next().getLote().getCodigo().equals(codigo))
                 return false;
@@ -122,41 +118,6 @@ public class ImportacionesController extends Observable {
      */
     public ArrayList<LoteRemito> getLotesDelRemito() {
         return lotesDelRemito;
-    }
-
-    /**
-     * @param lotesDelRemito the lotesDelRemito to set
-     */
-    public void setLotesDelRemito(ArrayList<LoteRemito> lotesDelRemito) {
-        this.lotesDelRemito = lotesDelRemito;
-    }
-
-    /**
-     * @return the remito
-     */
-    public Remito getNuevoRemito() {
-        return remito;
-    }
-
-    /**
-     * @param remito the remito to set
-     */
-    public void setNuevoRemito(Remito nuevoRemito) {
-        this.remito = nuevoRemito;
-    }
-
-    /**
-     * @return the almacen
-     */
-    public Almacen getAlmacen() {
-        return almacen;
-    }
-
-    /**
-     * @param almacen the almacen to set
-     */
-    public void setAlmacen(Almacen almacen) {
-        this.almacen = almacen;
     }
 
 }

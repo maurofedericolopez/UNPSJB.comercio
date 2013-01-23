@@ -23,12 +23,10 @@ import javax.persistence.criteria.Root;
 public class AlmacenJpaController implements Serializable {
 
     private LoteJpaController loteJpaController;
-    private LoteAlmacenadoJpaController loteAlmacenadoJpaController;
 
     public AlmacenJpaController(EntityManagerFactory emf) {
         this.emf = emf;
         loteJpaController = ControllerSingleton.getLoteJpaController();
-        loteAlmacenadoJpaController = ControllerSingleton.getLoteAlmacenadoJpaController();
     }
     private EntityManagerFactory emf = null;
 
@@ -36,7 +34,7 @@ public class AlmacenJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Almacen almacen) {
+    public void crearAlmacen(Almacen almacen) {
         if (almacen.getLotesAlmacenados() == null) {
             almacen.setLotesAlmacenados(new ArrayList<LoteAlmacenado>());
         }
@@ -77,7 +75,7 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public void edit(Almacen almacen) throws NonexistentEntityException, Exception {
+    public void editarAlmacen(Almacen almacen) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -129,7 +127,7 @@ public class AlmacenJpaController implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = almacen.getId();
-                if (findAlmacen(id) == null) {
+                if (encontrarAlmacen(id) == null) {
                     throw new NonexistentEntityException("The almacen with id " + id + " no longer exists.");
                 }
             }
@@ -141,7 +139,7 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destruirAlmacen(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -172,15 +170,15 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public List<Almacen> findAlmacenEntities() {
-        return findAlmacenEntities(true, -1, -1);
+    public List<Almacen> encontrarAlmacenEntities() {
+        return encontrarAlmacenEntities(true, -1, -1);
     }
 
-    public List<Almacen> findAlmacenEntities(int maxResults, int firstResult) {
-        return findAlmacenEntities(false, maxResults, firstResult);
+    public List<Almacen> encontrarAlmacenEntities(int maxResults, int firstResult) {
+        return encontrarAlmacenEntities(false, maxResults, firstResult);
     }
 
-    private List<Almacen> findAlmacenEntities(boolean all, int maxResults, int firstResult) {
+    private List<Almacen> encontrarAlmacenEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -196,7 +194,7 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public Almacen findAlmacen(Long id) {
+    public Almacen encontrarAlmacen(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Almacen.class, id);
@@ -218,22 +216,22 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public ArrayList<Almacen> obtenerTodasLasCategorias() {
+    public ArrayList<Almacen> obtenerTodosLosAlmacenes() {
         ArrayList<Almacen> almacenes = new ArrayList();
-        Object[] array = findAlmacenEntities().toArray();
+        Object[] array = encontrarAlmacenEntities().toArray();
         for(Object o : array)
             almacenes.add((Almacen) o);
         return almacenes;
     }
 
     public void descontarDeAlmacen(Almacen almacen, String codigoLote, Double cantidad) throws Exception {
-        Lote lote = loteJpaController.BuscarLotePorCodigo(codigoLote);
-        LoteAlmacenado loteAlmacenado = loteAlmacenadoJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
+        Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
+        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
         if(loteAlmacenado != null){
             if(loteAlmacenado.getCantidad() >= cantidad) {
                     Double cantidadNueva = loteAlmacenado.getCantidad() - cantidad;
                     loteAlmacenado.setCantidad(cantidadNueva);
-                    loteAlmacenadoJpaController.edit(loteAlmacenado);
+                    loteJpaController.editarLoteAlmacenado(loteAlmacenado);
             } else {
                 throw new Exception("No hay cantidad suficiente para satisfacer la transferencia.");
             }
@@ -243,17 +241,17 @@ public class AlmacenJpaController implements Serializable {
     }
 
     public void aumentarStockEnAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
-        LoteAlmacenado loteAlmacenado = loteAlmacenadoJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
+        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
         if(loteAlmacenado != null) {
             Double cantidadNueva = loteAlmacenado.getCantidad() + cantidad;
             loteAlmacenado.setCantidad(cantidadNueva);
-            loteAlmacenadoJpaController.edit(loteAlmacenado);
+            loteJpaController.editarLoteAlmacenado(loteAlmacenado);
         } else {
             LoteAlmacenado nuevoLoteAlmacenado = new LoteAlmacenado();
             nuevoLoteAlmacenado.setAlmacen(almacen);
             nuevoLoteAlmacenado.setLote(lote);
             nuevoLoteAlmacenado.setCantidad(cantidad);
-            loteAlmacenadoJpaController.create(nuevoLoteAlmacenado);
+            loteJpaController.crearLoteAlmacenado(nuevoLoteAlmacenado);
         }
     }
 

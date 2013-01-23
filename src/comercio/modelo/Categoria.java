@@ -30,7 +30,7 @@ public class Categoria implements Serializable {
     @Column(name = "idCategoria")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(unique = true)
+    @Column(length = 45, unique = true)
     private String nombre;
     private String descripcion;
     @ManyToOne

@@ -31,7 +31,7 @@ public class PuntoVentaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(PuntoVenta puntoVenta) {
+    public void crearPuntoDeVenta(PuntoVenta puntoVenta) {
         if (puntoVenta.getProductosEnVenta() == null) {
             puntoVenta.setProductosEnVenta(new ArrayList<ProductoEnVenta>());
         }
@@ -72,7 +72,7 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
-    public void edit(PuntoVenta puntoVenta) throws NonexistentEntityException, Exception {
+    public void editarPuntoDeVenta(PuntoVenta puntoVenta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -124,7 +124,7 @@ public class PuntoVentaJpaController implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = puntoVenta.getId();
-                if (findPuntoVenta(id) == null) {
+                if (encontrarPuntoVenta(id) == null) {
                     throw new NonexistentEntityException("The puntoVenta with id " + id + " no longer exists.");
                 }
             }
@@ -136,7 +136,7 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destruirPuntoDeVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -167,15 +167,15 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
-    public List<PuntoVenta> findPuntoVentaEntities() {
-        return findPuntoVentaEntities(true, -1, -1);
+    public List<PuntoVenta> encontrarPuntoVentaEntities() {
+        return encontrarPuntoVentaEntities(true, -1, -1);
     }
 
-    public List<PuntoVenta> findPuntoVentaEntities(int maxResults, int firstResult) {
-        return findPuntoVentaEntities(false, maxResults, firstResult);
+    public List<PuntoVenta> encontrarPuntoVentaEntities(int maxResults, int firstResult) {
+        return encontrarPuntoVentaEntities(false, maxResults, firstResult);
     }
 
-    private List<PuntoVenta> findPuntoVentaEntities(boolean all, int maxResults, int firstResult) {
+    private List<PuntoVenta> encontrarPuntoVentaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -191,7 +191,7 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
-    public PuntoVenta findPuntoVenta(Long id) {
+    public PuntoVenta encontrarPuntoVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(PuntoVenta.class, id);
@@ -215,7 +215,7 @@ public class PuntoVentaJpaController implements Serializable {
 
     public ArrayList<PuntoVenta> obtenerTodosLosPuntosDeVenta() {
         ArrayList<PuntoVenta> puntosDeVenta = new ArrayList();
-        Object[] array = findPuntoVentaEntities().toArray();
+        Object[] array = encontrarPuntoVentaEntities().toArray();
         for(Object o : array)
             puntosDeVenta.add((PuntoVenta) o);
         return puntosDeVenta;

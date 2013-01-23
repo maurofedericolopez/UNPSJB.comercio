@@ -33,6 +33,7 @@ public class Remito implements Serializable {
     @Column(name = "idRemito")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(length = 45, unique = true)
     private String codigo;
     @Temporal(TemporalType.DATE)
     private Date fecha;

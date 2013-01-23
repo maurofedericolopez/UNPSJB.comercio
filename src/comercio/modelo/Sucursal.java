@@ -32,6 +32,7 @@ public class Sucursal implements Serializable {
     @Column(name = "idSucursal")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private Long numero;
     private String ciudad;
     private String domicilio;

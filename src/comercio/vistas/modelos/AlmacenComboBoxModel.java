@@ -17,7 +17,7 @@ public class AlmacenComboBoxModel extends AbstractListModel implements ComboBoxM
 
     public AlmacenComboBoxModel() {
         super();
-        almacenes = ControllerSingleton.getAlmacenJpaController().obtenerTodasLasCategorias();
+        almacenes = ControllerSingleton.getAlmacenJpaController().obtenerTodosLosAlmacenes();
     }
 
     @Override

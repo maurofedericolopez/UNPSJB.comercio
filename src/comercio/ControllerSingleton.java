@@ -14,7 +14,6 @@ public class ControllerSingleton {
     private static EntityManagerFactory emf = ComercioApp.getEntityManagerFactory();
     private static EntityManager em = null;
 
-    private static ProductosController productosController = new ProductosController();
     private static ProductoJpaController productoJpaController = new ProductoJpaController(getEmf());
     private static ProductoEnVentaJpaController productoEnVentaJpaController = new ProductoEnVentaJpaController(getEmf());
     private static RemitoJpaController remitoJpaController = new RemitoJpaController(getEmf());
@@ -24,9 +23,6 @@ public class ControllerSingleton {
     private static PuntoVentaJpaController puntoVentaJpaController = new PuntoVentaJpaController(getEmf());
 
     private static LoteJpaController loteJpaController = new LoteJpaController(getEmf());
-    private static LoteAlmacenadoJpaController loteAlmacenadoJpaController = new LoteAlmacenadoJpaController(getEmf());
-    private static LoteRemitoJpaController loteRemitoJpaController = new LoteRemitoJpaController(getEmf());
-    private static LoteEgresadoJpaController loteEgresadoJpaController = new LoteEgresadoJpaController(getEmf());
 
     private static CategoriaJpaController categoriaJpaController = new CategoriaJpaController(getEmf());
     private static MarcaJpaController marcaJpaController = new MarcaJpaController(getEmf());
@@ -35,6 +31,7 @@ public class ControllerSingleton {
     private static MedioDePagoJpaController medioDePagoJpaController = new MedioDePagoJpaController(getEmf());
 
     private static TransferenciasController transferenciasController = new TransferenciasController();
+    private static TransferenciaJpaController transferenciaJpaController = new TransferenciaJpaController(getEmf());
     private static ImportacionesController remitosController = new ImportacionesController();
     private static EgresosController egresosController = new EgresosController();
     private static VentasController ventasController = new VentasController();
@@ -42,13 +39,6 @@ public class ControllerSingleton {
     private static EgresoJpaController egresoJpaController = new EgresoJpaController(getEmf());
     private static VentaJpaController ventaJpaController = new VentaJpaController(getEmf());
     private static ItemVentaJpaController itemDeVentaJpaController = new ItemVentaJpaController(getEmf());
-
-    /**
-     * @return the productosController
-     */
-    public static ProductosController getProductosController() {
-        return productosController;
-    }
 
     /**
      * @return the remitosController
@@ -142,27 +132,6 @@ public class ControllerSingleton {
     }
 
     /**
-     * @return the loteAlmacenadoJpaController
-     */
-    public static LoteAlmacenadoJpaController getLoteAlmacenadoJpaController() {
-        return loteAlmacenadoJpaController;
-    }
-
-    /**
-     * @return the loteRemitoJpaController
-     */
-    public static LoteRemitoJpaController getLoteRemitoJpaController() {
-        return loteRemitoJpaController;
-    }
-
-    /**
-     * @return the loteEgresadoJpaController
-     */
-    public static LoteEgresadoJpaController getLoteEgresadoJpaController() {
-        return loteEgresadoJpaController;
-    }
-
-    /**
      * @return the productoEnVentaJpaController
      */
     public static ProductoEnVentaJpaController getProductoEnVentaJpaController() {
@@ -209,6 +178,13 @@ public class ControllerSingleton {
      */
     public static ItemVentaJpaController getItemDeVentaJpaController() {
         return itemDeVentaJpaController;
+    }
+
+    /**
+     * @return the transferenciaJpaController
+     */
+    public static TransferenciaJpaController getTransferenciaJpaController() {
+        return transferenciaJpaController;
     }
 
 }

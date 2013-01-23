@@ -30,7 +30,7 @@ public class Marca implements Serializable {
     @Column(name = "idMarca")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(unique = true)
+    @Column(length = 45, unique = true)
     private String nombre;
     private String abreviacion;
     @ManyToOne

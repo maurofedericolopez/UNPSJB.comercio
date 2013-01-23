@@ -2,7 +2,6 @@ package comercio.modelo;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.*;
 
@@ -31,7 +30,8 @@ public class Producto implements Serializable {
     @Id
     @Column(name = "idProducto")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idProducto;
+    private Long id;
+    @Column(unique = true)
     private String codigo;
     private String descripcion;
     private Double precioActual;
@@ -51,7 +51,7 @@ public class Producto implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (getIdProducto() != null ? getIdProducto().hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -62,7 +62,7 @@ public class Producto implements Serializable {
             return false;
         }
         Producto other = (Producto) object;
-        if ((this.getIdProducto() == null && other.getIdProducto() != null) || (this.getIdProducto() != null && !this.idProducto.equals(other.idProducto))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -70,21 +70,21 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Producto[ id=" + getIdProducto() + " ]";
+        return "comercio.modelo.Producto[ id=" + getId() + " ]";
     }
 
     /**
-     * @return the idProducto
+     * @return the id
      */
-    public Long getIdProducto() {
-        return idProducto;
+    public Long getId() {
+        return id;
     }
 
     /**
-     * @param idProducto the idProducto to set
+     * @param id the id to set
      */
-    public void setIdProducto(Long idProducto) {
-        this.idProducto = idProducto;
+    public void setId(Long idProducto) {
+        this.id = idProducto;
     }
 
     /**
@@ -98,7 +98,7 @@ public class Producto implements Serializable {
      * @param codigo the codigo to set
      */
     public void setCodigo(String codigo) {
-        this.codigo = codigo;
+        this.codigo = codigo.toUpperCase();
     }
 
     /**
@@ -112,7 +112,7 @@ public class Producto implements Serializable {
      * @param descripcion the descripcion to set
      */
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.toUpperCase();
     }
 
     /**
@@ -197,10 +197,6 @@ public class Producto implements Serializable {
      */
     public void setCategoria(Categoria categoria) {
         this.categoria = categoria;
-    }
-
-    public Double getDescuentoVigente() {
-        throw new UnsupportedOperationException("Not yet implemented");
     }
 
     /**

@@ -1,13 +1,11 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.ProductosController;
+import comercio.controladoresJPA.ProductoJpaController;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import comercio.vistas.modelos.ProductoTableModel;
 import java.text.DecimalFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
@@ -18,7 +16,7 @@ import javax.swing.text.NumberFormatter;
  */
 public class AdministrarProductosUI extends javax.swing.JPanel {
 
-    private ProductosController controlador;
+    private ProductoJpaController productoJpaController;
     private ProductoTableModel productoTableModel;
     private Producto producto;
 
@@ -27,7 +25,7 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
      */
     public AdministrarProductosUI() {
         initComponents();
-        controlador = ControllerSingleton.getProductosController();
+        productoJpaController = ControllerSingleton.getProductoJpaController();
         productoTableModel = (ProductoTableModel) tablaProductos.getModel();
         campoPrecio.setValue(0);
         producto = null;
@@ -417,7 +415,7 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
             int indice = tablaProductos.getSelectedRow();
             if (indice >= 0) {
                 producto = productoTableModel.obtenerProducto(indice);
-                controlador.eliminarProducto(producto);
+                productoJpaController.destruirProducto(producto.getId());
             } else
                 throw new Exception("No ha seleccionado ningún producto.");
         } catch (NonexistentEntityException ex) {
@@ -429,14 +427,17 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         try {
-            String codigo = campoCodigo.getText().toUpperCase();
-            String descripcion = campoDescripcion.getText().toUpperCase();
-            Double precio = ((Number) campoPrecio.getValue()).doubleValue();
-            Marca marca = (Marca) campoMarca.getSelectedItem();
-            Origen origen = (Origen) campoOrigen.getSelectedItem();
-            Unidad unidad = (Unidad) campoUnidad.getSelectedItem();
-            Categoria categoria = (Categoria) campoCategoria.getSelectedItem();
-            controlador.registrarNuevoProducto(codigo, descripcion, precio, marca, origen, unidad, categoria);
+            camposDeNuevoProductoCompletos();
+            productoJpaController.codigoProductoDisponible(campoCodigo.getText());
+            Producto nuevoProducto = new Producto();
+            nuevoProducto.setCodigo(campoCodigo.getText());
+            nuevoProducto.setDescripcion(campoDescripcion.getText());
+            nuevoProducto.setCategoria((Categoria) campoCategoria.getSelectedItem());
+            nuevoProducto.setMarca((Marca) campoMarca.getSelectedItem());
+            nuevoProducto.setUnidad((Unidad) campoUnidad.getSelectedItem());
+            nuevoProducto.setOrigen((Origen) campoOrigen.getSelectedItem());
+            nuevoProducto.setPrecioActual(((Number) campoPrecio.getValue()).doubleValue());
+            productoJpaController.crearProducto(producto);
             limpiarCampos();
             nuevoProductoUI.setVisible(false);
         } catch (Exception ex) {
@@ -471,13 +472,14 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
 
     private void botonGuardarEdicionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarEdicionActionPerformed
         try {
+            camposDeEdicionProductoCompletos();
             producto.setCodigo(campoCodigoEditar.getText());
             producto.setDescripcion(campoDescripcionEditar.getText());
             producto.setMarca((Marca) campoMarcaEditar.getSelectedItem());
             producto.setOrigen((Origen) campoOrigenEditar.getSelectedItem());
             producto.setUnidad((Unidad) campoUnidadEditar.getSelectedItem());
             producto.setCategoria((Categoria) campoCategoriaEditar.getSelectedItem());
-            controlador.editarProducto(producto);
+            productoJpaController.editarProducto(producto);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -558,5 +560,52 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         campoUnidadEditar.updateUI();
         campoCategoriaEditar.setSelectedItem(null);
         campoCategoriaEditar.updateUI();
+    }
+
+    private Boolean camposDeNuevoProductoCompletos() throws Exception {
+        if(campoCodigo.getText().isEmpty())
+            if(campoDescripcion.getText().isEmpty())
+                if(campoPrecio.getText().isEmpty())
+                    if(campoMarca.getSelectedItem() != null)
+                        if(campoOrigen.getSelectedItem() != null)
+                            if(campoUnidad.getSelectedItem() != null)
+                                if(campoCategoria.getSelectedItem() != null)
+                                    return true;
+                                else
+                                    throw new Exception("No ha seleccionado una categoría.");
+                            else
+                                throw new Exception("No ha seleccionado una unidad.");
+                        else
+                            throw new Exception("No ha seleccionado un origen.");
+                    else
+                        throw new Exception("No ha seleccionado una marca.");
+                else
+                    throw new Exception("No ha indicado el precio del producto.");
+            else
+                throw new Exception("No ha indicado una descripción.");
+        else
+            throw new Exception("No ha indicado un código.");
+    }
+
+    private Boolean camposDeEdicionProductoCompletos() throws Exception {
+        if(campoCodigo.getText().isEmpty())
+            if(campoDescripcion.getText().isEmpty())
+                if(campoMarca.getSelectedItem() != null)
+                    if(campoOrigen.getSelectedItem() != null)
+                        if(campoUnidad.getSelectedItem() != null)
+                            if(campoCategoria.getSelectedItem() != null)
+                                return true;
+                            else
+                                throw new Exception("No ha seleccionado una categoría.");
+                        else
+                            throw new Exception("No ha seleccionado una unidad.");
+                    else
+                        throw new Exception("No ha seleccionado un origen.");
+                else
+                    throw new Exception("No ha seleccionado una marca.");
+            else
+                throw new Exception("No ha indicado una descripción.");
+        else
+            throw new Exception("No ha indicado un código.");
     }
 }

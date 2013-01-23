@@ -25,6 +25,7 @@
     <class>comercio.modelo.Gerente</class>
     <class>comercio.modelo.GestorInventario</class>
     <class>comercio.modelo.MedioDePago</class>
+    <class>comercio.modelo.Transferencia</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value=""/>

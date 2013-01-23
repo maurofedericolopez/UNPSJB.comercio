@@ -1,8 +1,8 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.ProductosController;
 import comercio.controladores.VentasController;
+import comercio.controladoresJPA.ProductoJpaController;
 import comercio.modelo.ItemVenta;
 import comercio.modelo.Producto;
 import comercio.modelo.PuntoVenta;
@@ -23,7 +23,7 @@ public class GestionVenta extends javax.swing.JFrame {
 
     private Vendedor vendedor;
     private PuntoVenta puntoDeVenta;
-    private ProductosController productosController;
+    private ProductoJpaController productoJpaController;
     private VentasController ventasController;
     private ItemVentaTableModel modeloTabla;
 
@@ -36,7 +36,7 @@ public class GestionVenta extends javax.swing.JFrame {
         campoCantidadProducto.setValue(1);
         campoMontoTotal.setValue(0.00);
         agregarComponente(panelIniciarSesion);
-        productosController = ControllerSingleton.getProductosController();
+        productoJpaController = ControllerSingleton.getProductoJpaController();
         ventasController = ControllerSingleton.getVentasController();
         agregarComponente(panelVenta);
         tablaItemsDeVenta.getTableHeader().setBackground(Color.GRAY);
@@ -406,13 +406,13 @@ public class GestionVenta extends javax.swing.JFrame {
         try {
             String codigoProducto = campoCodigoProducto.getText();
             Double cantidadProducto = ((Number) campoCantidadProducto.getValue()).doubleValue();
-            Producto producto = productosController.obtenerProductoPorCodigo(codigoProducto);
+            Producto producto = productoJpaController.buscarProductoPorCodigo(codigoProducto);
 
             ItemVenta itemDeVenta = new ItemVenta();
             itemDeVenta.setProducto(producto);
             itemDeVenta.setCantidad(cantidadProducto);
             itemDeVenta.setPrecio(producto.getPrecioActual());
-            Double descuento = productosController.obtenerDescuentoVigente(producto);
+            Double descuento = productoJpaController.obtenerDescuentoVigente(producto);
             itemDeVenta.setDescuento(descuento);
 
             ventasController.agregarItemDeVenta(itemDeVenta);

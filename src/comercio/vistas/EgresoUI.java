@@ -2,6 +2,7 @@ package comercio.vistas;
 
 import comercio.ControllerSingleton;
 import comercio.controladores.EgresosController;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -257,9 +258,13 @@ public class EgresoUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonAgregarLoteActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
-        String codigoLote = campoCodigoLote.getText();
-        Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
-        egresosController.agregarLote(codigoLote, cantidad);
+        try {
+            String codigoLote = campoCodigoLote.getText();
+            Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
+            egresosController.agregarLote(codigoLote, cantidad);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

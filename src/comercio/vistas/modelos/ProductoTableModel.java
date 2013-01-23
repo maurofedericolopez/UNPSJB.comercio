@@ -1,7 +1,7 @@
 package comercio.vistas.modelos;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.ProductosController;
+import comercio.controladoresJPA.ProductoJpaController;
 import comercio.modelo.Producto;
 import java.util.ArrayList;
 import java.util.Observable;
@@ -15,14 +15,14 @@ import javax.swing.table.AbstractTableModel;
 public class ProductoTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Código","Descripción","Precio unitario[$]","Marca","Origen","Descuento","Unidad","Categoría"};
-    private ProductosController controlador;
+    private ProductoJpaController productoJpaController;
     private ArrayList<Producto> productos;
 
     public ProductoTableModel() {
         super();
-        controlador = ControllerSingleton.getProductosController();
-        controlador.addObserver(this);
-        productos = controlador.obtenerProductos();
+        productoJpaController = ControllerSingleton.getProductoJpaController();
+        productoJpaController.addObserver(this);
+        productos = productoJpaController.obtenerProductos();
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        productos = controlador.obtenerProductos();
+        productos = productoJpaController.obtenerProductos();
         this.fireTableDataChanged();
     }
 

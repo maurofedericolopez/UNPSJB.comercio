@@ -5,7 +5,7 @@ import comercio.controladores.ImportacionesController;
 import comercio.controladoresJPA.LoteJpaController;
 import comercio.controladoresJPA.ProductoJpaController;
 import comercio.modelo.Almacen;
-import comercio.modelo.Producto;
+import comercio.modelo.Remito;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -352,10 +352,11 @@ public class ImportarUI extends javax.swing.JPanel {
 
     private void botonRegistrarOperaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarOperaciónActionPerformed
         try {
-            String codigoRemito = campoCodigoRemito.getText();
-            Date fechaRemito = (Date) campoFechaRemito.getValue();
+            Remito remito = new Remito();
+            remito.setCodigo(campoCodigoRemito.getText());
+            remito.setFecha((Date) campoFechaRemito.getValue());
             Almacen almacen = (Almacen) campoSucursalAlmacen.getSelectedItem();
-            importacionesController.registrarDatosRemito(codigoRemito, fechaRemito, almacen);
+            importacionesController.registrarDatosRemito(remito, almacen);
             importacionesController.persistirOperacion();
             JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {

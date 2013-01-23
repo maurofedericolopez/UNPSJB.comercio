@@ -31,6 +31,7 @@ public class Lote implements Serializable {
     @Column(name = "idLote")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(length = 45, unique = true)
     private String codigo;
     @Temporal(TemporalType.DATE)
     private Date fechaProduccion;

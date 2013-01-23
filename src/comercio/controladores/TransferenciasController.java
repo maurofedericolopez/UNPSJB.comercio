@@ -26,7 +26,7 @@ public class TransferenciasController {
     }
 
     public void transferirProductosAVenta(String codigoLote, Double cantidad, Almacen almacen, PuntoVenta puntoDeVenta) throws Exception {
-        Lote lote = loteJpaController.BuscarLotePorCodigo(codigoLote);
+        Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
         almacenJpaController.descontarDeAlmacen(almacen, codigoLote, cantidad);
         Producto producto = lote.getProducto();
         puntoVentaJpaController.aumentarStockEnVenta(puntoDeVenta, producto, cantidad);
@@ -37,7 +37,7 @@ public class TransferenciasController {
     }
 
     public void transferirProductosAlmacen(String codigoLote, Double cantidad, Almacen almacenOrigen, Almacen almacenDestino) throws Exception {
-        Lote lote = loteJpaController.BuscarLotePorCodigo(codigoLote);
+        Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
         almacenJpaController.descontarDeAlmacen(almacenOrigen, codigoLote, cantidad);
         almacenJpaController.aumentarStockEnAlmacen(almacenDestino, lote, cantidad);
     }

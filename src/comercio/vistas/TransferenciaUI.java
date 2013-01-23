@@ -1,7 +1,7 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.TransferenciasController;
+import comercio.controladoresJPA.TransferenciaJpaController;
 import comercio.modelo.Almacen;
 import comercio.modelo.PuntoVenta;
 import javax.swing.JOptionPane;
@@ -12,14 +12,14 @@ import javax.swing.JOptionPane;
  */
 public class TransferenciaUI extends javax.swing.JPanel {
 
-    private TransferenciasController transferenciasController;
+    private TransferenciaJpaController transferenciaJpaController;
 
     /**
      * Creates new form TransferenciaUI
      */
     public TransferenciaUI() {
         initComponents();
-        transferenciasController = ControllerSingleton.getTransferenciasController();
+        transferenciaJpaController = ControllerSingleton.getTransferenciaJpaController();
     }
 
     /**
@@ -230,7 +230,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonCancelarTransferenciaAlmacenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarTransferenciaAlmacenActionPerformed
-        transferenciasController.cancelarTransferenciaAlmacen();
+        transferenciaJpaController.cancelarTransferenciaAlmacen();
         campoCodigoLoteA.setText("");
         campoCantidadProductoA.setText("");
         campoAlmacenOrigen.setSelectedItem(null);
@@ -240,7 +240,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonCancelarTransferenciaAlmacenActionPerformed
 
     private void botonCancelarTransferenciaPuntoDeVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarTransferenciaPuntoDeVentaActionPerformed
-        transferenciasController.cancelarTransferenciaAVenta();
+        transferenciaJpaController.cancelarTransferenciaAVenta();
         campoCodigoLoteP.setText("");
         campoCantidadProductoP.setText("");
         campoAlmacen.setSelectedItem(null);
@@ -255,7 +255,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
             Double cantidad = ((Number) campoCantidadProductoP.getValue()).doubleValue();
             Almacen almacen = (Almacen) campoAlmacen.getSelectedItem();
             PuntoVenta puntoDeVenta = (PuntoVenta) campoPuntoDeVenta.getSelectedItem();
-            transferenciasController.transferirProductosAVenta(codigoLote, cantidad, almacen, puntoDeVenta);
+            transferenciaJpaController.transferirProductosAVenta(codigoLote, cantidad, almacen, puntoDeVenta);
             JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -268,7 +268,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
             Double cantidad = ((Number) campoCantidadProductoA.getValue()).doubleValue();
             Almacen almacenOrigen = (Almacen) campoAlmacenOrigen.getSelectedItem();
             Almacen almacenDestino = (Almacen) campoAlmacenDestino.getSelectedItem();
-            transferenciasController.transferirProductosAlmacen(codigoLote, cantidad, almacenOrigen, almacenDestino);
+            transferenciaJpaController.transferirProductosAlmacen(codigoLote, cantidad, almacenOrigen, almacenDestino);
             JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
