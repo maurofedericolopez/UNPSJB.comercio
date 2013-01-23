@@ -17,7 +17,6 @@ public class ControllerSingleton {
     private static EntityManager em = null;
 
     private static ProductoJpaController productoJpaController = new ProductoJpaController(getEmf());
-    private static ProductoEnVentaJpaController productoEnVentaJpaController = new ProductoEnVentaJpaController(getEmf());
     private static RemitoJpaController remitoJpaController = new RemitoJpaController(getEmf());
 
     private static SucursalJpaController sucursalJpaController = new SucursalJpaController(getEmf());
@@ -123,13 +122,6 @@ public class ControllerSingleton {
      */
     public static EgresosController getEgresosController() {
         return egresosController;
-    }
-
-    /**
-     * @return the productoEnVentaJpaController
-     */
-    public static ProductoEnVentaJpaController getProductoEnVentaJpaController() {
-        return productoEnVentaJpaController;
     }
 
     /**

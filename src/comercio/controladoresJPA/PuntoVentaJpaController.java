@@ -1,6 +1,5 @@
 package comercio.controladoresJPA;
 
-import comercio.ControllerSingleton;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Producto;
 import comercio.modelo.ProductoEnVenta;
@@ -18,7 +17,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class PuntoVentaJpaController implements Serializable {
 
@@ -63,6 +62,29 @@ public class PuntoVentaJpaController implements Serializable {
                     oldPuntoVentaOfProductosEnVentaProductoEnVenta.getProductosEnVenta().remove(productosEnVentaProductoEnVenta);
                     oldPuntoVentaOfProductosEnVentaProductoEnVenta = em.merge(oldPuntoVentaOfProductosEnVentaProductoEnVenta);
                 }
+            }
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public void crearProductoEnVenta(ProductoEnVenta productoEnVenta) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            PuntoVenta puntoVenta = productoEnVenta.getPuntoVenta();
+            if (puntoVenta != null) {
+                puntoVenta = em.getReference(puntoVenta.getClass(), puntoVenta.getId());
+                productoEnVenta.setPuntoVenta(puntoVenta);
+            }
+            em.persist(productoEnVenta);
+            if (puntoVenta != null) {
+                puntoVenta.getProductosEnVenta().add(productoEnVenta);
+                puntoVenta = em.merge(puntoVenta);
             }
             em.getTransaction().commit();
         } finally {
@@ -136,6 +158,44 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    public void editarProductoEnVenta(ProductoEnVenta productoEnVenta) throws NonexistentEntityException, Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            ProductoEnVenta persistentProductoEnVenta = em.find(ProductoEnVenta.class, productoEnVenta.getId());
+            PuntoVenta puntoVentaOld = persistentProductoEnVenta.getPuntoVenta();
+            PuntoVenta puntoVentaNew = productoEnVenta.getPuntoVenta();
+            if (puntoVentaNew != null) {
+                puntoVentaNew = em.getReference(puntoVentaNew.getClass(), puntoVentaNew.getId());
+                productoEnVenta.setPuntoVenta(puntoVentaNew);
+            }
+            productoEnVenta = em.merge(productoEnVenta);
+            if (puntoVentaOld != null && !puntoVentaOld.equals(puntoVentaNew)) {
+                puntoVentaOld.getProductosEnVenta().remove(productoEnVenta);
+                puntoVentaOld = em.merge(puntoVentaOld);
+            }
+            if (puntoVentaNew != null && !puntoVentaNew.equals(puntoVentaOld)) {
+                puntoVentaNew.getProductosEnVenta().add(productoEnVenta);
+                puntoVentaNew = em.merge(puntoVentaNew);
+            }
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            String msg = ex.getLocalizedMessage();
+            if (msg == null || msg.length() == 0) {
+                Long id = productoEnVenta.getId();
+                if (encontrarProductoEnVenta(id) == null) {
+                    throw new NonexistentEntityException("The productoEnVenta with id " + id + " no longer exists.");
+                }
+            }
+            throw ex;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
     public void destruirPuntoDeVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -167,12 +227,46 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    public void destruirProductoEnVenta(Long id) throws NonexistentEntityException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            ProductoEnVenta productoEnVenta;
+            try {
+                productoEnVenta = em.getReference(ProductoEnVenta.class, id);
+                productoEnVenta.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The productoEnVenta with id " + id + " no longer exists.", enfe);
+            }
+            PuntoVenta puntoVenta = productoEnVenta.getPuntoVenta();
+            if (puntoVenta != null) {
+                puntoVenta.getProductosEnVenta().remove(productoEnVenta);
+                puntoVenta = em.merge(puntoVenta);
+            }
+            em.remove(productoEnVenta);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
     public List<PuntoVenta> encontrarPuntoVentaEntities() {
         return encontrarPuntoVentaEntities(true, -1, -1);
     }
 
+    public List<ProductoEnVenta> encontrarProductoEnVentaEntities() {
+        return encontrarProductoEnVentaEntities(true, -1, -1);
+    }
+
     public List<PuntoVenta> encontrarPuntoVentaEntities(int maxResults, int firstResult) {
         return encontrarPuntoVentaEntities(false, maxResults, firstResult);
+    }
+
+    public List<ProductoEnVenta> encontrarProductoEnVentaEntities(int maxResults, int firstResult) {
+        return encontrarProductoEnVentaEntities(false, maxResults, firstResult);
     }
 
     private List<PuntoVenta> encontrarPuntoVentaEntities(boolean all, int maxResults, int firstResult) {
@@ -180,6 +274,22 @@ public class PuntoVentaJpaController implements Serializable {
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             cq.select(cq.from(PuntoVenta.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
+    private List<ProductoEnVenta> encontrarProductoEnVentaEntities(boolean all, int maxResults, int firstResult) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(ProductoEnVenta.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -200,11 +310,33 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    public ProductoEnVenta encontrarProductoEnVenta(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(ProductoEnVenta.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
     public int getPuntoVentaCount() {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
             Root<PuntoVenta> rt = cq.from(PuntoVenta.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+
+    public int getProductoEnVentaCount() {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            Root<ProductoEnVenta> rt = cq.from(ProductoEnVenta.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
@@ -231,7 +363,7 @@ public class PuntoVentaJpaController implements Serializable {
                     Double cantidadNueva = productoEnVenta.getCantidad() - cantidad;
                     productoEnVenta.setCantidad(cantidadNueva);
                     encontrado = true;
-                    ControllerSingleton.getProductoEnVentaJpaController().edit(productoEnVenta);
+                    editarProductoEnVenta(productoEnVenta);
                     break;
                 } else {
                     throw new Exception("No hay stock para satisfacer la venta.");
@@ -250,7 +382,7 @@ public class PuntoVentaJpaController implements Serializable {
             if(pev.getProducto().getCodigo().equals(producto.getCodigo())) {
                 pev.setCantidad(pev.getCantidad() + cantidad);
                 encontrado = true;
-                ControllerSingleton.getProductoEnVentaJpaController().edit(pev);
+                editarProductoEnVenta(pev);
                 break;
             }
         }
@@ -259,7 +391,7 @@ public class PuntoVentaJpaController implements Serializable {
             nuevo.setProducto(producto);
             nuevo.setPuntoVenta(puntoDeVenta);
             nuevo.setCantidad(cantidad);
-            ControllerSingleton.getProductoEnVentaJpaController().create(nuevo);
+            crearProductoEnVenta(nuevo);
         }
     }
 
