@@ -1,6 +1,8 @@
 package comercio;
 
-import comercio.controladores.*;
+import comercio.controladores.EgresosController;
+import comercio.controladores.ImportacionesController;
+import comercio.controladores.VentasController;
 import comercio.controladoresJPA.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -30,7 +32,6 @@ public class ControllerSingleton {
     private static UnidadJpaController unidadJpaController = new UnidadJpaController(getEmf());
     private static MedioDePagoJpaController medioDePagoJpaController = new MedioDePagoJpaController(getEmf());
 
-    private static TransferenciasController transferenciasController = new TransferenciasController();
     private static TransferenciaJpaController transferenciaJpaController = new TransferenciaJpaController(getEmf());
     private static ImportacionesController remitosController = new ImportacionesController();
     private static EgresosController egresosController = new EgresosController();
@@ -115,13 +116,6 @@ public class ControllerSingleton {
      */
     public static MedioDePagoJpaController getMedioDePagoJpaController() {
         return medioDePagoJpaController;
-    }
-
-    /**
-     * @return the transferenciasController
-     */
-    public static TransferenciasController getTransferenciasController() {
-        return transferenciasController;
     }
 
     /**
