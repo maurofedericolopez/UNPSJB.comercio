@@ -146,6 +146,7 @@ public class TransferenciaJpaController implements Serializable {
 
         Transferencia transferencia = new Transferencia();
         transferencia.setAlmacenOrigen(almacen);
+        transferencia.setAlmacenDestino(null);
         transferencia.setPuntoDeVentaDestino(puntoDeVenta);
         transferencia.setCantidad(cantidad);
         crearTransferencia(transferencia);
@@ -159,6 +160,7 @@ public class TransferenciaJpaController implements Serializable {
         Transferencia transferencia = new Transferencia();
         transferencia.setAlmacenOrigen(almacenOrigen);
         transferencia.setAlmacenDestino(almacenDestino);
+        transferencia.setPuntoDeVentaDestino(null);
         transferencia.setCantidad(cantidad);
         crearTransferencia(transferencia);
     }
