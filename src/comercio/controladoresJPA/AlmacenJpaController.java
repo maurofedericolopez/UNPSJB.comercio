@@ -224,9 +224,8 @@ public class AlmacenJpaController implements Serializable {
         return almacenes;
     }
 
-    public void descontarDeAlmacen(Almacen almacen, String codigoLote, Double cantidad) throws Exception {
-        Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
-        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
+    public void descontarDeAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
+        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
         if(loteAlmacenado != null){
             if(loteAlmacenado.getCantidad() >= cantidad) {
                     Double cantidadNueva = loteAlmacenado.getCantidad() - cantidad;
@@ -241,7 +240,7 @@ public class AlmacenJpaController implements Serializable {
     }
 
     public void aumentarStockEnAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
-        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenadoPorAlmacenYLote(almacen, lote);
+        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
         if(loteAlmacenado != null) {
             Double cantidadNueva = loteAlmacenado.getCantidad() + cantidad;
             loteAlmacenado.setCantidad(cantidadNueva);

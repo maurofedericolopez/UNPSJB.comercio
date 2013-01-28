@@ -28,8 +28,9 @@ public class ProductoJpaController extends Observable implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void crearProducto(Producto producto) {
+    public void crearProducto(Producto producto) throws Exception {
         EntityManager em = null;
+        codigoProductoDisponible(producto.getCodigo());
         try {
             em = getEntityManager();
             em.getTransaction().begin();
@@ -250,10 +251,10 @@ public class ProductoJpaController extends Observable implements Serializable {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
-            CriteriaQuery<Producto> c = cb.createQuery(Producto.class);
-            Root<Producto> p = c.from(Producto.class);
-            c.select(p).where(cb.equal(p.get("codigo"), codigo.toUpperCase()));
-            Query q = em.createQuery(c);
+            CriteriaQuery<Producto> cq = cb.createQuery(Producto.class);
+            Root<Producto> p = cq.from(Producto.class);
+            cq.select(p).where(cb.equal(p.get("codigo"), codigo.toUpperCase()));
+            Query q = em.createQuery(cq);
             return (Producto) q.getSingleResult();
         } catch (NoResultException ex) {
             throw new Exception("El código del producto ingresado no está registrado.");
@@ -262,7 +263,7 @@ public class ProductoJpaController extends Observable implements Serializable {
         }
     }
 
-    public Boolean codigoProductoDisponible(String codigo) throws Exception {
+    private Boolean codigoProductoDisponible(String codigo) throws Exception {
         try {
             buscarProductoPorCodigo(codigo);
             throw new Exception("El código del producto ingresado ya está registrado.");

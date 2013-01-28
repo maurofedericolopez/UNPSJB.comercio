@@ -1,7 +1,13 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.EgresosController;
+import comercio.controladoresJPA.EgresoJpaController;
+import comercio.modelo.Almacen;
+import comercio.modelo.Egreso;
+import comercio.vistas.modelos.LotesEgresadosTableModel;
+import java.awt.event.ItemEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -10,14 +16,17 @@ import javax.swing.JOptionPane;
  */
 public class EgresoUI extends javax.swing.JPanel {
 
-    private EgresosController egresosController;
+    private EgresoJpaController egresoJpaController;
+    private LotesEgresadosTableModel modeloTabla;
 
     /**
      * Creates new form EgresoUI
      */
     public EgresoUI() {
         initComponents();
-        egresosController = ControllerSingleton.getEgresosController();
+        egresoJpaController = new EgresoJpaController(ControllerSingleton.getEmf());
+        modeloTabla = new LotesEgresadosTableModel(egresoJpaController);
+        tablaLotesEgresados.setModel(modeloTabla);
     }
 
     /**
@@ -55,8 +64,9 @@ public class EgresoUI extends javax.swing.JPanel {
         botonRegistrarEgreso = new javax.swing.JButton();
         botonCancelarEgreso = new javax.swing.JButton();
 
-        nuevoLote.setMaximumSize(new java.awt.Dimension(259, 97));
+        nuevoLote.setTitle("Agregar Lote");
         nuevoLote.setMinimumSize(new java.awt.Dimension(259, 97));
+        nuevoLote.setResizable(false);
 
         etiquetaCodigoLote.setText("Código del lote");
 
@@ -110,6 +120,7 @@ public class EgresoUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Egresar Lotes de Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
@@ -124,6 +135,11 @@ public class EgresoUI extends javax.swing.JPanel {
         etiquetaAlmacen.setText("Almacén");
 
         campoAlmacen.setModel(new comercio.vistas.modelos.AlmacenComboBoxModel());
+        campoAlmacen.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                campoAlmacenItemStateChanged(evt);
+            }
+        });
 
         etiquetaObservaciones.setText("Observaciones");
 
@@ -142,12 +158,12 @@ public class EgresoUI extends javax.swing.JPanel {
                         .addGroup(panelCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(etiquetaCausaEspecial, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(etiquetaAlmacen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaCodigoEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(etiquetaCodigoEgreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelCamposLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoAlmacen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(campoAlmacen, 0, 181, Short.MAX_VALUE)
                             .addComponent(campoCausaEspecial)
-                            .addComponent(campoCodigoEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campoCodigoEgreso)))
                     .addGroup(panelCamposLayout.createSequentialGroup()
                         .addComponent(etiquetaObservaciones)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -189,11 +205,13 @@ public class EgresoUI extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaLotesEgresados.setEnabled(false);
         jspTabla.setViewportView(tablaLotesEgresados);
 
         add(jspTabla, java.awt.BorderLayout.CENTER);
 
         botonAgregarLote.setText("Agregar Lote");
+        botonAgregarLote.setEnabled(false);
         botonAgregarLote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonAgregarLoteActionPerformed(evt);
@@ -201,6 +219,7 @@ public class EgresoUI extends javax.swing.JPanel {
         });
 
         botonQuitarLote.setText("Quitar Lote");
+        botonQuitarLote.setEnabled(false);
 
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
@@ -220,7 +239,7 @@ public class EgresoUI extends javax.swing.JPanel {
                 .addComponent(botonAgregarLote)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonQuitarLote)
-                .addContainerGap(240, Short.MAX_VALUE))
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         add(panelBotones, java.awt.BorderLayout.LINE_START);
@@ -229,6 +248,12 @@ public class EgresoUI extends javax.swing.JPanel {
         panelUltimo.setMinimumSize(new java.awt.Dimension(900, 23));
 
         botonRegistrarEgreso.setText("Registrar Egreso");
+        botonRegistrarEgreso.setEnabled(false);
+        botonRegistrarEgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarEgresoActionPerformed(evt);
+            }
+        });
 
         botonCancelarEgreso.setText("Cancelar Egreso");
 
@@ -237,7 +262,7 @@ public class EgresoUI extends javax.swing.JPanel {
         panelUltimoLayout.setHorizontalGroup(
             panelUltimoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelUltimoLayout.createSequentialGroup()
-                .addContainerGap(265, Short.MAX_VALUE)
+                .addContainerGap(253, Short.MAX_VALUE)
                 .addComponent(botonRegistrarEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(botonCancelarEgreso, javax.swing.GroupLayout.PREFERRED_SIZE, 224, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,17 +280,41 @@ public class EgresoUI extends javax.swing.JPanel {
 
     private void botonAgregarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarLoteActionPerformed
         nuevoLote.setVisible(true);
+        nuevoLote.pack();
     }//GEN-LAST:event_botonAgregarLoteActionPerformed
 
     private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
         try {
             String codigoLote = campoCodigoLote.getText();
             Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
-            egresosController.agregarLote(codigoLote, cantidad);
+            egresoJpaController.agregarLote(codigoLote, cantidad);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonAgregarActionPerformed
+
+    private void campoAlmacenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_campoAlmacenItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED) {
+            egresoJpaController.setAlmacen((Almacen) campoAlmacen.getSelectedItem());
+            botonAgregarLote.setEnabled(true);
+            botonQuitarLote.setEnabled(true);
+            tablaLotesEgresados.setEnabled(true);
+            botonRegistrarEgreso.setEnabled(true);
+        }
+    }//GEN-LAST:event_campoAlmacenItemStateChanged
+
+    private void botonRegistrarEgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarEgresoActionPerformed
+        try {
+            Egreso egreso = new Egreso();
+            String codigo = campoCodigoEgreso.getText();
+            String causaEspecial = campoCausaEspecial.getText();
+            String observaciones = campoObservaciones.getText();
+            egresoJpaController.agregarDatosDelEgreso(codigo, causaEspecial, observaciones);
+            egresoJpaController.persistirOperacion();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(campoCodigoEgreso, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonRegistrarEgresoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregar;

@@ -86,7 +86,7 @@ public class Marca implements Serializable {
      * @param nombre the nombre to set
      */
     public void setNombre(String nombre) {
-        this.nombre = nombre;
+        this.nombre = nombre.toUpperCase();
     }
 
     /**
@@ -100,7 +100,7 @@ public class Marca implements Serializable {
      * @param abreviacion the abreviacion to set
      */
     public void setAbreviacion(String abreviacion) {
-        this.abreviacion = abreviacion;
+        this.abreviacion = abreviacion.toUpperCase();
     }
 
     /**

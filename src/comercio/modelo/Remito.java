@@ -104,7 +104,7 @@ public class Remito implements Serializable {
      * @param codigo the codigo to set
      */
     public void setCodigo(String codigo) {
-        this.codigo = codigo;
+        this.codigo = codigo.toUpperCase();
     }
 
     /**

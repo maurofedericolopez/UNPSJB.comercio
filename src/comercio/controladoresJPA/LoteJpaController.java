@@ -3,10 +3,12 @@ package comercio.controladoresJPA;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -543,18 +545,38 @@ public class LoteJpaController implements Serializable {
         }
     }
 
-    public LoteAlmacenado buscarLoteAlmacenadoPorAlmacenYLote(Almacen almacen, Lote lote) {
-        Object[] array = almacen.getLotesAlmacenados().toArray();
-        String codigoLote = lote.getCodigo();
-        LoteAlmacenado loteAlmacenado = null;
-        for(Object o : array) {
-            LoteAlmacenado la = (LoteAlmacenado) o;
-            if(la.getLote().getCodigo().equals(codigoLote)) {
-                loteAlmacenado = la;
-                break;
+    public LoteAlmacenado buscarLoteAlmacenado(Almacen almacen, Lote lote) throws Exception {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<LoteAlmacenado> cq = cb.createQuery(LoteAlmacenado.class);
+            Root<LoteAlmacenado> root = cq.from(LoteAlmacenado.class);
+            cq.select(root);
+
+            List<Predicate> predicateList = new ArrayList<>();
+
+            Predicate lotePredicate, almacenPredicate;
+
+            if (lote != null) {
+                lotePredicate = cb.equal(root.get("lote"), lote);
+                predicateList.add(lotePredicate);
             }
+
+            if (almacen != null) {
+                almacenPredicate = cb.equal(root.get("almacen"), almacen);
+                predicateList.add(almacenPredicate);
+            }
+ 
+            Predicate[] predicates = new Predicate[predicateList.size()];
+            predicateList.toArray(predicates);
+            cq.where(predicates);
+
+            return (LoteAlmacenado) em.createQuery(cq).getSingleResult();
+        } catch(NoResultException ex) {
+            return null;
+        } finally {
+            em.close();
         }
-        return loteAlmacenado;
     }
 
     public Boolean codigoLoteDisponible(String codigo) throws Exception {

@@ -1,11 +1,11 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.ImportacionesController;
-import comercio.controladoresJPA.LoteJpaController;
-import comercio.controladoresJPA.ProductoJpaController;
+import comercio.controladoresJPA.RemitoJpaController;
 import comercio.modelo.Almacen;
 import comercio.modelo.Remito;
+import comercio.vistas.modelos.LotesDelRemitoTableModel;
+import java.awt.event.ItemEvent;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -15,9 +15,8 @@ import javax.swing.JOptionPane;
  */
 public class ImportarUI extends javax.swing.JPanel {
 
-    private ImportacionesController importacionesController;
-    private ProductoJpaController productoJpaController;
-    private LoteJpaController loteJpaController;
+    private RemitoJpaController remitoJpaController;
+    private LotesDelRemitoTableModel modeloTabla;
 
     /**
      * Creates new form ImportarUI
@@ -25,9 +24,9 @@ public class ImportarUI extends javax.swing.JPanel {
     public ImportarUI() {
         initComponents();
         campoFechaRemito.setValue(new Date());
-        importacionesController = ControllerSingleton.getRemitosController();
-        productoJpaController = ControllerSingleton.getProductoJpaController();
-        loteJpaController = ControllerSingleton.getLoteJpaController();
+        remitoJpaController = new RemitoJpaController(ControllerSingleton.getEmf());
+        modeloTabla = new LotesDelRemitoTableModel(remitoJpaController);
+        tablaLotesDelRemito.setModel(modeloTabla);
     }
 
     /**
@@ -52,7 +51,6 @@ public class ImportarUI extends javax.swing.JPanel {
         botonCancelar = new javax.swing.JButton();
         campoFechaVencimiento = new javax.swing.JFormattedTextField();
         botonGuardar = new javax.swing.JButton();
-        etiquetaTituloFrame = new javax.swing.JLabel();
         panelCentral = new javax.swing.JPanel();
         panelDatosDelRemito = new javax.swing.JPanel();
         etiquetaCodigoRemito = new javax.swing.JLabel();
@@ -173,15 +171,11 @@ public class ImportarUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Importar Lotes de Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
-
-        etiquetaTituloFrame.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        etiquetaTituloFrame.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        etiquetaTituloFrame.setText("Importar Lotes de Productos");
-        add(etiquetaTituloFrame, java.awt.BorderLayout.PAGE_START);
 
         panelDatosDelRemito.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos del remito", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
         panelDatosDelRemito.setMaximumSize(new java.awt.Dimension(900, 100));
@@ -240,7 +234,14 @@ public class ImportarUI extends javax.swing.JPanel {
 
         tablaLotesDelRemito.setAutoCreateRowSorter(true);
         tablaLotesDelRemito.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
-        tablaLotesDelRemito.setModel(new comercio.vistas.modelos.LotesDelRemitoTableModel());
+        tablaLotesDelRemito.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         tablaLotesDelRemito.setColumnSelectionAllowed(true);
         tablaLotesDelRemito.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaLotesDelRemito);
@@ -335,9 +336,7 @@ public class ImportarUI extends javax.swing.JPanel {
         panelBotonesLayout.setHorizontalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(botonCancelarOperacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelBotonesLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(botonRegistrarOperación, javax.swing.GroupLayout.PREFERRED_SIZE, 900, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(botonRegistrarOperación, javax.swing.GroupLayout.DEFAULT_SIZE, 888, Short.MAX_VALUE)
         );
         panelBotonesLayout.setVerticalGroup(
             panelBotonesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,8 +355,8 @@ public class ImportarUI extends javax.swing.JPanel {
             remito.setCodigo(campoCodigoRemito.getText());
             remito.setFecha((Date) campoFechaRemito.getValue());
             Almacen almacen = (Almacen) campoSucursalAlmacen.getSelectedItem();
-            importacionesController.registrarDatosRemito(remito, almacen);
-            importacionesController.persistirOperacion();
+            remitoJpaController.registrarDatosRemito(remito, almacen);
+            remitoJpaController.persistirOperacion();
             JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -384,7 +383,7 @@ public class ImportarUI extends javax.swing.JPanel {
             Date fechaProduccion = (Date) campoFechaProduccion.getValue();
             Date fechaVencimiento = (Date) campoFechaVencimiento.getValue();
             Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
-            importacionesController.agregarLote(codigoLote, codigoProducto, fechaProduccion, fechaVencimiento, cantidad);
+            remitoJpaController.agregarLote(codigoLote, codigoProducto, fechaProduccion, fechaVencimiento, cantidad);
             limpiarCampos();
             nuevoLoteRemitoUI.setVisible(false);
         } catch (Exception ex) {
@@ -393,7 +392,7 @@ public class ImportarUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonGuardarActionPerformed
 
     private void botonCancelarOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarOperacionActionPerformed
-        importacionesController.cancelarIngresoDeLotesDeProductos();
+        remitoJpaController.cancelarIngresoDeLotesDeProductos();
     }//GEN-LAST:event_botonCancelarOperacionActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -419,7 +418,6 @@ public class ImportarUI extends javax.swing.JPanel {
     private javax.swing.JLabel etiquetaFechaRemito;
     private javax.swing.JLabel etiquetaFechaVencimiento;
     private javax.swing.JLabel etiquetaSucursalAlmacen;
-    private javax.swing.JLabel etiquetaTituloFrame;
     private javax.swing.JScrollPane jsp;
     private javax.swing.JDialog nuevoLoteRemitoUI;
     private javax.swing.JPanel panelBotones;
@@ -435,230 +433,6 @@ public class ImportarUI extends javax.swing.JPanel {
         campoCantidad.setValue(0);
         campoFechaProduccion.setValue(null);
         campoFechaVencimiento.setValue(null);
-    }
-
-    /**
-     * @return the controlador
-     */
-    public ImportacionesController getImportacionesController() {
-        return importacionesController;
-    }
-
-    /**
-     * @param controlador the controlador to set
-     */
-    public void setImportacionesController(ImportacionesController controlador) {
-        this.importacionesController = controlador;
-    }
-
-    /**
-     * @return the botonEliminarLoteRemito
-     */
-    public javax.swing.JButton getBotonEliminarLoteRemito() {
-        return botonEliminarLoteRemito;
-    }
-
-    /**
-     * @param botonEliminarLoteRemito the botonEliminarLoteRemito to set
-     */
-    public void setBotonEliminarLoteRemito(javax.swing.JButton botonEliminarLoteRemito) {
-        this.botonEliminarLoteRemito = botonEliminarLoteRemito;
-    }
-
-    /**
-     * @return the botonNuevoLoteRemito
-     */
-    public javax.swing.JButton getBotonNuevoLoteRemito() {
-        return botonNuevoLoteRemito;
-    }
-
-    /**
-     * @param botonNuevoLoteRemito the botonNuevoLoteRemito to set
-     */
-    public void setBotonNuevoLoteRemito(javax.swing.JButton botonNuevoLoteRemito) {
-        this.botonNuevoLoteRemito = botonNuevoLoteRemito;
-    }
-
-    /**
-     * @return the botonRegistrarOperación
-     */
-    public javax.swing.JButton getBotonRegistrarOperación() {
-        return botonRegistrarOperación;
-    }
-
-    /**
-     * @param botonRegistrarOperación the botonRegistrarOperación to set
-     */
-    public void setBotonRegistrarOperación(javax.swing.JButton botonRegistrarOperación) {
-        this.botonRegistrarOperación = botonRegistrarOperación;
-    }
-
-    /**
-     * @return the campoCodigoRemito
-     */
-    public javax.swing.JTextField getCampoCodigoRemito() {
-        return campoCodigoRemito;
-    }
-
-    /**
-     * @param campoCodigoRemito the campoCodigoRemito to set
-     */
-    public void setCampoCodigoRemito(javax.swing.JTextField campoCodigoRemito) {
-        this.campoCodigoRemito = campoCodigoRemito;
-    }
-
-    /**
-     * @return the campoFechaRemito
-     */
-    public javax.swing.JFormattedTextField getCampoFechaRemito() {
-        return campoFechaRemito;
-    }
-
-    /**
-     * @param campoFechaRemito the campoFechaRemito to set
-     */
-    public void setCampoFechaRemito(javax.swing.JFormattedTextField campoFechaRemito) {
-        this.campoFechaRemito = campoFechaRemito;
-    }
-
-    /**
-     * @return the campoSucursalAlmacen
-     */
-    public javax.swing.JComboBox getCampoSucursalAlmacen() {
-        return campoSucursalAlmacen;
-    }
-
-    /**
-     * @param campoSucursalAlmacen the campoSucursalAlmacen to set
-     */
-    public void setCampoSucursalAlmacen(javax.swing.JComboBox campoSucursalAlmacen) {
-        this.campoSucursalAlmacen = campoSucursalAlmacen;
-    }
-
-    /**
-     * @return the etiquetaCodigoRemito
-     */
-    public javax.swing.JLabel getEtiquetaCodigoRemito() {
-        return etiquetaCodigoRemito;
-    }
-
-    /**
-     * @param etiquetaCodigoRemito the etiquetaCodigoRemito to set
-     */
-    public void setEtiquetaCodigoRemito(javax.swing.JLabel etiquetaCodigoRemito) {
-        this.etiquetaCodigoRemito = etiquetaCodigoRemito;
-    }
-
-    /**
-     * @return the etiquetaFechaRemito
-     */
-    public javax.swing.JLabel getEtiquetaFechaRemito() {
-        return etiquetaFechaRemito;
-    }
-
-    /**
-     * @param etiquetaFechaRemito the etiquetaFechaRemito to set
-     */
-    public void setEtiquetaFechaRemito(javax.swing.JLabel etiquetaFechaRemito) {
-        this.etiquetaFechaRemito = etiquetaFechaRemito;
-    }
-
-    /**
-     * @return the etiquetaSucursalAlmacen
-     */
-    public javax.swing.JLabel getEtiquetaSucursalAlmacen() {
-        return etiquetaSucursalAlmacen;
-    }
-
-    /**
-     * @param etiquetaSucursalAlmacen the etiquetaSucursalAlmacen to set
-     */
-    public void setEtiquetaSucursalAlmacen(javax.swing.JLabel etiquetaSucursalAlmacen) {
-        this.etiquetaSucursalAlmacen = etiquetaSucursalAlmacen;
-    }
-
-    /**
-     * @return the etiquetaTituloFrame
-     */
-    public javax.swing.JLabel getEtiquetaTituloFrame() {
-        return etiquetaTituloFrame;
-    }
-
-    /**
-     * @param etiquetaTituloFrame the etiquetaTituloFrame to set
-     */
-    public void setEtiquetaTituloFrame(javax.swing.JLabel etiquetaTituloFrame) {
-        this.etiquetaTituloFrame = etiquetaTituloFrame;
-    }
-
-    /**
-     * @return the jsp
-     */
-    public javax.swing.JScrollPane getJsp() {
-        return jsp;
-    }
-
-    /**
-     * @param jsp the jsp to set
-     */
-    public void setJsp(javax.swing.JScrollPane jsp) {
-        this.jsp = jsp;
-    }
-
-    /**
-     * @return the panelCentral
-     */
-    public javax.swing.JPanel getPanelCentral() {
-        return panelCentral;
-    }
-
-    /**
-     * @param panelCentral the panelCentral to set
-     */
-    public void setPanelCentral(javax.swing.JPanel panelCentral) {
-        this.panelCentral = panelCentral;
-    }
-
-    /**
-     * @return the panelDatosDelRemito
-     */
-    public javax.swing.JPanel getPanelDatosDelRemito() {
-        return panelDatosDelRemito;
-    }
-
-    /**
-     * @param panelDatosDelRemito the panelDatosDelRemito to set
-     */
-    public void setPanelDatosDelRemito(javax.swing.JPanel panelDatosDelRemito) {
-        this.panelDatosDelRemito = panelDatosDelRemito;
-    }
-
-    /**
-     * @return the panelLotesRemito
-     */
-    public javax.swing.JPanel getPanelLotesRemito() {
-        return panelLotesRemito;
-    }
-
-    /**
-     * @param panelLotesRemito the panelLotesRemito to set
-     */
-    public void setPanelLotesRemito(javax.swing.JPanel panelLotesRemito) {
-        this.panelLotesRemito = panelLotesRemito;
-    }
-
-    /**
-     * @return the tablaLotesDelRemito
-     */
-    public javax.swing.JTable getTablaLotesDelRemito() {
-        return tablaLotesDelRemito;
-    }
-
-    /**
-     * @param tablaLotesDelRemito the tablaLotesDelRemito to set
-     */
-    public void setTablaLotesDelRemito(javax.swing.JTable tablaLotesDelRemito) {
-        this.tablaLotesDelRemito = tablaLotesDelRemito;
     }
 
 }

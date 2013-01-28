@@ -32,7 +32,7 @@ public class ProductoEnVenta implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @ManyToOne
-    private PuntoVenta puntoVenta;
+    private PuntoVenta puntoDeVenta;
     @ManyToOne
     private Producto producto;
     private Double cantidad;
@@ -77,17 +77,17 @@ public class ProductoEnVenta implements Serializable {
     }
 
     /**
-     * @return the puntoVenta
+     * @return the puntoDeVenta
      */
-    public PuntoVenta getPuntoVenta() {
-        return puntoVenta;
+    public PuntoVenta getPuntoDeVenta() {
+        return puntoDeVenta;
     }
 
     /**
-     * @param puntoVenta the puntoVenta to set
+     * @param puntoDeVenta the puntoDeVenta to set
      */
-    public void setPuntoVenta(PuntoVenta puntoVenta) {
-        this.puntoVenta = puntoVenta;
+    public void setPuntoDeVenta(PuntoVenta puntoVenta) {
+        this.puntoDeVenta = puntoVenta;
     }
 
     /**

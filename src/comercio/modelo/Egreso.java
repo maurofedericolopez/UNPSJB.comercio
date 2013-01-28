@@ -95,7 +95,7 @@ public class Egreso implements Serializable {
      * @param codigo the codigo to set
      */
     public void setCodigo(String codigo) {
-        this.codigo = codigo;
+        this.codigo = codigo.toUpperCase();
     }
 
     /**
@@ -109,7 +109,7 @@ public class Egreso implements Serializable {
      * @param causaEspecial the causaEspecial to set
      */
     public void setCausaEspecial(String causaEspecial) {
-        this.causaEspecial = causaEspecial;
+        this.causaEspecial = causaEspecial.toUpperCase();
     }
 
     /**
@@ -137,7 +137,7 @@ public class Egreso implements Serializable {
      * @param observaciones the observaciones to set
      */
     public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
+        this.observaciones = observaciones.toUpperCase();
     }
 
     /**

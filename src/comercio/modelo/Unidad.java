@@ -30,7 +30,7 @@ public class Unidad implements Serializable {
     @Column(name = "idUnidad")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(length = 45, unique = true)
+    @Column(length = 45, unique = true, nullable = false)
     private String descripcion;
 
     @Override
@@ -83,7 +83,7 @@ public class Unidad implements Serializable {
      * @param descripcion the descripcion to set
      */
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.toUpperCase();
     }
 
 }

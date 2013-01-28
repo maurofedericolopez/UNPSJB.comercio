@@ -83,7 +83,7 @@ public class Origen implements Serializable {
      * @param pais the pais to set
      */
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.toUpperCase();
     }
 
 }

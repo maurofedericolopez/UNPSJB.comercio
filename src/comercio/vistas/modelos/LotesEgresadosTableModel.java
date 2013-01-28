@@ -1,7 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.ControllerSingleton;
-import comercio.controladores.EgresosController;
+import comercio.controladoresJPA.EgresoJpaController;
 import comercio.modelo.LoteEgresado;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,14 +15,14 @@ import javax.swing.table.AbstractTableModel;
 public class LotesEgresadosTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Código", "Producto", "Cantidad", "Fecha Producción", "Fecha Vencimiento"};
-    private EgresosController controlador;
+    private EgresoJpaController controlador;
     private ArrayList<LoteEgresado> lotesEgresados = new ArrayList();
 
-    public LotesEgresadosTableModel() {
+    public LotesEgresadosTableModel(EgresoJpaController controlador) {
         super();
-        controlador = ControllerSingleton.getEgresosController();
+        this.controlador = controlador;
+        this.controlador.addObserver(this);
         lotesEgresados = controlador.getLotesEgresados();
-        controlador.addObserver(this);
     }
 
     @Override

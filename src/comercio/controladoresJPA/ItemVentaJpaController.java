@@ -27,7 +27,7 @@ public class ItemVentaJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(ItemVenta itemVenta) {
+    public void crearItemVenta(ItemVenta itemVenta) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -50,7 +50,7 @@ public class ItemVentaJpaController implements Serializable {
         }
     }
 
-    public void edit(ItemVenta itemVenta) throws NonexistentEntityException, Exception {
+    public void editarItemVenta(ItemVenta itemVenta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -76,7 +76,7 @@ public class ItemVentaJpaController implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = itemVenta.getId();
-                if (findItemVenta(id) == null) {
+                if (encontrarItemVenta(id) == null) {
                     throw new NonexistentEntityException("The itemVenta with id " + id + " no longer exists.");
                 }
             }
@@ -88,7 +88,7 @@ public class ItemVentaJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destruirItemVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -114,15 +114,15 @@ public class ItemVentaJpaController implements Serializable {
         }
     }
 
-    public List<ItemVenta> findItemVentaEntities() {
-        return findItemVentaEntities(true, -1, -1);
+    public List<ItemVenta> encontrarItemVentaEntities() {
+        return encontrarItemVentaEntities(true, -1, -1);
     }
 
-    public List<ItemVenta> findItemVentaEntities(int maxResults, int firstResult) {
-        return findItemVentaEntities(false, maxResults, firstResult);
+    public List<ItemVenta> encontrarItemVentaEntities(int maxResults, int firstResult) {
+        return encontrarItemVentaEntities(false, maxResults, firstResult);
     }
 
-    private List<ItemVenta> findItemVentaEntities(boolean all, int maxResults, int firstResult) {
+    private List<ItemVenta> encontrarItemVentaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -138,7 +138,7 @@ public class ItemVentaJpaController implements Serializable {
         }
     }
 
-    public ItemVenta findItemVenta(Long id) {
+    public ItemVenta encontrarItemVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(ItemVenta.class, id);

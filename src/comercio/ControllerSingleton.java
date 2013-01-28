@@ -1,10 +1,6 @@
 package comercio;
 
-import comercio.controladores.EgresosController;
-import comercio.controladores.ImportacionesController;
-import comercio.controladores.VentasController;
 import comercio.controladoresJPA.*;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -14,16 +10,12 @@ import javax.persistence.EntityManagerFactory;
 public class ControllerSingleton {
 
     private static EntityManagerFactory emf = ComercioApp.getEntityManagerFactory();
-    private static EntityManager em = null;
-
-    private static ProductoJpaController productoJpaController = new ProductoJpaController(getEmf());
-    private static RemitoJpaController remitoJpaController = new RemitoJpaController(getEmf());
 
     private static SucursalJpaController sucursalJpaController = new SucursalJpaController(getEmf());
     private static AlmacenJpaController almacenJpaController = new AlmacenJpaController(getEmf());
     private static PuntoVentaJpaController puntoVentaJpaController = new PuntoVentaJpaController(getEmf());
-
     private static LoteJpaController loteJpaController = new LoteJpaController(getEmf());
+    private static ProductoJpaController productoJpaController = new ProductoJpaController(getEmf());
 
     private static CategoriaJpaController categoriaJpaController = new CategoriaJpaController(getEmf());
     private static MarcaJpaController marcaJpaController = new MarcaJpaController(getEmf());
@@ -32,27 +24,10 @@ public class ControllerSingleton {
     private static MedioDePagoJpaController medioDePagoJpaController = new MedioDePagoJpaController(getEmf());
 
     private static TransferenciaJpaController transferenciaJpaController = new TransferenciaJpaController(getEmf());
-    private static ImportacionesController remitosController = new ImportacionesController();
-    private static EgresosController egresosController = new EgresosController();
-    private static VentasController ventasController = new VentasController();
-
     private static EgresoJpaController egresoJpaController = new EgresoJpaController(getEmf());
+    private static RemitoJpaController remitoJpaController = new RemitoJpaController(getEmf());
     private static VentaJpaController ventaJpaController = new VentaJpaController(getEmf());
     private static ItemVentaJpaController itemDeVentaJpaController = new ItemVentaJpaController(getEmf());
-
-    /**
-     * @return the remitosController
-     */
-    public static ImportacionesController getRemitosController() {
-        return remitosController;
-    }
-
-    /**
-     * @return the ventasController
-     */
-    public static VentasController getVentasController() {
-        return ventasController;
-    }
 
     /**
      * @return the almacenJpaController
@@ -115,13 +90,6 @@ public class ControllerSingleton {
      */
     public static MedioDePagoJpaController getMedioDePagoJpaController() {
         return medioDePagoJpaController;
-    }
-
-    /**
-     * @return the egresosController
-     */
-    public static EgresosController getEgresosController() {
-        return egresosController;
     }
 
     /**

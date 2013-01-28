@@ -83,7 +83,7 @@ public class MedioDePago implements Serializable {
      * @param descripcion the descripcion to set
      */
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        this.descripcion = descripcion.toUpperCase();
     }
 
 }

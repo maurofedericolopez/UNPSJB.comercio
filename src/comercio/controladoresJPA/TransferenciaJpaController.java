@@ -4,12 +4,12 @@ import comercio.ControllerSingleton;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -138,31 +138,159 @@ public class TransferenciaJpaController implements Serializable {
         }
     }
 
+    public ArrayList<Transferencia> buscarTransferencia(Almacen almacen, Lote lote) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Transferencia> cq = cb.createQuery(Transferencia.class);
+            Root<Transferencia> trans = cq.from(Transferencia.class);
+            cq.select(trans);
+
+            List<Predicate> predicateList = new ArrayList<>();
+
+            Predicate idLotePredicate, idAlmacenPredicate;
+
+            if (lote != null) {
+                idLotePredicate = cb.equal(trans.get("lote"), lote);
+                predicateList.add(idLotePredicate);
+            }
+
+            if (almacen != null) {
+                idAlmacenPredicate = cb.equal(trans.get("almacenOrigen"), almacen);
+                predicateList.add(idAlmacenPredicate);
+            }
+ 
+            Predicate[] predicates = new Predicate[predicateList.size()];
+            predicateList.toArray(predicates);
+            cq.where(predicates);
+
+            ArrayList<Transferencia> transferencias = new ArrayList();
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            for(Object o : array)
+                transferencias.add((Transferencia) o);
+            return transferencias;
+        } catch(NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public Transferencia buscarTransferenciaAlmacenDestino(Almacen almacenOrigen, Almacen almacenDestino, Lote lote) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Transferencia> cq = cb.createQuery(Transferencia.class);
+            Root<Transferencia> trans = cq.from(Transferencia.class);
+            cq.select(trans);
+
+            List<Predicate> predicateList = new ArrayList<>();
+
+            Predicate lotePredicate, almacenOrigenPredicate, almacenDestinoPredicate;
+
+            if (lote != null) {
+                lotePredicate = cb.equal(trans.get("lote"), lote);
+                predicateList.add(lotePredicate);
+            }
+
+            if (almacenOrigen != null) {
+                almacenOrigenPredicate = cb.equal(trans.get("almacenOrigen"), almacenOrigen);
+                predicateList.add(almacenOrigenPredicate);
+            }
+
+            if (almacenDestino != null) {
+                almacenDestinoPredicate = cb.equal(trans.get("almacenDestino"), almacenDestino);
+                predicateList.add(almacenDestinoPredicate);
+            }
+ 
+            Predicate[] predicates = new Predicate[predicateList.size()];
+            predicateList.toArray(predicates);
+            cq.where(predicates);
+
+            return (Transferencia) em.createQuery(cq).getSingleResult();
+        } catch(NoResultException ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
+    public Transferencia buscarTransferenciaPuntoDeVentaDestino(Almacen almacen, PuntoVenta puntoDeVentaDestino, Lote lote) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Transferencia> cq = cb.createQuery(Transferencia.class);
+            Root<Transferencia> trans = cq.from(Transferencia.class);
+            cq.select(trans);
+
+            List<Predicate> predicateList = new ArrayList<>();
+
+            Predicate lotePredicate, almacenOrigenPredicate, puntoDeVentaDestinoPredicate;
+
+            if (lote != null) {
+                lotePredicate = cb.equal(trans.get("lote"), lote);
+                predicateList.add(lotePredicate);
+            }
+
+            if (almacen != null) {
+                almacenOrigenPredicate = cb.equal(trans.get("almacenOrigen"), almacen);
+                predicateList.add(almacenOrigenPredicate);
+            }
+
+            if (puntoDeVentaDestino != null) {
+                puntoDeVentaDestinoPredicate = cb.equal(trans.get("puntoDeVentaDestino"), puntoDeVentaDestino);
+                predicateList.add(puntoDeVentaDestinoPredicate);
+            }
+ 
+            Predicate[] predicates = new Predicate[predicateList.size()];
+            predicateList.toArray(predicates);
+            cq.where(predicates);
+
+            return (Transferencia) em.createQuery(cq).getSingleResult();
+        } catch(NoResultException ex) {
+            return null;
+        } finally {
+            em.close();
+        }
+    }
+
     public void transferirProductosAVenta(String codigoLote, Double cantidad, Almacen almacen, PuntoVenta puntoDeVenta) throws Exception {
         Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
-        almacenJpaController.descontarDeAlmacen(almacen, codigoLote, cantidad);
+        almacenJpaController.descontarDeAlmacen(almacen, lote, cantidad);
         Producto producto = lote.getProducto();
         puntoVentaJpaController.aumentarStockEnVenta(puntoDeVenta, producto, cantidad);
 
-        Transferencia transferencia = new Transferencia();
-        transferencia.setAlmacenOrigen(almacen);
-        transferencia.setAlmacenDestino(null);
-        transferencia.setPuntoDeVentaDestino(puntoDeVenta);
-        transferencia.setCantidad(cantidad);
-        crearTransferencia(transferencia);
+        Transferencia transferencia = buscarTransferenciaPuntoDeVentaDestino(almacen, puntoDeVenta, lote);
+        if(transferencia != null) {
+            Double cantidadNueva = transferencia.getCantidad() + cantidad;
+            transferencia.setCantidad(cantidadNueva);
+        } else {
+            transferencia = new Transferencia();
+            transferencia.setAlmacenOrigen(almacen);
+            transferencia.setAlmacenDestino(null);
+            transferencia.setPuntoDeVentaDestino(puntoDeVenta);
+            transferencia.setCantidad(cantidad);
+            crearTransferencia(transferencia);
+        }
     }
 
     public void transferirProductosAlmacen(String codigoLote, Double cantidad, Almacen almacenOrigen, Almacen almacenDestino) throws Exception {
         Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
-        almacenJpaController.descontarDeAlmacen(almacenOrigen, codigoLote, cantidad);
+        almacenJpaController.descontarDeAlmacen(almacenOrigen, lote, cantidad);
         almacenJpaController.aumentarStockEnAlmacen(almacenDestino, lote, cantidad);
 
-        Transferencia transferencia = new Transferencia();
-        transferencia.setAlmacenOrigen(almacenOrigen);
-        transferencia.setAlmacenDestino(almacenDestino);
-        transferencia.setPuntoDeVentaDestino(null);
-        transferencia.setCantidad(cantidad);
-        crearTransferencia(transferencia);
+        Transferencia transferencia = buscarTransferenciaAlmacenDestino(almacenOrigen, almacenDestino, lote);
+        if(transferencia != null) {
+            Double cantidadNueva = transferencia.getCantidad() + cantidad;
+            transferencia.setCantidad(cantidadNueva);
+        } else {
+            transferencia = new Transferencia();
+            transferencia.setAlmacenOrigen(almacenOrigen);
+            transferencia.setAlmacenDestino(almacenDestino);
+            transferencia.setPuntoDeVentaDestino(null);
+            transferencia.setCantidad(cantidad);
+            crearTransferencia(transferencia);
+        }
     }
 
     public void cancelarTransferenciaAlmacen() {

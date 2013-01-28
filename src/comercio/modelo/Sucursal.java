@@ -106,7 +106,7 @@ public class Sucursal implements Serializable {
      * @param ciudad the ciudad to set
      */
     public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+        this.ciudad = ciudad.toUpperCase();
     }
 
     /**
@@ -120,7 +120,7 @@ public class Sucursal implements Serializable {
      * @param domicilio the domicilio to set
      */
     public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
+        this.domicilio = domicilio.toUpperCase();
     }
 
     /**

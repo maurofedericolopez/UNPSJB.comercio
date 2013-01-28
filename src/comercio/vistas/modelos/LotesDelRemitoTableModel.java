@@ -1,7 +1,6 @@
 package comercio.vistas.modelos;
 
-import comercio.ControllerSingleton;
-import comercio.controladores.ImportacionesController;
+import comercio.controladoresJPA.RemitoJpaController;
 import comercio.modelo.LoteRemito;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,14 +15,14 @@ import javax.swing.table.AbstractTableModel;
 public class LotesDelRemitoTableModel extends AbstractTableModel implements Observer {
 
     private String[] columnsNames = {"Código", "Producto", "Cantidad", "Fecha Producción", "Fecha Vencimiento"};
-    private ImportacionesController controlador;
+    private RemitoJpaController controlador;
     private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
 
-    public LotesDelRemitoTableModel() {
+    public LotesDelRemitoTableModel(RemitoJpaController controlador) {
         super();
-        controlador = ControllerSingleton.getRemitosController();
-        lotesDelRemito = controlador.getLotesDelRemito();
-        controlador.addObserver(this);
+        this.controlador = controlador;
+        this.controlador.addObserver(this);
+        lotesDelRemito = this.controlador.getLotesDelRemito();
     }
 
     @Override

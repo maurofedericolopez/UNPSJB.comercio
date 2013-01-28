@@ -428,7 +428,6 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         try {
             camposDeNuevoProductoCompletos();
-            productoJpaController.codigoProductoDisponible(campoCodigo.getText());
             Producto nuevoProducto = new Producto();
             nuevoProducto.setCodigo(campoCodigo.getText());
             nuevoProducto.setDescripcion(campoDescripcion.getText());
@@ -563,9 +562,9 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
     }
 
     private Boolean camposDeNuevoProductoCompletos() throws Exception {
-        if(campoCodigo.getText().isEmpty())
-            if(campoDescripcion.getText().isEmpty())
-                if(campoPrecio.getText().isEmpty())
+        if(!campoCodigo.getText().isEmpty())
+            if(!campoDescripcion.getText().isEmpty())
+                if(!campoPrecio.getText().isEmpty())
                     if(campoMarca.getSelectedItem() != null)
                         if(campoOrigen.getSelectedItem() != null)
                             if(campoUnidad.getSelectedItem() != null)

@@ -1,13 +1,13 @@
 package comercio.vistas;
 
 import comercio.ControllerSingleton;
-import comercio.controladores.VentasController;
 import comercio.controladoresJPA.ProductoJpaController;
+import comercio.controladoresJPA.VentaJpaController;
 import comercio.modelo.ItemVenta;
 import comercio.modelo.Producto;
 import comercio.modelo.PuntoVenta;
 import comercio.modelo.Vendedor;
-import comercio.vistas.modelos.ItemVentaTableModel;
+import comercio.vistas.modelos.ItemDeVentaTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -24,8 +24,8 @@ public class GestionVenta extends javax.swing.JFrame {
     private Vendedor vendedor;
     private PuntoVenta puntoDeVenta;
     private ProductoJpaController productoJpaController;
-    private VentasController ventasController;
-    private ItemVentaTableModel modeloTabla;
+    private VentaJpaController ventaJpaController;
+    private ItemDeVentaTableModel modeloTabla;
 
     /**
      * Creates new form GestionVenta
@@ -35,10 +35,11 @@ public class GestionVenta extends javax.swing.JFrame {
         campoFecha.setValue(new Date());
         campoCantidadProducto.setValue(1);
         campoMontoTotal.setValue(0.00);
-        agregarComponente(panelIniciarSesion);
+
         productoJpaController = ControllerSingleton.getProductoJpaController();
-        ventasController = ControllerSingleton.getVentasController();
-        agregarComponente(panelVenta);
+        ventaJpaController = new VentaJpaController(ControllerSingleton.getEmf());
+        modeloTabla = new ItemDeVentaTableModel(ventaJpaController);
+
         tablaItemsDeVenta.getTableHeader().setBackground(Color.GRAY);
         tablaItemsDeVenta.getTableHeader().setForeground(Color.WHITE);
         tablaItemsDeVenta.getTableHeader().setFont(new Font("Tahoma", 1, 12));
@@ -53,15 +54,6 @@ public class GestionVenta extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panelIniciarSesion = new javax.swing.JPanel();
-        etiquetaNombreUsuario = new javax.swing.JLabel();
-        campoNombreUsuario = new javax.swing.JTextField();
-        etiquetaContraseña = new javax.swing.JLabel();
-        campoContraseña = new javax.swing.JPasswordField();
-        botonIniciarSesion = new javax.swing.JButton();
-        etiquetaPuntoVenta = new javax.swing.JLabel();
-        campoPuntoDeVenta = new javax.swing.JComboBox();
-        panelVenta = new javax.swing.JPanel();
         panelPrimero = new javax.swing.JPanel();
         etiquetaPuntoDeVenta = new javax.swing.JLabel();
         botonCerrarSesion = new javax.swing.JButton();
@@ -87,67 +79,12 @@ public class GestionVenta extends javax.swing.JFrame {
         panelUltimo = new javax.swing.JPanel();
         botonEliminarItemVenta = new javax.swing.JButton();
 
-        etiquetaNombreUsuario.setText("Nombre de Usuario");
-
-        etiquetaContraseña.setText("Contraseña");
-
-        botonIniciarSesion.setText("Iniciar Sesión");
-        botonIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonIniciarSesionActionPerformed(evt);
-            }
-        });
-
-        etiquetaPuntoVenta.setText("Punto de venta");
-
-        campoPuntoDeVenta.setModel(new comercio.vistas.modelos.PuntoDeVentaComboBoxModel());
-
-        javax.swing.GroupLayout panelIniciarSesionLayout = new javax.swing.GroupLayout(panelIniciarSesion);
-        panelIniciarSesion.setLayout(panelIniciarSesionLayout);
-        panelIniciarSesionLayout.setHorizontalGroup(
-            panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelIniciarSesionLayout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addGroup(panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelIniciarSesionLayout.createSequentialGroup()
-                        .addGroup(panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(etiquetaNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaPuntoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoNombreUsuario)
-                            .addComponent(campoContraseña)
-                            .addComponent(campoPuntoDeVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(botonIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(97, Short.MAX_VALUE))
-        );
-        panelIniciarSesionLayout.setVerticalGroup(
-            panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelIniciarSesionLayout.createSequentialGroup()
-                .addGap(93, 93, 93)
-                .addGroup(panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaNombreUsuario)
-                    .addComponent(campoNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaContraseña)
-                    .addComponent(campoContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelIniciarSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaPuntoVenta)
-                    .addComponent(campoPuntoDeVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(botonIniciarSesion)
-                .addContainerGap(110, Short.MAX_VALUE))
-        );
-
-        panelVenta.setBackground(new java.awt.Color(102, 102, 102));
-        panelVenta.setMaximumSize(new java.awt.Dimension(950, 550));
-        panelVenta.setMinimumSize(new java.awt.Dimension(950, 550));
-        panelVenta.setOpaque(false);
-        panelVenta.setPreferredSize(new java.awt.Dimension(950, 550));
-        panelVenta.setLayout(new java.awt.BorderLayout());
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Venta");
+        setIconImages(null);
+        setMaximumSize(new java.awt.Dimension(950, 550));
+        setMinimumSize(new java.awt.Dimension(950, 550));
+        setResizable(false);
 
         panelPrimero.setBackground(new java.awt.Color(102, 102, 102));
         panelPrimero.setMaximumSize(new java.awt.Dimension(950, 79));
@@ -218,7 +155,7 @@ public class GestionVenta extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        panelVenta.add(panelPrimero, java.awt.BorderLayout.PAGE_START);
+        getContentPane().add(panelPrimero, java.awt.BorderLayout.PAGE_START);
 
         jsp.setBackground(new java.awt.Color(153, 255, 153));
 
@@ -226,14 +163,21 @@ public class GestionVenta extends javax.swing.JFrame {
         tablaItemsDeVenta.setBackground(new java.awt.Color(153, 153, 153));
         tablaItemsDeVenta.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         tablaItemsDeVenta.setForeground(new java.awt.Color(240, 240, 240));
-        tablaItemsDeVenta.setModel(new comercio.vistas.modelos.ItemVentaTableModel());
+        tablaItemsDeVenta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         tablaItemsDeVenta.setGridColor(new java.awt.Color(255, 255, 255));
         tablaItemsDeVenta.setSelectionBackground(new java.awt.Color(204, 204, 255));
         tablaItemsDeVenta.setSelectionForeground(new java.awt.Color(0, 0, 0));
         tablaItemsDeVenta.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaItemsDeVenta);
 
-        panelVenta.add(jsp, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jsp, java.awt.BorderLayout.CENTER);
 
         panelDespues.setBackground(new java.awt.Color(102, 102, 102));
         panelDespues.setMaximumSize(new java.awt.Dimension(296, 32767));
@@ -354,7 +298,7 @@ public class GestionVenta extends javax.swing.JFrame {
                 .addGap(78, 78, 78))
         );
 
-        panelVenta.add(panelDespues, java.awt.BorderLayout.LINE_END);
+        getContentPane().add(panelDespues, java.awt.BorderLayout.LINE_END);
 
         panelUltimo.setBackground(new java.awt.Color(102, 102, 102));
         panelUltimo.setMaximumSize(new java.awt.Dimension(950, 23));
@@ -383,24 +327,10 @@ public class GestionVenta extends javax.swing.JFrame {
                 .addComponent(botonEliminarItemVenta))
         );
 
-        panelVenta.add(panelUltimo, java.awt.BorderLayout.PAGE_END);
-
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Venta");
-        setIconImages(null);
-        setMaximumSize(new java.awt.Dimension(950, 550));
-        setMinimumSize(new java.awt.Dimension(950, 550));
-        setPreferredSize(new java.awt.Dimension(950, 550));
-        setResizable(false);
+        getContentPane().add(panelUltimo, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void botonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarSesionActionPerformed
-        String nombreUsuario = campoNombreUsuario.getText();
-        String contraseña = campoContraseña.getText();
-        
-    }//GEN-LAST:event_botonIniciarSesionActionPerformed
 
     private void botonIngresarProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIngresarProductoActionPerformed
         try {
@@ -415,7 +345,7 @@ public class GestionVenta extends javax.swing.JFrame {
             Double descuento = productoJpaController.obtenerDescuentoVigente(producto);
             itemDeVenta.setDescuento(descuento);
 
-            ventasController.agregarItemDeVenta(itemDeVenta);
+            ventaJpaController.agregarItemDeVenta(itemDeVenta);
             campoCodigoProducto.setText("");
             campoCantidadProducto.setValue(1);
             Double montoTotal = ((Number) campoMontoTotal.getValue()).doubleValue() + producto.getPrecioActual();
@@ -427,14 +357,14 @@ public class GestionVenta extends javax.swing.JFrame {
 
     private void botonEliminarItemVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarItemVentaActionPerformed
         try {
-            ventasController.eliminarItemDeVenta(tablaItemsDeVenta.getSelectedRow());
+            ventaJpaController.eliminarItemDeVenta(tablaItemsDeVenta.getSelectedRow());
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonEliminarItemVentaActionPerformed
 
     private void botonCancelarVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarVentaActionPerformed
-        ventasController.cancelarVenta();
+        ventaJpaController.cancelarVenta();
     }//GEN-LAST:event_botonCancelarVentaActionPerformed
 
     /**
@@ -485,33 +415,24 @@ public class GestionVenta extends javax.swing.JFrame {
     private javax.swing.JButton botonEliminarItemVenta;
     private javax.swing.JButton botonFinalizarVenta;
     private javax.swing.JButton botonIngresarProducto;
-    private javax.swing.JButton botonIniciarSesion;
     private javax.swing.JFormattedTextField campoCantidadProducto;
     private javax.swing.JTextField campoCodigoProducto;
-    private javax.swing.JPasswordField campoContraseña;
     private javax.swing.JFormattedTextField campoFecha;
     private javax.swing.JComboBox campoMedioDePago;
     private javax.swing.JFormattedTextField campoMontoTotal;
-    private javax.swing.JTextField campoNombreUsuario;
-    private javax.swing.JComboBox campoPuntoDeVenta;
     private javax.swing.JLabel etiquetaCantidadProducto;
     private javax.swing.JLabel etiquetaCodigoProducto;
-    private javax.swing.JLabel etiquetaContraseña;
     private javax.swing.JLabel etiquetaFecha;
     private javax.swing.JLabel etiquetaIngreseProducto;
     private javax.swing.JLabel etiquetaMedioDePago;
     private javax.swing.JLabel etiquetaMontoTotal;
-    private javax.swing.JLabel etiquetaNombreUsuario;
     private javax.swing.JLabel etiquetaPuntoDeVenta;
-    private javax.swing.JLabel etiquetaPuntoVenta;
     private javax.swing.JLabel etiquetaSucursal;
     private javax.swing.JLabel etiquetaVendedor;
     private javax.swing.JScrollPane jsp;
     private javax.swing.JPanel panelDespues;
-    private javax.swing.JPanel panelIniciarSesion;
     private javax.swing.JPanel panelPrimero;
     private javax.swing.JPanel panelUltimo;
-    private javax.swing.JPanel panelVenta;
     private javax.swing.JTable tablaItemsDeVenta;
     // End of variables declaration//GEN-END:variables
 

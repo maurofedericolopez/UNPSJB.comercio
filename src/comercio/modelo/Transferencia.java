@@ -34,6 +34,8 @@ public class Transferencia implements Serializable {
     private Almacen almacenDestino;
     @ManyToOne
     private PuntoVenta puntoDeVentaDestino;
+    @ManyToOne
+    private Lote lote;
     private Double cantidad;
 
     /**
@@ -129,6 +131,20 @@ public class Transferencia implements Serializable {
     @Override
     public String toString() {
         return "comercio.modelo.Transferencia[ id=" + getId() + " ]";
+    }
+
+    /**
+     * @return the lote
+     */
+    public Lote getLote() {
+        return lote;
+    }
+
+    /**
+     * @param lote the lote to set
+     */
+    public void setLote(Lote lote) {
+        this.lote = lote;
     }
 
 }

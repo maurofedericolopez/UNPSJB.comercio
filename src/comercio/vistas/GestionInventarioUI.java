@@ -1,6 +1,8 @@
 package comercio.vistas;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JComponent;
 
 /**
@@ -34,9 +36,12 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         menuOperaciones = new javax.swing.JMenu();
         itemMenuImportarLotes = new javax.swing.JMenuItem();
         itemMenuTransferencia = new javax.swing.JMenuItem();
+        itemMenuEgreso = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de inventario");
+        setIconImage(getIconImage());
+        setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(950, 550));
         setMinimumSize(new java.awt.Dimension(950, 550));
         setPreferredSize(new java.awt.Dimension(950, 550));
@@ -91,6 +96,14 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         });
         menuOperaciones.add(itemMenuTransferencia);
 
+        itemMenuEgreso.setText("Egresar lotes de productos");
+        itemMenuEgreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuEgresoActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(itemMenuEgreso);
+
         barraMenu.add(menuOperaciones);
 
         setJMenuBar(barraMenu);
@@ -117,6 +130,10 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private void itemMenuTransferenciaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuTransferenciaActionPerformed
         agregarComponente(new TransferenciaUI());
     }//GEN-LAST:event_itemMenuTransferenciaActionPerformed
+
+    private void itemMenuEgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuEgresoActionPerformed
+        agregarComponente(new EgresoUI());
+    }//GEN-LAST:event_itemMenuEgresoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -165,6 +182,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuAdministrarCategorias;
     private javax.swing.JMenuItem itemMenuAdministrarMarcas;
     private javax.swing.JMenuItem itemMenuAdministrarProductos;
+    private javax.swing.JMenuItem itemMenuEgreso;
     private javax.swing.JMenuItem itemMenuImportarLotes;
     private javax.swing.JMenuItem itemMenuTransferencia;
     private javax.swing.JMenu menuAdministracion;
@@ -177,6 +195,13 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         add(componente, BorderLayout.CENTER);
         componente.setVisible(true);
         componente.updateUI();
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("imagenes/ecommerce.png"));
+        return retValue;
     }
 
 }

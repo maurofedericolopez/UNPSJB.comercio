@@ -36,7 +36,7 @@ public class PuntoVenta implements Serializable {
     private Long numero;
     @ManyToOne
     private Sucursal sucursal;
-    @OneToMany(mappedBy = "puntoVenta")
+        @OneToMany(mappedBy = "puntoDeVenta")
     private List<ProductoEnVenta> productosEnVenta = new ArrayList();
 
     @Override

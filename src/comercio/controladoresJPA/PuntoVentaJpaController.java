@@ -1,18 +1,14 @@
 package comercio.controladoresJPA;
 
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import comercio.modelo.Producto;
-import comercio.modelo.ProductoEnVenta;
-import comercio.modelo.PuntoVenta;
-import comercio.modelo.Sucursal;
+import comercio.modelo.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -55,8 +51,8 @@ public class PuntoVentaJpaController implements Serializable {
                 sucursal = em.merge(sucursal);
             }
             for (ProductoEnVenta productosEnVentaProductoEnVenta : puntoVenta.getProductosEnVenta()) {
-                PuntoVenta oldPuntoVentaOfProductosEnVentaProductoEnVenta = productosEnVentaProductoEnVenta.getPuntoVenta();
-                productosEnVentaProductoEnVenta.setPuntoVenta(puntoVenta);
+                PuntoVenta oldPuntoVentaOfProductosEnVentaProductoEnVenta = productosEnVentaProductoEnVenta.getPuntoDeVenta();
+                productosEnVentaProductoEnVenta.setPuntoDeVenta(puntoVenta);
                 productosEnVentaProductoEnVenta = em.merge(productosEnVentaProductoEnVenta);
                 if (oldPuntoVentaOfProductosEnVentaProductoEnVenta != null) {
                     oldPuntoVentaOfProductosEnVentaProductoEnVenta.getProductosEnVenta().remove(productosEnVentaProductoEnVenta);
@@ -76,10 +72,10 @@ public class PuntoVentaJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            PuntoVenta puntoVenta = productoEnVenta.getPuntoVenta();
+            PuntoVenta puntoVenta = productoEnVenta.getPuntoDeVenta();
             if (puntoVenta != null) {
                 puntoVenta = em.getReference(puntoVenta.getClass(), puntoVenta.getId());
-                productoEnVenta.setPuntoVenta(puntoVenta);
+                productoEnVenta.setPuntoDeVenta(puntoVenta);
             }
             em.persist(productoEnVenta);
             if (puntoVenta != null) {
@@ -126,14 +122,14 @@ public class PuntoVentaJpaController implements Serializable {
             }
             for (ProductoEnVenta productosEnVentaOldProductoEnVenta : productosEnVentaOld) {
                 if (!productosEnVentaNew.contains(productosEnVentaOldProductoEnVenta)) {
-                    productosEnVentaOldProductoEnVenta.setPuntoVenta(null);
+                    productosEnVentaOldProductoEnVenta.setPuntoDeVenta(null);
                     productosEnVentaOldProductoEnVenta = em.merge(productosEnVentaOldProductoEnVenta);
                 }
             }
             for (ProductoEnVenta productosEnVentaNewProductoEnVenta : productosEnVentaNew) {
                 if (!productosEnVentaOld.contains(productosEnVentaNewProductoEnVenta)) {
-                    PuntoVenta oldPuntoVentaOfProductosEnVentaNewProductoEnVenta = productosEnVentaNewProductoEnVenta.getPuntoVenta();
-                    productosEnVentaNewProductoEnVenta.setPuntoVenta(puntoVenta);
+                    PuntoVenta oldPuntoVentaOfProductosEnVentaNewProductoEnVenta = productosEnVentaNewProductoEnVenta.getPuntoDeVenta();
+                    productosEnVentaNewProductoEnVenta.setPuntoDeVenta(puntoVenta);
                     productosEnVentaNewProductoEnVenta = em.merge(productosEnVentaNewProductoEnVenta);
                     if (oldPuntoVentaOfProductosEnVentaNewProductoEnVenta != null && !oldPuntoVentaOfProductosEnVentaNewProductoEnVenta.equals(puntoVenta)) {
                         oldPuntoVentaOfProductosEnVentaNewProductoEnVenta.getProductosEnVenta().remove(productosEnVentaNewProductoEnVenta);
@@ -164,11 +160,11 @@ public class PuntoVentaJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             ProductoEnVenta persistentProductoEnVenta = em.find(ProductoEnVenta.class, productoEnVenta.getId());
-            PuntoVenta puntoVentaOld = persistentProductoEnVenta.getPuntoVenta();
-            PuntoVenta puntoVentaNew = productoEnVenta.getPuntoVenta();
+            PuntoVenta puntoVentaOld = persistentProductoEnVenta.getPuntoDeVenta();
+            PuntoVenta puntoVentaNew = productoEnVenta.getPuntoDeVenta();
             if (puntoVentaNew != null) {
                 puntoVentaNew = em.getReference(puntoVentaNew.getClass(), puntoVentaNew.getId());
-                productoEnVenta.setPuntoVenta(puntoVentaNew);
+                productoEnVenta.setPuntoDeVenta(puntoVentaNew);
             }
             productoEnVenta = em.merge(productoEnVenta);
             if (puntoVentaOld != null && !puntoVentaOld.equals(puntoVentaNew)) {
@@ -215,7 +211,7 @@ public class PuntoVentaJpaController implements Serializable {
             }
             List<ProductoEnVenta> productosEnVenta = puntoVenta.getProductosEnVenta();
             for (ProductoEnVenta productosEnVentaProductoEnVenta : productosEnVenta) {
-                productosEnVentaProductoEnVenta.setPuntoVenta(null);
+                productosEnVentaProductoEnVenta.setPuntoDeVenta(null);
                 productosEnVentaProductoEnVenta = em.merge(productosEnVentaProductoEnVenta);
             }
             em.remove(puntoVenta);
@@ -239,7 +235,7 @@ public class PuntoVentaJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The productoEnVenta with id " + id + " no longer exists.", enfe);
             }
-            PuntoVenta puntoVenta = productoEnVenta.getPuntoVenta();
+            PuntoVenta puntoVenta = productoEnVenta.getPuntoDeVenta();
             if (puntoVenta != null) {
                 puntoVenta.getProductosEnVenta().remove(productoEnVenta);
                 puntoVenta = em.merge(puntoVenta);
@@ -375,23 +371,51 @@ public class PuntoVentaJpaController implements Serializable {
     }
 
     public void aumentarStockEnVenta(PuntoVenta puntoDeVenta, Producto producto, Double cantidad) throws Exception {
-        Object[] array = puntoDeVenta.getProductosEnVenta().toArray();
-        Boolean encontrado = false;
-        for(Object o : array) {
-            ProductoEnVenta pev = (ProductoEnVenta) o;
-            if(pev.getProducto().getCodigo().equals(producto.getCodigo())) {
-                pev.setCantidad(pev.getCantidad() + cantidad);
-                encontrado = true;
-                editarProductoEnVenta(pev);
-                break;
-            }
+        ProductoEnVenta productoEnVenta = buscarProductoEnVenta(puntoDeVenta, producto);
+        if(productoEnVenta != null) {
+            Double nuevaCantidad = productoEnVenta.getCantidad() + cantidad;
+            productoEnVenta.setCantidad(nuevaCantidad);
+            editarProductoEnVenta(productoEnVenta);
+        } else {
+            productoEnVenta = new ProductoEnVenta();
+            productoEnVenta.setProducto(producto);
+            productoEnVenta.setPuntoDeVenta(puntoDeVenta);
+            productoEnVenta.setCantidad(cantidad);
+            crearProductoEnVenta(productoEnVenta);
         }
-        if(!encontrado) {
-            ProductoEnVenta nuevo = new ProductoEnVenta();
-            nuevo.setProducto(producto);
-            nuevo.setPuntoVenta(puntoDeVenta);
-            nuevo.setCantidad(cantidad);
-            crearProductoEnVenta(nuevo);
+    }
+
+    public ProductoEnVenta buscarProductoEnVenta(PuntoVenta puntoDeVenta, Producto producto) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ProductoEnVenta> cq = cb.createQuery(ProductoEnVenta.class);
+            Root<ProductoEnVenta> root = cq.from(ProductoEnVenta.class);
+            cq.select(root);
+
+            List<Predicate> predicateList = new ArrayList<>();
+
+            Predicate puntoDeVentaPredicate, productoPredicate;
+
+            if (puntoDeVenta != null) {
+                puntoDeVentaPredicate = cb.equal(root.get("puntoDeVenta"), puntoDeVenta);
+                predicateList.add(puntoDeVentaPredicate);
+            }
+
+            if (producto != null) {
+                productoPredicate = cb.equal(root.get("producto"), producto);
+                predicateList.add(productoPredicate);
+            }
+ 
+            Predicate[] predicates = new Predicate[predicateList.size()];
+            predicateList.toArray(predicates);
+            cq.where(predicates);
+
+            return (ProductoEnVenta) em.createQuery(cq).getSingleResult();
+        } catch(NoResultException ex) {
+            return null;
+        } finally {
+            em.close();
         }
     }
 

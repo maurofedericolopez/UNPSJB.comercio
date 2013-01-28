@@ -4,9 +4,11 @@
   <NonVisualComponents>
     <Container class="javax.swing.JDialog" name="nuevoLote">
       <Properties>
+        <Property name="title" type="java.lang.String" value="Agregar Lote"/>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
           <Dimension value="[259, 97]"/>
         </Property>
+        <Property name="resizable" type="boolean" value="false"/>
       </Properties>
 
       <Layout>
@@ -91,6 +93,13 @@
     </Container>
   </NonVisualComponents>
   <Properties>
+    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+        <TitledBorder justification="2" title="Egresar Lotes de Productos">
+          <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
+        </TitledBorder>
+      </Border>
+    </Property>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[900, 500]"/>
     </Property>
@@ -138,13 +147,13 @@
                           <Group type="103" groupAlignment="1" max="-2" attributes="0">
                               <Component id="etiquetaCausaEspecial" alignment="1" max="32767" attributes="0"/>
                               <Component id="etiquetaAlmacen" alignment="1" max="32767" attributes="0"/>
-                              <Component id="etiquetaCodigoEgreso" alignment="1" min="-2" pref="71" max="-2" attributes="0"/>
+                              <Component id="etiquetaCodigoEgreso" alignment="1" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoAlmacen" max="32767" attributes="0"/>
+                              <Component id="campoAlmacen" pref="181" max="32767" attributes="0"/>
                               <Component id="campoCausaEspecial" max="32767" attributes="0"/>
-                              <Component id="campoCodigoEgreso" min="-2" pref="181" max="-2" attributes="0"/>
+                              <Component id="campoCodigoEgreso" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -211,6 +220,9 @@
               <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="campoAlmacenItemStateChanged"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="etiquetaObservaciones">
           <Properties>
@@ -256,6 +268,7 @@
                 <Column editable="true" title="Title 4" type="java.lang.Object"/>
               </Table>
             </Property>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -287,7 +300,7 @@
                   <Component id="botonAgregarLote" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonQuitarLote" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="240" max="32767" attributes="0"/>
+                  <EmptySpace pref="214" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -296,6 +309,7 @@
         <Component class="javax.swing.JButton" name="botonAgregarLote">
           <Properties>
             <Property name="text" type="java.lang.String" value="Agregar Lote"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonAgregarLoteActionPerformed"/>
@@ -304,6 +318,7 @@
         <Component class="javax.swing.JButton" name="botonQuitarLote">
           <Properties>
             <Property name="text" type="java.lang.String" value="Quitar Lote"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -327,7 +342,7 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="265" max="32767" attributes="0"/>
+                  <EmptySpace pref="253" max="32767" attributes="0"/>
                   <Component id="botonRegistrarEgreso" min="-2" pref="210" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="botonCancelarEgreso" min="-2" pref="224" max="-2" attributes="0"/>
@@ -348,7 +363,11 @@
         <Component class="javax.swing.JButton" name="botonRegistrarEgreso">
           <Properties>
             <Property name="text" type="java.lang.String" value="Registrar Egreso"/>
+            <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRegistrarEgresoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="botonCancelarEgreso">
           <Properties>

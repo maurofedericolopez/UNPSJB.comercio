@@ -1,11 +1,10 @@
 package comercio.controladoresJPA;
 
+import comercio.ControllerSingleton;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import comercio.modelo.LoteRemito;
-import comercio.modelo.Remito;
+import comercio.modelo.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
@@ -17,18 +16,27 @@ import javax.persistence.criteria.Root;
  *
  * @author Mauro
  */
-public class RemitoJpaController implements Serializable {
+public class RemitoJpaController extends Observable implements Serializable {
+
+    private EntityManagerFactory emf = null;
+    private LoteJpaController loteJpaController;
+    private ProductoJpaController productoJpaController;
+
+    private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
+    private Remito remito = null;
+    private Almacen almacen = null;
 
     public RemitoJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+        loteJpaController = ControllerSingleton.getLoteJpaController();
+        productoJpaController = ControllerSingleton.getProductoJpaController();
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Remito remito) {
+    public void crearRemito(Remito remito) {
         if (remito.getLotes() == null) {
             remito.setLotes(new ArrayList<LoteRemito>());
         }
@@ -36,7 +44,7 @@ public class RemitoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<LoteRemito> attachedLotes = new ArrayList<LoteRemito>();
+            List<LoteRemito> attachedLotes = new ArrayList<>();
             for (LoteRemito lotesLoteRemitoToAttach : remito.getLotes()) {
                 lotesLoteRemitoToAttach = em.getReference(lotesLoteRemitoToAttach.getClass(), lotesLoteRemitoToAttach.getId());
                 attachedLotes.add(lotesLoteRemitoToAttach);
@@ -60,7 +68,7 @@ public class RemitoJpaController implements Serializable {
         }
     }
 
-    public void edit(Remito remito) throws NonexistentEntityException, Exception {
+    public void editarRemito(Remito remito) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -68,7 +76,7 @@ public class RemitoJpaController implements Serializable {
             Remito persistentRemito = em.find(Remito.class, remito.getId());
             List<LoteRemito> lotesOld = persistentRemito.getLotes();
             List<LoteRemito> lotesNew = remito.getLotes();
-            List<LoteRemito> attachedLotesNew = new ArrayList<LoteRemito>();
+            List<LoteRemito> attachedLotesNew = new ArrayList<>();
             for (LoteRemito lotesNewLoteRemitoToAttach : lotesNew) {
                 lotesNewLoteRemitoToAttach = em.getReference(lotesNewLoteRemitoToAttach.getClass(), lotesNewLoteRemitoToAttach.getId());
                 attachedLotesNew.add(lotesNewLoteRemitoToAttach);
@@ -98,7 +106,7 @@ public class RemitoJpaController implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = remito.getId();
-                if (findRemito(id) == null) {
+                if (encontrarRemito(id) == null) {
                     throw new NonexistentEntityException("The remito with id " + id + " no longer exists.");
                 }
             }
@@ -110,24 +118,24 @@ public class RemitoJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destruirRemito(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Remito remito;
+            Remito aRemito;
             try {
-                remito = em.getReference(Remito.class, id);
-                remito.getId();
+                aRemito = em.getReference(Remito.class, id);
+                aRemito.getId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The remito with id " + id + " no longer exists.", enfe);
             }
-            List<LoteRemito> lotes = remito.getLotes();
+            List<LoteRemito> lotes = aRemito.getLotes();
             for (LoteRemito lotesLoteRemito : lotes) {
                 lotesLoteRemito.setRemito(null);
                 lotesLoteRemito = em.merge(lotesLoteRemito);
             }
-            em.remove(remito);
+            em.remove(aRemito);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -136,15 +144,15 @@ public class RemitoJpaController implements Serializable {
         }
     }
 
-    public List<Remito> findRemitoEntities() {
-        return findRemitoEntities(true, -1, -1);
+    public List<Remito> encontrarRemitoEntities() {
+        return encontrarRemitoEntities(true, -1, -1);
     }
 
-    public List<Remito> findRemitoEntities(int maxResults, int firstResult) {
-        return findRemitoEntities(false, maxResults, firstResult);
+    public List<Remito> encontrarRemitoEntities(int maxResults, int firstResult) {
+        return encontrarRemitoEntities(false, maxResults, firstResult);
     }
 
-    private List<Remito> findRemitoEntities(boolean all, int maxResults, int firstResult) {
+    private List<Remito> encontrarRemitoEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -160,7 +168,7 @@ public class RemitoJpaController implements Serializable {
         }
     }
 
-    public Remito findRemito(Long id) {
+    public Remito encontrarRemito(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Remito.class, id);
@@ -180,6 +188,95 @@ public class RemitoJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+
+    public void agregarLote(String codigoLote, String codigoProducto, Date fechaProduccion, Date fechaVencimiento, Double cantidad) throws Exception {
+        if (loteJpaController.codigoLoteDisponible(codigoLote) && codigoNoSeAgrego(codigoLote)) {
+            Producto producto = productoJpaController.buscarProductoPorCodigo(codigoLote);
+
+            Lote lote = new Lote();
+            lote.setCodigo(codigoLote);
+            lote.setProducto(producto);
+            lote.setFechaProduccion(fechaProduccion);
+            lote.setFechaVencimiento(fechaVencimiento);
+
+            LoteRemito loteRemito = new LoteRemito();
+            loteRemito.setLote(lote);
+            loteRemito.setRemito(null);
+            loteRemito.setCantidadIngresada(cantidad);
+            getLotesDelRemito().add(loteRemito);
+
+            notificarCambios();
+        }
+    }
+
+    public void eliminarLote(LoteRemito loteRemito) {
+        getLotesDelRemito().remove(loteRemito);
+    }
+
+    public void registrarDatosRemito(Remito remito, Almacen almacen) throws Exception {
+        if (almacen != null) {
+            if (remito != null) {
+                this.remito = remito;
+                this.almacen = almacen;
+                notificarCambios();
+            } else {
+                throw new Exception("No ha ingresado la fecha");
+            }
+        } else {
+            throw new Exception("No ha seleccionado ningún almacén");
+        }
+    }
+
+    public void persistirOperacion() {
+        crearRemito(remito);
+        Iterator<LoteRemito> i = getLotesDelRemito().iterator();
+        while(i.hasNext()) {
+            LoteRemito loteRemito = i.next();
+
+            Lote lote = loteRemito.getLote();
+            loteJpaController.crearLote(lote);
+
+            loteRemito.setRemito(remito);
+            loteJpaController.crearLoteRemito(loteRemito);
+
+            Double cantidad = loteRemito.getCantidadIngresada();
+            LoteAlmacenado loteAlmacenado = new LoteAlmacenado();
+            loteAlmacenado.setAlmacen(almacen);
+            loteAlmacenado.setLote(lote);
+            loteAlmacenado.setCantidad(cantidad);
+            loteJpaController.crearLoteAlmacenado(loteAlmacenado);
+        }
+    }
+
+    public void cancelarIngresoDeLotesDeProductos() {
+        limpiarVariables();
+    }
+
+    private Boolean codigoNoSeAgrego(String codigo) {
+        Iterator<LoteRemito> i = getLotesDelRemito().iterator();
+        while(i.hasNext())
+            if(i.next().getLote().getCodigo().equals(codigo))
+                return false;
+        return true;
+    }
+
+    private void limpiarVariables() {
+        remito = null;
+        almacen = null;
+        lotesDelRemito = new ArrayList();
+    }
+
+    private void notificarCambios() {
+        setChanged();
+        notifyObservers();
+    }
+
+    /**
+     * @return the lotesDelRemito
+     */
+    public ArrayList<LoteRemito> getLotesDelRemito() {
+        return lotesDelRemito;
     }
 
 }
