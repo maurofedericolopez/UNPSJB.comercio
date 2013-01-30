@@ -1,16 +1,15 @@
 package comercio.controladoresJPA;
 
+import comercio.controladoresJPA.exceptions.CodigoProductoNoDisponibleException;
+import comercio.controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import comercio.modelo.PrecioAnterior;
-import comercio.modelo.Producto;
+import comercio.modelo.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Observable;
+import java.util.*;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 /**
@@ -28,7 +27,7 @@ public class ProductoJpaController extends Observable implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void crearProducto(Producto producto) throws Exception {
+    public void crearProducto(Producto producto) throws CodigoProductoNoDisponibleException {
         EntityManager em = null;
         codigoProductoDisponible(producto.getCodigo());
         try {
@@ -62,6 +61,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -72,6 +72,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             em.getTransaction().begin();
             producto = em.merge(producto);
             em.getTransaction().commit();
+            notificarCambios();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
@@ -85,7 +86,6 @@ public class ProductoJpaController extends Observable implements Serializable {
             if (em != null) {
                 em.close();
             }
-            notificarCambios();
         }
     }
 
@@ -109,6 +109,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -152,6 +153,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             if (em != null) {
                 em.close();
             }
+            notificarCambios();
         }
     }
 
@@ -247,7 +249,7 @@ public class ProductoJpaController extends Observable implements Serializable {
         }
     }
 
-    public Producto buscarProductoPorCodigo(String codigo) throws Exception {
+    public Producto buscarProductoPorCodigo(String codigo) throws CodigoProductoNoRegistradoException {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -257,18 +259,25 @@ public class ProductoJpaController extends Observable implements Serializable {
             Query q = em.createQuery(cq);
             return (Producto) q.getSingleResult();
         } catch (NoResultException ex) {
-            throw new Exception("El código del producto ingresado no está registrado.");
+            throw new CodigoProductoNoRegistradoException();
         } finally {
             em.close();
         }
     }
 
-    private Boolean codigoProductoDisponible(String codigo) throws Exception {
+    private Boolean codigoProductoDisponible(String codigo) throws CodigoProductoNoDisponibleException {
+        EntityManager em = getEntityManager();
         try {
-            buscarProductoPorCodigo(codigo);
-            throw new Exception("El código del producto ingresado ya está registrado.");
-        } catch (Exception ex) {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Producto> cq = cb.createQuery(Producto.class);
+            Root<Producto> p = cq.from(Producto.class);
+            cq.select(p).where(cb.equal(p.get("codigo"), codigo.toUpperCase()));
+            Producto singleResult = em.createQuery(cq).getSingleResult();
+            throw new CodigoProductoNoDisponibleException();
+        } catch (NoResultException ex) {
             return true;
+        } finally {
+            em.close();
         }
     }
 
@@ -280,13 +289,100 @@ public class ProductoJpaController extends Observable implements Serializable {
         return productos;
     }
 
-    public Double obtenerDescuentoVigente(Producto producto) {
-        return new Double("1");
+    public Double mostrarDescuentoVigente(Producto producto) {
+        Oferta oferta = producto.getOferta();
+        Date hoy = new Date();
+        if(oferta != null && (oferta.getFechaInicio().before(hoy) && oferta.getFechaFin().after(hoy)))
+            return oferta.getDescuento();
+        else
+            return 0.0;
     }
 
-    private void notificarCambios() {
+    public void notificarCambios() {
         setChanged();
         notifyObservers();
     }
 
+    public ArrayList<Producto> obtenerProductosPorCategoria(Categoria categoria) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Producto> cq = cb.createQuery(Producto.class);
+            Root<Producto> root = cq.from(Producto.class);
+            cq.select(root);
+
+            Predicate categoriaPredicate = null;
+
+            if (categoria != null) {
+                categoriaPredicate = cb.equal(root.get("categoria"), categoria);
+            }
+            cq.where(categoriaPredicate);
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Producto> productosPorCategoria = new ArrayList();
+            for(Object o : array)
+                productosPorCategoria.add((Producto) o);
+            return productosPorCategoria;
+        } catch(NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public ArrayList<Producto> obtenerProductosPorMarca(Marca marca) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Producto> cq = cb.createQuery(Producto.class);
+            Root<Producto> root = cq.from(Producto.class);
+            cq.select(root);
+
+            Predicate marcaPredicate = null;
+
+            if (marca != null) {
+                marcaPredicate = cb.equal(root.get("marca"), marca);
+            }
+            cq.where(marcaPredicate);
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Producto> productosPorMarca = new ArrayList();
+            for(Object o : array)
+                productosPorMarca.add((Producto) o);
+            return productosPorMarca;
+        } catch(NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
+    }
+
+    public void modificarPrecioProducto(String codigoProducto, Double precio) throws CodigoProductoNoRegistradoException, Exception {
+        Producto producto = buscarProductoPorCodigo(codigoProducto);
+        modificarPrecioProducto(producto, precio);
+    }
+
+    public void modificarPrecioProducto(Producto producto, Double precio) throws Exception {
+        PrecioAnterior precioAnterior = new PrecioAnterior();
+        precioAnterior.setFecha(new Date());
+        precioAnterior.setProducto(producto);
+        precioAnterior.setValor(precio);
+        crearPrecioAnterior(precioAnterior);
+        producto.setPrecioActual(precio);
+        editarProducto(producto);
+    }
+
+    public void modificarPrecioCategoria(Categoria categoria, Double precio) throws Exception {
+        ArrayList<Producto> productos = obtenerProductosPorCategoria(categoria);
+        Iterator<Producto> i = productos.iterator();
+        while(i.hasNext()) {
+            modificarPrecioProducto(i.next(), precio);
+        }
+    }
+
+    public void modificarPrecioMarca(Marca marca, Double precio) throws Exception {
+        ArrayList<Producto> productos = obtenerProductosPorMarca(marca);
+        Iterator<Producto> i = productos.iterator();
+        while(i.hasNext()) {
+            modificarPrecioProducto(i.next(), precio);
+        }
+    }
 }

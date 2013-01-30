@@ -2,10 +2,14 @@ package comercio.vistas;
 
 import comercio.ControllerSingleton;
 import comercio.controladoresJPA.ProductoJpaController;
+import comercio.controladoresJPA.exceptions.CampoIncompletoException;
+import comercio.controladoresJPA.exceptions.CodigoProductoNoDisponibleException;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import comercio.vistas.modelos.ProductoTableModel;
 import java.text.DecimalFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
@@ -83,7 +87,6 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         tablaProductos = new javax.swing.JTable();
 
         nuevoProductoUI.setTitle("Nuevo Producto");
-        nuevoProductoUI.setMaximumSize(new java.awt.Dimension(241, 227));
         nuevoProductoUI.setMinimumSize(new java.awt.Dimension(241, 227));
         nuevoProductoUI.setResizable(false);
 
@@ -139,22 +142,22 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
             .addGroup(nuevoProductoUILayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, nuevoProductoUILayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(botonGuardar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(botonCancelar)
+                        .addGap(41, 41, 41))
                     .addGroup(nuevoProductoUILayout.createSequentialGroup()
                         .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(etiquetaPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(72, 72, 72))
-                    .addGroup(nuevoProductoUILayout.createSequentialGroup()
-                        .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(nuevoProductoUILayout.createSequentialGroup()
-                                    .addComponent(etiquetaDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(campoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(nuevoProductoUILayout.createSequentialGroup()
-                                    .addComponent(etiquetaCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                    .addComponent(campoCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(nuevoProductoUILayout.createSequentialGroup()
+                                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(etiquetaCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(etiquetaDescripcion, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE))
+                                .addGap(10, 10, 10)
+                                .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(campoDescripcion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(campoCodigo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(nuevoProductoUILayout.createSequentialGroup()
                                 .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(etiquetaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
@@ -167,14 +170,11 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
                                         .addComponent(campoPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(campoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(campoUnidad, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(campoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(14, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, nuevoProductoUILayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(botonGuardar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(botonCancelar)
-                        .addGap(41, 41, 41))))
+                                    .addComponent(campoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(etiquetaMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(etiquetaPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addContainerGap(14, Short.MAX_VALUE))))
         );
         nuevoProductoUILayout.setVerticalGroup(
             nuevoProductoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,8 +439,12 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
             productoJpaController.crearProducto(producto);
             limpiarCampos();
             nuevoProductoUI.setVisible(false);
+        } catch(CampoIncompletoException ex) {
+            ex.mostrarDialogo();
+        } catch (CodigoProductoNoDisponibleException ex) {
+            ex.mostrarDialogoDeError();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(AdministrarProductosUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
@@ -464,6 +468,8 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
                 editarProductoUI.pack();
             } else
                 throw new Exception("No ha seleccionado ningún producto.");
+        } catch(CampoIncompletoException ex) {
+            ex.mostrarDialogo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -561,50 +567,35 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         campoCategoriaEditar.updateUI();
     }
 
-    private Boolean camposDeNuevoProductoCompletos() throws Exception {
-        if(!campoCodigo.getText().isEmpty())
-            if(!campoDescripcion.getText().isEmpty())
-                if(!campoPrecio.getText().isEmpty())
-                    if(campoMarca.getSelectedItem() != null)
-                        if(campoOrigen.getSelectedItem() != null)
-                            if(campoUnidad.getSelectedItem() != null)
-                                if(campoCategoria.getSelectedItem() != null)
-                                    return true;
-                                else
-                                    throw new Exception("No ha seleccionado una categoría.");
-                            else
-                                throw new Exception("No ha seleccionado una unidad.");
-                        else
-                            throw new Exception("No ha seleccionado un origen.");
-                    else
-                        throw new Exception("No ha seleccionado una marca.");
-                else
-                    throw new Exception("No ha indicado el precio del producto.");
-            else
-                throw new Exception("No ha indicado una descripción.");
-        else
-            throw new Exception("No ha indicado un código.");
+    private void camposDeNuevoProductoCompletos() throws CampoIncompletoException {
+        if(campoCodigo.getText().isEmpty())
+            throw new CampoIncompletoException("No ha indicado un código.");
+        if(campoDescripcion.getText().isEmpty())
+            throw new CampoIncompletoException("No ha indicado una descripción.");
+        if(campoPrecio.getText().isEmpty())
+            throw new CampoIncompletoException("No ha indicado el precio del producto.");
+        if(campoMarca.getSelectedItem() == null)
+            throw new CampoIncompletoException("No ha seleccionado una marca.");
+        if(campoOrigen.getSelectedItem() == null)
+            throw new CampoIncompletoException("No ha seleccionado un origen.");
+        if(campoUnidad.getSelectedItem() != null)
+            throw new CampoIncompletoException("No ha seleccionado una unidad.");
+        if(campoCategoria.getSelectedItem() != null)
+            throw new CampoIncompletoException("No ha seleccionado una categoría.");
     }
 
-    private Boolean camposDeEdicionProductoCompletos() throws Exception {
-        if(campoCodigo.getText().isEmpty())
-            if(campoDescripcion.getText().isEmpty())
-                if(campoMarca.getSelectedItem() != null)
-                    if(campoOrigen.getSelectedItem() != null)
-                        if(campoUnidad.getSelectedItem() != null)
-                            if(campoCategoria.getSelectedItem() != null)
-                                return true;
-                            else
-                                throw new Exception("No ha seleccionado una categoría.");
-                        else
-                            throw new Exception("No ha seleccionado una unidad.");
-                    else
-                        throw new Exception("No ha seleccionado un origen.");
-                else
-                    throw new Exception("No ha seleccionado una marca.");
-            else
-                throw new Exception("No ha indicado una descripción.");
-        else
-            throw new Exception("No ha indicado un código.");
+    private void camposDeEdicionProductoCompletos() throws CampoIncompletoException {
+        if(campoCodigoEditar.getText().isEmpty())
+            throw new CampoIncompletoException("No ha indicado un código.");
+        if(campoDescripcionEditar.getText().isEmpty())
+            throw new CampoIncompletoException("No ha indicado una descripción.");
+        if(campoMarcaEditar.getSelectedItem() == null)
+            throw new CampoIncompletoException("No ha seleccionado una marca.");
+        if(campoOrigenEditar.getSelectedItem() == null)
+            throw new CampoIncompletoException("No ha seleccionado un origen.");
+        if(campoUnidadEditar.getSelectedItem() == null)
+            throw new CampoIncompletoException("No ha seleccionado una unidad.");
+        if(campoCategoriaEditar.getSelectedItem() == null)
+            throw new CampoIncompletoException("No ha seleccionado una categoría.");
     }
 }

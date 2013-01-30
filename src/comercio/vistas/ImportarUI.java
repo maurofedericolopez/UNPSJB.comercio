@@ -2,6 +2,7 @@ package comercio.vistas;
 
 import comercio.ControllerSingleton;
 import comercio.controladoresJPA.RemitoJpaController;
+import comercio.controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import comercio.modelo.Almacen;
 import comercio.modelo.Remito;
 import comercio.vistas.modelos.LotesDelRemitoTableModel;
@@ -358,8 +359,10 @@ public class ImportarUI extends javax.swing.JPanel {
             remitoJpaController.registrarDatosRemito(remito, almacen);
             remitoJpaController.persistirOperacion();
             JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (CodigoProductoNoRegistradoException ex) {
+            ex.mostrarDialogo();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonRegistrarOperaciónActionPerformed
 

@@ -1,5 +1,6 @@
 package comercio;
 
+import comercio.vistas.GestionGerencia;
 import comercio.vistas.GestionInventarioUI;
 import comercio.vistas.GestionVenta;
 import javax.persistence.EntityManagerFactory;
@@ -14,6 +15,7 @@ public class ComercioApp {
     private static EntityManagerFactory entityManagerFactory;
     private static GestionInventarioUI ventanaInventario;
     private static GestionVenta ventanaGestionVenta;
+    private static GestionGerencia ventanaGerencia;
 
     /**
      * @param args the command line arguments
@@ -21,10 +23,11 @@ public class ComercioApp {
     public static void main(String[] args) {
         setEntityManagerFactory(Persistence.createEntityManagerFactory("ComercioPU"));
 
-//        ventanaGestionVenta = new GestionVenta();
-//        ventanaGestionVenta.setVisible(true);
         ventanaInventario = new GestionInventarioUI();
         ventanaInventario.setVisible(true);
+
+        setVentanaGerencia(new GestionGerencia());
+        getVentanaGerencia().setVisible(true);
     }
 
     /**
@@ -53,6 +56,20 @@ public class ComercioApp {
      */
     public static void setVentanaInventario(GestionInventarioUI aVentanaInventario) {
         ventanaInventario = aVentanaInventario;
+    }
+
+    /**
+     * @return the ventanaGerencia
+     */
+    public static GestionGerencia getVentanaGerencia() {
+        return ventanaGerencia;
+    }
+
+    /**
+     * @param aVentanaGerencia the ventanaGerencia to set
+     */
+    public static void setVentanaGerencia(GestionGerencia aVentanaGerencia) {
+        ventanaGerencia = aVentanaGerencia;
     }
 
 }

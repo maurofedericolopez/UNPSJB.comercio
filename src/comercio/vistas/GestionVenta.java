@@ -3,6 +3,7 @@ package comercio.vistas;
 import comercio.ControllerSingleton;
 import comercio.controladoresJPA.ProductoJpaController;
 import comercio.controladoresJPA.VentaJpaController;
+import comercio.controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import comercio.modelo.ItemVenta;
 import comercio.modelo.Producto;
 import comercio.modelo.PuntoVenta;
@@ -342,7 +343,7 @@ public class GestionVenta extends javax.swing.JFrame {
             itemDeVenta.setProducto(producto);
             itemDeVenta.setCantidad(cantidadProducto);
             itemDeVenta.setPrecio(producto.getPrecioActual());
-            Double descuento = productoJpaController.obtenerDescuentoVigente(producto);
+            Double descuento = productoJpaController.mostrarDescuentoVigente(producto);
             itemDeVenta.setDescuento(descuento);
 
             ventaJpaController.agregarItemDeVenta(itemDeVenta);
@@ -350,6 +351,8 @@ public class GestionVenta extends javax.swing.JFrame {
             campoCantidadProducto.setValue(1);
             Double montoTotal = ((Number) campoMontoTotal.getValue()).doubleValue() + producto.getPrecioActual();
             campoMontoTotal.setValue(montoTotal);
+        } catch (CodigoProductoNoRegistradoException ex) {
+            ex.mostrarDialogo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

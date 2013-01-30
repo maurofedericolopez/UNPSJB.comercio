@@ -195,6 +195,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         add(componente, BorderLayout.CENTER);
         componente.setVisible(true);
         componente.updateUI();
+        pack();
     }
 
     @Override

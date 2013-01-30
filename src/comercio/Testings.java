@@ -2,7 +2,9 @@ package comercio;
 
 import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 import comercio.controladoresJPA.UnidadJpaController;
+import comercio.controladoresJPA.exceptions.ExisteOfertaVigenteException;
 import comercio.modelo.Unidad;
+import java.util.Date;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.RollbackException;
@@ -21,9 +23,19 @@ public class Testings extends javax.swing.JFrame {
      * Creates new form Testings
      */
     public Testings() {
-        initComponents();
-        emf = Persistence.createEntityManagerFactory("ComercioPU");
-        unidadJpaController = new UnidadJpaController(emf);
+        try {
+            initComponents();
+            emf = Persistence.createEntityManagerFactory("ComercioPU");
+            unidadJpaController = new UnidadJpaController(emf);
+            Date date = new Date();
+            date.setHours(0);
+            date.setMinutes(0);
+            date.setSeconds(0);
+            throw new ExisteOfertaVigenteException(date.toLocaleString());
+        } catch (ExisteOfertaVigenteException ex) {
+            int opcion = JOptionPane.showOptionDialog(null, ex.getMessage(), "Oferta", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            System.out.println(opcion);
+        }
     }
 
     /**
@@ -144,4 +156,8 @@ public class Testings extends javax.swing.JFrame {
         }
     }
 
+}
+
+enum opciones {
+    Reemplazar, noReemplazar
 }

@@ -1,6 +1,7 @@
 package comercio.controladoresJPA;
 
 import comercio.ControllerSingleton;
+import comercio.controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import java.io.Serializable;
@@ -190,7 +191,7 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
-    public void agregarLote(String codigoLote, String codigoProducto, Date fechaProduccion, Date fechaVencimiento, Double cantidad) throws Exception {
+    public void agregarLote(String codigoLote, String codigoProducto, Date fechaProduccion, Date fechaVencimiento, Double cantidad) throws CodigoProductoNoRegistradoException, Exception {
         if (loteJpaController.codigoLoteDisponible(codigoLote) && codigoNoSeAgrego(codigoLote)) {
             Producto producto = productoJpaController.buscarProductoPorCodigo(codigoLote);
 

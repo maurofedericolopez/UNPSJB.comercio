@@ -14,7 +14,7 @@ import javax.swing.table.AbstractTableModel;
  */
 public class ProductoTableModel extends AbstractTableModel implements Observer {
 
-    private String[] columnsNames = {"Código","Descripción","Precio unitario[$]","Marca","Origen","Descuento","Unidad","Categoría"};
+    private String[] columnsNames = {"Código","Descripción","Precio unitario[$]","Marca","Origen","Descuento[%]","Unidad","Categoría"};
     private ProductoJpaController productoJpaController;
     private ArrayList<Producto> productos;
 
@@ -71,23 +71,24 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
+        Producto producto = productos.get(rowIndex);
         switch (columnIndex){
             case 0 :
-                return productos.get(rowIndex).getCodigo();
+                return producto.getCodigo();
             case 1 :
-                return productos.get(rowIndex).getDescripcion();
+                return producto.getDescripcion();
             case 2 :
-                return productos.get(rowIndex).getPrecioActual();
+                return producto.getPrecioActual();
             case 3 :
-                return productos.get(rowIndex).getMarca();
+                return producto.getMarca();
             case 4 :
-                return productos.get(rowIndex).getOrigen();
+                return producto.getOrigen();
             case 5 :
-                return null;
+                return productoJpaController.mostrarDescuentoVigente(producto) * 100;
             case 6 :
-                return productos.get(rowIndex).getUnidad();
+                return producto.getUnidad();
             case 7 :
-                return productos.get(rowIndex).getCategoria();
+                return producto.getCategoria();
             default :
                 return null;
         }
@@ -101,7 +102,7 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         productos = productoJpaController.obtenerProductos();
-        this.fireTableDataChanged();
+        fireTableDataChanged();
     }
 
     public Producto obtenerProducto(int index) {
