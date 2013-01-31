@@ -42,20 +42,20 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
         panelModificarPrecioProducto = new javax.swing.JPanel();
         etiquetaProducto = new javax.swing.JLabel();
         campoCodigoProducto = new javax.swing.JTextField();
-        etiquetaPrecioProducto = new javax.swing.JLabel();
-        campoPrecioProducto = new javax.swing.JFormattedTextField();
+        etiquetaPorcentajeProducto = new javax.swing.JLabel();
+        campoPorcentajeProducto = new javax.swing.JFormattedTextField();
         botonModificarPrecioProducto = new javax.swing.JButton();
         panelModificarPrecioCategoria = new javax.swing.JPanel();
         etiquetaCategoria = new javax.swing.JLabel();
         campoCategoria = new javax.swing.JComboBox();
-        etiquetaPrecioCategoria = new javax.swing.JLabel();
-        campoPrecioCategoria = new javax.swing.JFormattedTextField();
+        etiquetaPorcentajeCategoria = new javax.swing.JLabel();
+        campoPorcentajeCategoria = new javax.swing.JFormattedTextField();
         botonModificarPrecioCategoria = new javax.swing.JButton();
         panelModificarPrecioMarca = new javax.swing.JPanel();
         etiquetaMarca = new javax.swing.JLabel();
         campoMarca = new javax.swing.JComboBox();
-        etiquetaPrecioMarca = new javax.swing.JLabel();
-        campoPrecioMarca = new javax.swing.JFormattedTextField();
+        etiquetaPorcentajeMarca = new javax.swing.JLabel();
+        campoPorcentajeMarca = new javax.swing.JFormattedTextField();
         botonModificarPrecioMarca = new javax.swing.JButton();
 
         setMaximumSize(new java.awt.Dimension(900, 500));
@@ -69,7 +69,7 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
 
         etiquetaProducto.setText("Ingrese código del producto");
 
-        etiquetaPrecioProducto.setText("Indique precio nuevo");
+        etiquetaPorcentajeProducto.setText("Indique porcentaje");
 
         botonModificarPrecioProducto.setText("Modificar Precio de la Categoría");
         botonModificarPrecioProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -88,10 +88,10 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
                     .addGroup(panelModificarPrecioProductoLayout.createSequentialGroup()
                         .addGroup(panelModificarPrecioProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(etiquetaProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaPrecioProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(etiquetaPorcentajeProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelModificarPrecioProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoPrecioProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                            .addComponent(campoPorcentajeProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
                             .addComponent(campoCodigoProducto)))
                     .addComponent(botonModificarPrecioProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
                 .addContainerGap(566, Short.MAX_VALUE))
@@ -105,8 +105,8 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
                     .addComponent(campoCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelModificarPrecioProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPrecioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaPrecioProducto))
+                    .addComponent(campoPorcentajeProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaPorcentajeProducto))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonModificarPrecioProducto)
                 .addContainerGap(48, Short.MAX_VALUE))
@@ -123,7 +123,7 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
 
         campoCategoria.setModel(new comercio.vistas.modelos.CategoriaComboBoxModel());
 
-        etiquetaPrecioCategoria.setText("Indique precio nuevo");
+        etiquetaPorcentajeCategoria.setText("Indique porcentaje");
 
         botonModificarPrecioCategoria.setText("Modificar Precio de la Categoría");
         botonModificarPrecioCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -142,11 +142,11 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
                     .addGroup(panelModificarPrecioCategoriaLayout.createSequentialGroup()
                         .addGroup(panelModificarPrecioCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(etiquetaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaPrecioCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(etiquetaPorcentajeCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelModificarPrecioCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(campoCategoria, 0, 174, Short.MAX_VALUE)
-                            .addComponent(campoPrecioCategoria)))
+                            .addComponent(campoPorcentajeCategoria)))
                     .addComponent(botonModificarPrecioCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
                 .addContainerGap(566, Short.MAX_VALUE))
         );
@@ -159,8 +159,8 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
                     .addComponent(etiquetaCategoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelModificarPrecioCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPrecioCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaPrecioCategoria))
+                    .addComponent(campoPorcentajeCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaPorcentajeCategoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonModificarPrecioCategoria)
                 .addContainerGap(48, Short.MAX_VALUE))
@@ -176,7 +176,7 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
 
         campoMarca.setModel(new comercio.vistas.modelos.CategoriaComboBoxModel());
 
-        etiquetaPrecioMarca.setText("Indique precio nuevo");
+        etiquetaPorcentajeMarca.setText("Indique porcentaje");
 
         botonModificarPrecioMarca.setText("Modificar Precio de la Categoría");
         botonModificarPrecioMarca.addActionListener(new java.awt.event.ActionListener() {
@@ -195,11 +195,11 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
                     .addGroup(panelModificarPrecioMarcaLayout.createSequentialGroup()
                         .addGroup(panelModificarPrecioMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(etiquetaMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaPrecioMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(etiquetaPorcentajeMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelModificarPrecioMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(campoMarca, 0, 174, Short.MAX_VALUE)
-                            .addComponent(campoPrecioMarca)))
+                            .addComponent(campoPorcentajeMarca)))
                     .addComponent(botonModificarPrecioMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE))
                 .addContainerGap(566, Short.MAX_VALUE))
         );
@@ -212,8 +212,8 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
                     .addComponent(etiquetaMarca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelModificarPrecioMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPrecioMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaPrecioMarca))
+                    .addComponent(campoPorcentajeMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaPorcentajeMarca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonModificarPrecioMarca)
                 .addContainerGap(74, Short.MAX_VALUE))
@@ -226,11 +226,11 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
         try {
             camposModificarPrecioProductoCompletos();
             String codigoProducto = campoCodigoProducto.getText();
-            Double precio = ((Number) campoPrecioProducto.getValue()).doubleValue();
+            Double precio = ((Number) campoPorcentajeProducto.getValue()).doubleValue();
             productoJpaController.modificarPrecioProducto(codigoProducto, precio);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
             campoCodigoProducto.setText("");
-            campoPrecioProducto.setValue(null);
+            campoPorcentajeProducto.setValue(null);
         } catch(CampoIncompletoException ex) {
             ex.mostrarDialogo();
         } catch (CodigoProductoNoRegistradoException ex) {
@@ -244,11 +244,11 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
         try {
             camposModificarPrecioCategoriaCompletos();
             Categoria categoria = (Categoria) campoCategoria.getSelectedItem();
-            Double precio = ((Number) campoPrecioCategoria.getValue()).doubleValue();
+            Double precio = ((Number) campoPorcentajeCategoria.getValue()).doubleValue();
             productoJpaController.modificarPrecioCategoria(categoria, precio);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
             campoCategoria.setSelectedItem(null);
-            campoPrecioCategoria.setValue(null);
+            campoPorcentajeCategoria.setValue(null);
         } catch(CampoIncompletoException ex) {
             ex.mostrarDialogo();
         } catch (Exception ex) {
@@ -260,11 +260,11 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
         try {
             camposModificarPrecioMarcaCompletos();
             Marca marca = (Marca) campoMarca.getSelectedItem();
-            Double precio = ((Number) campoPrecioProducto.getValue()).doubleValue();
+            Double precio = ((Number) campoPorcentajeProducto.getValue()).doubleValue();
             productoJpaController.modificarPrecioMarca(marca, precio);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
             campoMarca.setSelectedItem(null);
-            campoPrecioMarca.setValue(null);
+            campoPorcentajeMarca.setValue(null);
         } catch(CampoIncompletoException ex) {
             ex.mostrarDialogo();
         } catch (Exception ex) {
@@ -279,14 +279,14 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
     private javax.swing.JComboBox campoCategoria;
     private javax.swing.JTextField campoCodigoProducto;
     private javax.swing.JComboBox campoMarca;
-    private javax.swing.JFormattedTextField campoPrecioCategoria;
-    private javax.swing.JFormattedTextField campoPrecioMarca;
-    private javax.swing.JFormattedTextField campoPrecioProducto;
+    private javax.swing.JFormattedTextField campoPorcentajeCategoria;
+    private javax.swing.JFormattedTextField campoPorcentajeMarca;
+    private javax.swing.JFormattedTextField campoPorcentajeProducto;
     private javax.swing.JLabel etiquetaCategoria;
     private javax.swing.JLabel etiquetaMarca;
-    private javax.swing.JLabel etiquetaPrecioCategoria;
-    private javax.swing.JLabel etiquetaPrecioMarca;
-    private javax.swing.JLabel etiquetaPrecioProducto;
+    private javax.swing.JLabel etiquetaPorcentajeCategoria;
+    private javax.swing.JLabel etiquetaPorcentajeMarca;
+    private javax.swing.JLabel etiquetaPorcentajeProducto;
     private javax.swing.JLabel etiquetaProducto;
     private javax.swing.JPanel panelModificarPrecioCategoria;
     private javax.swing.JPanel panelModificarPrecioMarca;
@@ -296,21 +296,21 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
     private void camposModificarPrecioProductoCompletos() throws CampoIncompletoException {
         if(campoCodigoProducto.getText().isEmpty())
             throw new CampoIncompletoException("No ha indicado el código del producto");
-        if(campoPrecioProducto.getValue() == null)
+        if(campoPorcentajeProducto.getValue() == null)
             throw new CampoIncompletoException("No ha indicado el precio.");
     }
 
     private void camposModificarPrecioCategoriaCompletos() throws CampoIncompletoException {
         if(campoCategoria.getSelectedItem() == null)
             throw new CampoIncompletoException("No ha indicado una categoría");
-        if(campoPrecioCategoria.getValue() == null)
+        if(campoPorcentajeCategoria.getValue() == null)
             throw new CampoIncompletoException("No ha indicado el precio.");
     }
 
     private void camposModificarPrecioMarcaCompletos() throws CampoIncompletoException {
         if(campoMarca.getSelectedItem() == null)
             throw new CampoIncompletoException("No ha indicado una categoría");
-        if(campoPrecioMarca.getValue() == null)
+        if(campoPorcentajeMarca.getValue() == null)
             throw new CampoIncompletoException("No ha indicado el precio.");
     }
 

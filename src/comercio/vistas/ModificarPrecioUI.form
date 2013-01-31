@@ -58,11 +58,11 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="etiquetaProducto" max="32767" attributes="0"/>
-                              <Component id="etiquetaPrecioProducto" max="32767" attributes="0"/>
+                              <Component id="etiquetaPorcentajeProducto" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoPrecioProducto" pref="174" max="32767" attributes="0"/>
+                              <Component id="campoPorcentajeProducto" pref="174" max="32767" attributes="0"/>
                               <Component id="campoCodigoProducto" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -82,8 +82,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoPrecioProducto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaPrecioProducto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeProducto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="etiquetaPorcentajeProducto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonModificarPrecioProducto" min="-2" max="-2" attributes="0"/>
@@ -100,12 +100,12 @@
         </Component>
         <Component class="javax.swing.JTextField" name="campoCodigoProducto">
         </Component>
-        <Component class="javax.swing.JLabel" name="etiquetaPrecioProducto">
+        <Component class="javax.swing.JLabel" name="etiquetaPorcentajeProducto">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Indique precio nuevo"/>
+            <Property name="text" type="java.lang.String" value="Indique porcentaje"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoPrecioProducto">
+        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeProducto">
         </Component>
         <Component class="javax.swing.JButton" name="botonModificarPrecioProducto">
           <Properties>
@@ -151,12 +151,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="etiquetaCategoria" alignment="0" max="32767" attributes="0"/>
-                              <Component id="etiquetaPrecioCategoria" alignment="0" max="32767" attributes="0"/>
+                              <Component id="etiquetaPorcentajeCategoria" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="campoCategoria" alignment="0" pref="174" max="32767" attributes="0"/>
-                              <Component id="campoPrecioCategoria" alignment="0" max="32767" attributes="0"/>
+                              <Component id="campoPorcentajeCategoria" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="botonModificarPrecioCategoria" alignment="0" pref="312" max="32767" attributes="0"/>
@@ -175,8 +175,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoPrecioCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaPrecioCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="etiquetaPorcentajeCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonModificarPrecioCategoria" min="-2" max="-2" attributes="0"/>
@@ -198,12 +198,12 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="etiquetaPrecioCategoria">
+        <Component class="javax.swing.JLabel" name="etiquetaPorcentajeCategoria">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Indique precio nuevo"/>
+            <Property name="text" type="java.lang.String" value="Indique porcentaje"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoPrecioCategoria">
+        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeCategoria">
         </Component>
         <Component class="javax.swing.JButton" name="botonModificarPrecioCategoria">
           <Properties>
@@ -246,12 +246,12 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="etiquetaMarca" alignment="0" max="32767" attributes="0"/>
-                              <Component id="etiquetaPrecioMarca" alignment="0" max="32767" attributes="0"/>
+                              <Component id="etiquetaPorcentajeMarca" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="campoMarca" alignment="0" pref="174" max="32767" attributes="0"/>
-                              <Component id="campoPrecioMarca" alignment="0" max="32767" attributes="0"/>
+                              <Component id="campoPorcentajeMarca" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Component id="botonModificarPrecioMarca" alignment="0" pref="312" max="32767" attributes="0"/>
@@ -270,8 +270,8 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoPrecioMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaPrecioMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="etiquetaPorcentajeMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonModificarPrecioMarca" min="-2" max="-2" attributes="0"/>
@@ -293,12 +293,12 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="etiquetaPrecioMarca">
+        <Component class="javax.swing.JLabel" name="etiquetaPorcentajeMarca">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Indique precio nuevo"/>
+            <Property name="text" type="java.lang.String" value="Indique porcentaje"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoPrecioMarca">
+        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeMarca">
         </Component>
         <Component class="javax.swing.JButton" name="botonModificarPrecioMarca">
           <Properties>

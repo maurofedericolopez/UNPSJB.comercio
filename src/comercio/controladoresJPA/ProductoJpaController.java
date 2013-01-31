@@ -355,34 +355,47 @@ public class ProductoJpaController extends Observable implements Serializable {
         }
     }
 
-    public void modificarPrecioProducto(String codigoProducto, Double precio) throws CodigoProductoNoRegistradoException, Exception {
+    public void modificarPrecioProducto(String codigoProducto, Double porcentaje) throws CodigoProductoNoRegistradoException, Exception {
         Producto producto = buscarProductoPorCodigo(codigoProducto);
-        modificarPrecioProducto(producto, precio);
+        if(porcentaje < 0)
+            porcentaje = 0.0;
+        if(porcentaje > 1.0)
+            porcentaje = 1.0;
+        modificarPrecioProducto(producto, porcentaje);
     }
 
-    public void modificarPrecioProducto(Producto producto, Double precio) throws Exception {
+    public void modificarPrecioProducto(Producto producto, Double porcentaje) throws Exception {
+        Double nuevoPrecio = producto.getPrecioActual() * porcentaje;
         PrecioAnterior precioAnterior = new PrecioAnterior();
         precioAnterior.setFecha(new Date());
         precioAnterior.setProducto(producto);
-        precioAnterior.setValor(precio);
+        precioAnterior.setValor(nuevoPrecio);
         crearPrecioAnterior(precioAnterior);
-        producto.setPrecioActual(precio);
+        producto.setPrecioActual(nuevoPrecio);
         editarProducto(producto);
     }
 
-    public void modificarPrecioCategoria(Categoria categoria, Double precio) throws Exception {
+    public void modificarPrecioCategoria(Categoria categoria, Double porcentaje) throws Exception {
+        if(porcentaje < 0)
+            porcentaje = 0.0;
+        if(porcentaje > 1.0)
+            porcentaje = 1.0;
         ArrayList<Producto> productos = obtenerProductosPorCategoria(categoria);
         Iterator<Producto> i = productos.iterator();
         while(i.hasNext()) {
-            modificarPrecioProducto(i.next(), precio);
+            modificarPrecioProducto(i.next(), porcentaje);
         }
     }
 
-    public void modificarPrecioMarca(Marca marca, Double precio) throws Exception {
+    public void modificarPrecioMarca(Marca marca, Double porcentaje) throws Exception {
+        if(porcentaje < 0)
+            porcentaje = 0.0;
+        if(porcentaje > 1.0)
+            porcentaje = 1.0;
         ArrayList<Producto> productos = obtenerProductosPorMarca(marca);
         Iterator<Producto> i = productos.iterator();
         while(i.hasNext()) {
-            modificarPrecioProducto(i.next(), precio);
+            modificarPrecioProducto(i.next(), porcentaje);
         }
     }
 }
