@@ -260,7 +260,7 @@ public class ModificarPrecioUI extends javax.swing.JPanel {
         try {
             camposModificarPrecioMarcaCompletos();
             Marca marca = (Marca) campoMarca.getSelectedItem();
-            Double precio = ((Number) campoPorcentajeProducto.getValue()).doubleValue();
+            Double precio = ((Number) campoPorcentajeMarca.getValue()).doubleValue();
             productoJpaController.modificarPrecioMarca(marca, precio);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
             campoMarca.setSelectedItem(null);
