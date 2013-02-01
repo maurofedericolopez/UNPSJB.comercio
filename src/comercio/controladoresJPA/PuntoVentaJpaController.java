@@ -1,7 +1,12 @@
 package comercio.controladoresJPA;
 
+import comercio.ControllerSingleton;
+import comercio.controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
-import comercio.modelo.*;
+import comercio.modelo.Producto;
+import comercio.modelo.ProductoEnVenta;
+import comercio.modelo.PuntoVenta;
+import comercio.modelo.Sucursal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +15,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -17,10 +23,15 @@ import javax.persistence.criteria.Root;
  */
 public class PuntoVentaJpaController implements Serializable {
 
+    private EntityManagerFactory emf = null;
+    private ProductoJpaController productoJpaController;
+    private TransferenciaJpaController transferenciaJpaController;
+
     public PuntoVentaJpaController(EntityManagerFactory emf) {
         this.emf = emf;
+        productoJpaController = ControllerSingleton.getProductoJpaController();
+        transferenciaJpaController = new TransferenciaJpaController(ControllerSingleton.getEmf());
     }
-    private EntityManagerFactory emf = null;
 
     public EntityManager getEntityManager() {
         return emf.createEntityManager();
@@ -416,6 +427,23 @@ public class PuntoVentaJpaController implements Serializable {
             return null;
         } finally {
             em.close();
+        }
+    }
+
+    public void corregirProductoEnVenta(PuntoVenta puntoDeVenta, String codigoProducto, Double cantidad) throws CodigoProductoNoRegistradoException, Exception {
+        Producto producto = productoJpaController.buscarProductoPorCodigo(codigoProducto);
+        ProductoEnVenta productoEnVenta = buscarProductoEnVenta(puntoDeVenta, producto);
+        if(productoEnVenta != null) {
+            String msg = "El punto de venta tiene una cantidad de " + productoEnVenta.getCantidad() + " del producto " + codigoProducto.toUpperCase() + "."
+                    + "\n¿Desea reemplazar por la cantidad " + cantidad + "?";
+            int showOptionDialog = JOptionPane.showOptionDialog(null, msg, "Corregir Inventario", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if(showOptionDialog == 0) {
+                productoEnVenta.setCantidad(cantidad);
+                editarProductoEnVenta(productoEnVenta);
+                //transferenciaJpaController.descontarPuntoDeVenta(puntoDeVenta, cantidad);
+            }
+        } else {
+            throw new Exception("El punto de venta no contiene este producto.");
         }
     }
 

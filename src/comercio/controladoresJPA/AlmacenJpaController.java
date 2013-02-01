@@ -15,6 +15,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,10 +24,12 @@ import javax.persistence.criteria.Root;
 public class AlmacenJpaController implements Serializable {
 
     private LoteJpaController loteJpaController;
+    private TransferenciaJpaController transferenciaJpaController;
 
     public AlmacenJpaController(EntityManagerFactory emf) {
         this.emf = emf;
         loteJpaController = ControllerSingleton.getLoteJpaController();
+        transferenciaJpaController = new TransferenciaJpaController(ControllerSingleton.getEmf());
     }
     private EntityManagerFactory emf = null;
 
@@ -251,6 +254,23 @@ public class AlmacenJpaController implements Serializable {
             nuevoLoteAlmacenado.setLote(lote);
             nuevoLoteAlmacenado.setCantidad(cantidad);
             loteJpaController.crearLoteAlmacenado(nuevoLoteAlmacenado);
+        }
+    }
+
+    public void corregirLoteAlmacenado(Almacen almacen, String codigoLote, Double cantidad) throws Exception {
+        Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
+        LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
+        if(loteAlmacenado != null) {
+            String msg = "El punto de venta tiene una cantidad de " + loteAlmacenado.getCantidad() + " del producto " + codigoLote.toUpperCase() + "."
+                    + "\n¿Desea reemplazar por la cantidad " + cantidad + "?";
+            int showOptionDialog = JOptionPane.showOptionDialog(null, msg, "Corregir Inventario", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+            if(showOptionDialog == 0) {
+                loteAlmacenado.setCantidad(cantidad);
+                loteJpaController.editarLoteAlmacenado(loteAlmacenado);
+                //transferenciaJpaController.descontarAlmacen(almacen, cantidad);
+            }
+        } else {
+            throw new Exception("El almacén no contiene este lote.");
         }
     }
 

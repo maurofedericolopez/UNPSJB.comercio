@@ -8,6 +8,40 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Consultas"/>
           </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuReporteVentasMensual">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reporte ventas mensual"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuReporteVentasMensualActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuReportesDeVentaPorCategoria">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reportes de venta por categor&#xed;a"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuReportesDeVentaPorCategoriaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuReportesDeVentaPorMarca">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reportes de venta por marca"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuReportesDeVentaPorMarcaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuProductosProximosAVencer">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Productos pr&#xf3;ximos a vencer"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuProductosProximosAVencerActionPerformed"/>
+              </Events>
+            </MenuItem>
+          </SubComponents>
         </Menu>
         <Menu class="javax.swing.JMenu" name="menuVer">
           <Properties>

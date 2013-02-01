@@ -28,11 +28,14 @@ public class Transferencia implements Serializable {
     @Column(name = "idTransferencia")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @JoinColumn()
     @ManyToOne
     private Almacen almacenOrigen;
-    @ManyToOne
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "AlmacenDestino_idAlmacen", nullable = true)
     private Almacen almacenDestino;
-    @ManyToOne
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "PuntoVentaDestino_idPuntoVenta", nullable = true)
     private PuntoVenta puntoDeVentaDestino;
     @ManyToOne
     private Lote lote;

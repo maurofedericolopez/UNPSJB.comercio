@@ -290,7 +290,7 @@ public class EgresoJpaController extends Observable implements Serializable {
             LoteEgresado loteEgresado = i.next();
             loteEgresado.setEgreso(egreso);
             loteJpaController.crearLoteEgresado(loteEgresado);
-            ArrayList<Transferencia> t = transferenciaJpaController.buscarTransferencia(almacen, loteEgresado.getLote());
+            ArrayList<Transferencia> t = transferenciaJpaController.buscarTransferenciasPorAlmacenOrigen(almacen, loteEgresado.getLote());
             if(t != null) {
                 
             }

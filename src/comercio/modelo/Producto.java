@@ -70,7 +70,7 @@ public class Producto implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Producto[ id=" + getId() + " ]";
+        return getDescripcion();
     }
 
     /**

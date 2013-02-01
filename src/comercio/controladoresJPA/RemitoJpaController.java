@@ -22,6 +22,7 @@ public class RemitoJpaController extends Observable implements Serializable {
     private EntityManagerFactory emf = null;
     private LoteJpaController loteJpaController;
     private ProductoJpaController productoJpaController;
+    private TransferenciaJpaController transferenciaJpaController;
 
     private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
     private Remito remito = null;
@@ -247,6 +248,14 @@ public class RemitoJpaController extends Observable implements Serializable {
             loteAlmacenado.setLote(lote);
             loteAlmacenado.setCantidad(cantidad);
             loteJpaController.crearLoteAlmacenado(loteAlmacenado);
+
+            Transferencia transferencia = new Transferencia();
+            transferencia.setAlmacenDestino(almacen);
+            transferencia.setLote(lote);
+            transferencia.setCantidad(cantidad);
+            transferencia.setAlmacenOrigen(null);
+            transferencia.setPuntoDeVentaDestino(null);
+            transferenciaJpaController.crearTransferencia(transferencia);
         }
     }
 

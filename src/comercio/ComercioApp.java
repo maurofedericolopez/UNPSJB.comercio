@@ -26,8 +26,8 @@ public class ComercioApp {
         ventanaInventario = new GestionInventarioUI();
         ventanaInventario.setVisible(true);
 
-        setVentanaGerencia(new GestionGerencia());
-        getVentanaGerencia().setVisible(true);
+        ventanaGerencia = new GestionGerencia();
+        ventanaGerencia.setVisible(true);
     }
 
     /**

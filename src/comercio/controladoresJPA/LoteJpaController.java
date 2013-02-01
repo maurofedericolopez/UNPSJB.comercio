@@ -4,6 +4,8 @@ import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -545,7 +547,7 @@ public class LoteJpaController implements Serializable {
         }
     }
 
-    public LoteAlmacenado buscarLoteAlmacenado(Almacen almacen, Lote lote) throws Exception {
+    public LoteAlmacenado buscarLoteAlmacenado(Almacen almacen, Lote lote) {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -591,6 +593,35 @@ public class LoteJpaController implements Serializable {
     public Boolean codigoLoteValido(String codigo) throws Exception {
         buscarLotePorCodigo(codigo);
         return true;
+    }
+
+    public ArrayList<Lote> obtenerLotesProximosAVencer() {
+        Date hoy = new Date();
+        hoy.setHours(0);
+        hoy.setMinutes(0);
+        hoy.setSeconds(0);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(hoy);
+        calendar.add(Calendar.DATE, 7);
+        Date unaSemanaDespues = calendar.getTime();
+
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Lote> cq = cb.createQuery(Lote.class);
+            Root<Lote> root = cq.from(Lote.class);
+            cq.select(root);
+            cq.where(cb.between(root.get("fechaVencimiento").as(Date.class), hoy, unaSemanaDespues));
+            ArrayList<Lote> lotes = new ArrayList();
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            for(Object o : array)
+                lotes.add((Lote) o);
+            return lotes;
+        } catch(NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
 }

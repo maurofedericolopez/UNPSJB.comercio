@@ -6,8 +6,6 @@ import comercio.modelo.Almacen;
 import comercio.modelo.Egreso;
 import comercio.vistas.modelos.LotesEgresadosTableModel;
 import java.awt.event.ItemEvent;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**

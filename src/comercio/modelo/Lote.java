@@ -62,7 +62,7 @@ public class Lote implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Lote[ id=" + getId() + " ]";
+        return getCodigo();
     }
 
     /**

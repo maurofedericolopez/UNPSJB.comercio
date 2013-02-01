@@ -33,10 +33,13 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         itemMenuAdministrarProductos = new javax.swing.JMenuItem();
         itemMenuAdministrarCategorias = new javax.swing.JMenuItem();
         itemMenuAdministrarMarcas = new javax.swing.JMenuItem();
+        itemMenuAdministrarOrigen = new javax.swing.JMenuItem();
+        itemMenuAdministrarUnidad = new javax.swing.JMenuItem();
         menuOperaciones = new javax.swing.JMenu();
         itemMenuImportarLotes = new javax.swing.JMenuItem();
         itemMenuTransferencia = new javax.swing.JMenuItem();
         itemMenuEgreso = new javax.swing.JMenuItem();
+        itemMenuCorregirInventarioManualmente = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de inventario");
@@ -76,6 +79,22 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         });
         menuAdministracion.add(itemMenuAdministrarMarcas);
 
+        itemMenuAdministrarOrigen.setText("Administrar Origenes");
+        itemMenuAdministrarOrigen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAdministrarOrigenActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemMenuAdministrarOrigen);
+
+        itemMenuAdministrarUnidad.setText("Administrar Unidades");
+        itemMenuAdministrarUnidad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAdministrarUnidadActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemMenuAdministrarUnidad);
+
         barraMenu.add(menuAdministracion);
 
         menuOperaciones.setText("Operaciones");
@@ -103,6 +122,14 @@ public class GestionInventarioUI extends javax.swing.JFrame {
             }
         });
         menuOperaciones.add(itemMenuEgreso);
+
+        itemMenuCorregirInventarioManualmente.setText("Corregir Inventario Manualmente");
+        itemMenuCorregirInventarioManualmente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuCorregirInventarioManualmenteActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(itemMenuCorregirInventarioManualmente);
 
         barraMenu.add(menuOperaciones);
 
@@ -134,6 +161,18 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private void itemMenuEgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuEgresoActionPerformed
         agregarComponente(new EgresoUI());
     }//GEN-LAST:event_itemMenuEgresoActionPerformed
+
+    private void itemMenuCorregirInventarioManualmenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuCorregirInventarioManualmenteActionPerformed
+        agregarComponente(new CorregirInventarioUI());
+    }//GEN-LAST:event_itemMenuCorregirInventarioManualmenteActionPerformed
+
+    private void itemMenuAdministrarUnidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarUnidadActionPerformed
+        agregarComponente(new AdministrarUnidadesUI());
+    }//GEN-LAST:event_itemMenuAdministrarUnidadActionPerformed
+
+    private void itemMenuAdministrarOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarOrigenActionPerformed
+        agregarComponente(new AdministrarOrigenesUI());
+    }//GEN-LAST:event_itemMenuAdministrarOrigenActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +220,10 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private javax.swing.JMenuBar barraMenu;
     private javax.swing.JMenuItem itemMenuAdministrarCategorias;
     private javax.swing.JMenuItem itemMenuAdministrarMarcas;
+    private javax.swing.JMenuItem itemMenuAdministrarOrigen;
     private javax.swing.JMenuItem itemMenuAdministrarProductos;
+    private javax.swing.JMenuItem itemMenuAdministrarUnidad;
+    private javax.swing.JMenuItem itemMenuCorregirInventarioManualmente;
     private javax.swing.JMenuItem itemMenuEgreso;
     private javax.swing.JMenuItem itemMenuImportarLotes;
     private javax.swing.JMenuItem itemMenuTransferencia;
