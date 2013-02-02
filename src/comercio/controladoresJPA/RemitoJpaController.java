@@ -15,7 +15,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class RemitoJpaController extends Observable implements Serializable {
 
@@ -250,10 +250,10 @@ public class RemitoJpaController extends Observable implements Serializable {
             loteJpaController.crearLoteAlmacenado(loteAlmacenado);
 
             Transferencia transferencia = new Transferencia();
+            transferencia.setAlmacenOrigen(almacen);
             transferencia.setAlmacenDestino(almacen);
             transferencia.setLote(lote);
             transferencia.setCantidad(cantidad);
-            transferencia.setAlmacenOrigen(null);
             transferencia.setPuntoDeVentaDestino(null);
             transferenciaJpaController.crearTransferencia(transferencia);
         }

@@ -4,46 +4,7 @@
   <NonVisualComponents>
     <Menu class="javax.swing.JMenuBar" name="barraDeMenu">
       <SubComponents>
-        <Menu class="javax.swing.JMenu" name="menuArchivo">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Consultas"/>
-          </Properties>
-          <SubComponents>
-            <MenuItem class="javax.swing.JMenuItem" name="itemMenuReporteVentasMensual">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Reporte ventas mensual"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuReporteVentasMensualActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemMenuReportesDeVentaPorCategoria">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Reportes de venta por categor&#xed;a"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuReportesDeVentaPorCategoriaActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemMenuReportesDeVentaPorMarca">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Reportes de venta por marca"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuReportesDeVentaPorMarcaActionPerformed"/>
-              </Events>
-            </MenuItem>
-            <MenuItem class="javax.swing.JMenuItem" name="itemMenuProductosProximosAVencer">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Productos pr&#xf3;ximos a vencer"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuProductosProximosAVencerActionPerformed"/>
-              </Events>
-            </MenuItem>
-          </SubComponents>
-        </Menu>
-        <Menu class="javax.swing.JMenu" name="menuVer">
+        <Menu class="javax.swing.JMenu" name="menuOperaciones">
           <Properties>
             <Property name="text" type="java.lang.String" value="Operaciones"/>
           </Properties>
@@ -63,6 +24,47 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuCrearOfertaTemporalActionPerformed"/>
               </Events>
+            </MenuItem>
+          </SubComponents>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="menuReportes">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Reportes"/>
+          </Properties>
+          <SubComponents>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuVentasMensual">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reporte ventas mensual"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuVentasMensualActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuVentaPorCategoria">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reportes de venta por categor&#xed;a"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuVentaPorCategoriaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuVentaPorMarca">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Reportes de venta por marca"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="itemMenuVentaPorMarcaActionPerformed"/>
+              </Events>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuEgresoProductos">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Egreso de productos por causas especiales"/>
+              </Properties>
+            </MenuItem>
+            <MenuItem class="javax.swing.JMenuItem" name="itemMenuVariacionPrecios">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Variaci&#xf3;n de precios"/>
+              </Properties>
             </MenuItem>
           </SubComponents>
         </Menu>

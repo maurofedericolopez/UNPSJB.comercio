@@ -187,7 +187,7 @@ public class TransferenciaJpaController implements Serializable {
 
             List<Predicate> predicateList = new ArrayList<>();
 
-            Predicate lotePredicate, almacenPredicate, puntoDeVentaPredicate;
+            Predicate lotePredicate, almacenPredicate;
 
             if (lote != null) {
                 lotePredicate = cb.equal(trans.get("lote"), lote);

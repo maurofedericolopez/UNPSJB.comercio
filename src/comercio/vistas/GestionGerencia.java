@@ -26,14 +26,15 @@ public class GestionGerencia extends javax.swing.JFrame {
     private void initComponents() {
 
         barraDeMenu = new javax.swing.JMenuBar();
-        menuArchivo = new javax.swing.JMenu();
-        itemMenuReporteVentasMensual = new javax.swing.JMenuItem();
-        itemMenuReportesDeVentaPorCategoria = new javax.swing.JMenuItem();
-        itemMenuReportesDeVentaPorMarca = new javax.swing.JMenuItem();
-        itemMenuProductosProximosAVencer = new javax.swing.JMenuItem();
-        menuVer = new javax.swing.JMenu();
+        menuOperaciones = new javax.swing.JMenu();
         itemMenuModificarPrecioPorPorcentaje = new javax.swing.JMenuItem();
         itemMenuCrearOfertaTemporal = new javax.swing.JMenuItem();
+        menuReportes = new javax.swing.JMenu();
+        itemMenuVentasMensual = new javax.swing.JMenuItem();
+        itemMenuVentaPorCategoria = new javax.swing.JMenuItem();
+        itemMenuVentaPorMarca = new javax.swing.JMenuItem();
+        itemMenuEgresoProductos = new javax.swing.JMenuItem();
+        itemMenuVariacionPrecios = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion Gerencia");
@@ -43,43 +44,7 @@ public class GestionGerencia extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(950, 550));
         setResizable(false);
 
-        menuArchivo.setText("Consultas");
-
-        itemMenuReporteVentasMensual.setText("Reporte ventas mensual");
-        itemMenuReporteVentasMensual.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuReporteVentasMensualActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemMenuReporteVentasMensual);
-
-        itemMenuReportesDeVentaPorCategoria.setText("Reportes de venta por categoría");
-        itemMenuReportesDeVentaPorCategoria.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuReportesDeVentaPorCategoriaActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemMenuReportesDeVentaPorCategoria);
-
-        itemMenuReportesDeVentaPorMarca.setText("Reportes de venta por marca");
-        itemMenuReportesDeVentaPorMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuReportesDeVentaPorMarcaActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemMenuReportesDeVentaPorMarca);
-
-        itemMenuProductosProximosAVencer.setText("Productos próximos a vencer");
-        itemMenuProductosProximosAVencer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuProductosProximosAVencerActionPerformed(evt);
-            }
-        });
-        menuArchivo.add(itemMenuProductosProximosAVencer);
-
-        barraDeMenu.add(menuArchivo);
-
-        menuVer.setText("Operaciones");
+        menuOperaciones.setText("Operaciones");
 
         itemMenuModificarPrecioPorPorcentaje.setText("Modificar precio por porcentaje");
         itemMenuModificarPrecioPorPorcentaje.addActionListener(new java.awt.event.ActionListener() {
@@ -87,7 +52,7 @@ public class GestionGerencia extends javax.swing.JFrame {
                 itemMenuModificarPrecioPorPorcentajeActionPerformed(evt);
             }
         });
-        menuVer.add(itemMenuModificarPrecioPorPorcentaje);
+        menuOperaciones.add(itemMenuModificarPrecioPorPorcentaje);
 
         itemMenuCrearOfertaTemporal.setText("Crear una oferta temporal");
         itemMenuCrearOfertaTemporal.addActionListener(new java.awt.event.ActionListener() {
@@ -95,9 +60,43 @@ public class GestionGerencia extends javax.swing.JFrame {
                 itemMenuCrearOfertaTemporalActionPerformed(evt);
             }
         });
-        menuVer.add(itemMenuCrearOfertaTemporal);
+        menuOperaciones.add(itemMenuCrearOfertaTemporal);
 
-        barraDeMenu.add(menuVer);
+        barraDeMenu.add(menuOperaciones);
+
+        menuReportes.setText("Reportes");
+
+        itemMenuVentasMensual.setText("Reporte ventas mensual");
+        itemMenuVentasMensual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuVentasMensualActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuVentasMensual);
+
+        itemMenuVentaPorCategoria.setText("Reportes de venta por categoría");
+        itemMenuVentaPorCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuVentaPorCategoriaActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuVentaPorCategoria);
+
+        itemMenuVentaPorMarca.setText("Reportes de venta por marca");
+        itemMenuVentaPorMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuVentaPorMarcaActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuVentaPorMarca);
+
+        itemMenuEgresoProductos.setText("Egreso de productos por causas especiales");
+        menuReportes.add(itemMenuEgresoProductos);
+
+        itemMenuVariacionPrecios.setText("Variación de precios");
+        menuReportes.add(itemMenuVariacionPrecios);
+
+        barraDeMenu.add(menuReportes);
 
         setJMenuBar(barraDeMenu);
 
@@ -112,21 +111,17 @@ public class GestionGerencia extends javax.swing.JFrame {
         agregarComponente(new OfertaUI());
     }//GEN-LAST:event_itemMenuCrearOfertaTemporalActionPerformed
 
-    private void itemMenuReportesDeVentaPorCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuReportesDeVentaPorCategoriaActionPerformed
+    private void itemMenuVentaPorCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVentaPorCategoriaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_itemMenuReportesDeVentaPorCategoriaActionPerformed
+    }//GEN-LAST:event_itemMenuVentaPorCategoriaActionPerformed
 
-    private void itemMenuReportesDeVentaPorMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuReportesDeVentaPorMarcaActionPerformed
+    private void itemMenuVentaPorMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVentaPorMarcaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_itemMenuReportesDeVentaPorMarcaActionPerformed
+    }//GEN-LAST:event_itemMenuVentaPorMarcaActionPerformed
 
-    private void itemMenuReporteVentasMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuReporteVentasMensualActionPerformed
+    private void itemMenuVentasMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVentasMensualActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_itemMenuReporteVentasMensualActionPerformed
-
-    private void itemMenuProductosProximosAVencerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuProductosProximosAVencerActionPerformed
-        agregarComponente(new VencimientoProximoUI());
-    }//GEN-LAST:event_itemMenuProductosProximosAVencerActionPerformed
+    }//GEN-LAST:event_itemMenuVentasMensualActionPerformed
 
     /**
      * @param args the command line arguments
@@ -173,13 +168,14 @@ public class GestionGerencia extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraDeMenu;
     private javax.swing.JMenuItem itemMenuCrearOfertaTemporal;
+    private javax.swing.JMenuItem itemMenuEgresoProductos;
     private javax.swing.JMenuItem itemMenuModificarPrecioPorPorcentaje;
-    private javax.swing.JMenuItem itemMenuProductosProximosAVencer;
-    private javax.swing.JMenuItem itemMenuReporteVentasMensual;
-    private javax.swing.JMenuItem itemMenuReportesDeVentaPorCategoria;
-    private javax.swing.JMenuItem itemMenuReportesDeVentaPorMarca;
-    private javax.swing.JMenu menuArchivo;
-    private javax.swing.JMenu menuVer;
+    private javax.swing.JMenuItem itemMenuVariacionPrecios;
+    private javax.swing.JMenuItem itemMenuVentaPorCategoria;
+    private javax.swing.JMenuItem itemMenuVentaPorMarca;
+    private javax.swing.JMenuItem itemMenuVentasMensual;
+    private javax.swing.JMenu menuOperaciones;
+    private javax.swing.JMenu menuReportes;
     // End of variables declaration//GEN-END:variables
 
     private void agregarComponente(JComponent componente) {

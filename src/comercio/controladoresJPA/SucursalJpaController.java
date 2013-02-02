@@ -16,7 +16,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class SucursalJpaController implements Serializable {
 

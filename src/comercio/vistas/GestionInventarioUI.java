@@ -28,7 +28,6 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private void initComponents() {
 
         barraMenu = new javax.swing.JMenuBar();
-        menuArchivo = new javax.swing.JMenu();
         menuAdministracion = new javax.swing.JMenu();
         itemMenuAdministrarProductos = new javax.swing.JMenuItem();
         itemMenuAdministrarCategorias = new javax.swing.JMenuItem();
@@ -40,6 +39,8 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         itemMenuTransferencia = new javax.swing.JMenuItem();
         itemMenuEgreso = new javax.swing.JMenuItem();
         itemMenuCorregirInventarioManualmente = new javax.swing.JMenuItem();
+        menuConsultas = new javax.swing.JMenu();
+        itemMenuProductosProximosAVencer = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de inventario");
@@ -49,9 +50,6 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(950, 550));
         setPreferredSize(new java.awt.Dimension(950, 550));
         setResizable(false);
-
-        menuArchivo.setText("Archivo");
-        barraMenu.add(menuArchivo);
 
         menuAdministracion.setText("Administración");
 
@@ -133,6 +131,18 @@ public class GestionInventarioUI extends javax.swing.JFrame {
 
         barraMenu.add(menuOperaciones);
 
+        menuConsultas.setText("Consultas");
+
+        itemMenuProductosProximosAVencer.setText("Productos próximos a vencer");
+        itemMenuProductosProximosAVencer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuProductosProximosAVencerActionPerformed(evt);
+            }
+        });
+        menuConsultas.add(itemMenuProductosProximosAVencer);
+
+        barraMenu.add(menuConsultas);
+
         setJMenuBar(barraMenu);
 
         pack();
@@ -173,6 +183,10 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private void itemMenuAdministrarOrigenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuAdministrarOrigenActionPerformed
         agregarComponente(new AdministrarOrigenesUI());
     }//GEN-LAST:event_itemMenuAdministrarOrigenActionPerformed
+
+    private void itemMenuProductosProximosAVencerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuProductosProximosAVencerActionPerformed
+        agregarComponente(new VencimientoProximoUI());
+    }//GEN-LAST:event_itemMenuProductosProximosAVencerActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,9 +240,10 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem itemMenuCorregirInventarioManualmente;
     private javax.swing.JMenuItem itemMenuEgreso;
     private javax.swing.JMenuItem itemMenuImportarLotes;
+    private javax.swing.JMenuItem itemMenuProductosProximosAVencer;
     private javax.swing.JMenuItem itemMenuTransferencia;
     private javax.swing.JMenu menuAdministracion;
-    private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenu menuConsultas;
     private javax.swing.JMenu menuOperaciones;
     // End of variables declaration//GEN-END:variables
 

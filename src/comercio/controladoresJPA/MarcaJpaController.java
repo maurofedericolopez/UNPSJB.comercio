@@ -15,7 +15,7 @@ import javax.persistence.criteria.Root;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class MarcaJpaController extends Observable implements Serializable {
 

@@ -1,6 +1,5 @@
 package comercio.controladoresJPA;
 
-import comercio.ComercioApp;
 import comercio.ControllerSingleton;
 import comercio.controladoresJPA.exceptions.NonexistentEntityException;
 import comercio.modelo.Categoria;
@@ -12,8 +11,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityNotFoundException;
@@ -24,7 +21,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author Mauro
+ * @author Mauro Federico Lopez
  */
 public class OfertaJpaController implements Serializable {
 
