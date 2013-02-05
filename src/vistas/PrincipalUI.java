@@ -1,25 +1,20 @@
-package comercio;
-
-
-
-import vistas.CantidadProductosUI;
-import java.awt.BorderLayout;
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package vistas;
 
 /**
  *
- * @author Mauro Federico Lopez
+ * @author Mauro
  */
-public class Testings extends javax.swing.JFrame {
+public class PrincipalUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form Testings
+     * Creates new form PrincipalUI
      */
-    public Testings() {
+    public PrincipalUI() {
         initComponents();
-        CantidadProductosUI v = new CantidadProductosUI();
-        v.setVisible(true);
-        add(v, BorderLayout.CENTER);
-        pack();
     }
 
     /**
@@ -31,23 +26,23 @@ public class Testings extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setLocationByPlatform(true);
-        setMinimumSize(new java.awt.Dimension(478, 70));
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                formKeyPressed(evt);
-            }
-        });
+
+        jButton1.setText("jButton1");
+        getContentPane().add(jButton1, java.awt.BorderLayout.PAGE_START);
+
+        jButton2.setText("jButton2");
+        getContentPane().add(jButton2, java.awt.BorderLayout.CENTER);
+
+        jButton3.setText("jButton3");
+        getContentPane().add(jButton3, java.awt.BorderLayout.PAGE_END);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        if(evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            accionDelBoton();
-        }
-    }//GEN-LAST:event_formKeyPressed
 
     /**
      * @param args the command line arguments
@@ -69,8 +64,14 @@ public class Testings extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Testings.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(PrincipalUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(PrincipalUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(PrincipalUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(PrincipalUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -79,19 +80,14 @@ public class Testings extends javax.swing.JFrame {
          */
         java.awt.EventQueue.invokeLater(new Runnable() {
 
-            @Override
             public void run() {
-                Testings testings = new Testings();
-                testings.setVisible(true);
-                testings.pack();
+                new PrincipalUI().setVisible(true);
             }
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     // End of variables declaration//GEN-END:variables
-
-    public void accionDelBoton() {
-        
-    }
-
 }

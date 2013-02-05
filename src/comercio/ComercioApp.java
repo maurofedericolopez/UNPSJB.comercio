@@ -1,10 +1,12 @@
 package comercio;
 
-import comercio.vistas.GestionGerencia;
-import comercio.vistas.GestionInventarioUI;
-import comercio.vistas.GestionVenta;
+
+
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import vistas.GestionGerenciaUI;
+import vistas.GestionInventarioUI;
+import vistas.GestionVentaUI;
 
 /**
  *
@@ -13,9 +15,10 @@ import javax.persistence.Persistence;
 public class ComercioApp {
 
     private static EntityManagerFactory entityManagerFactory;
+    private static EntityManagerFactory entityManagerFactoryEmpleados;
     private static GestionInventarioUI ventanaInventario;
-    private static GestionVenta ventanaGestionVenta;
-    private static GestionGerencia ventanaGerencia;
+    private static GestionVentaUI ventanaGestionVenta;
+    private static GestionGerenciaUI ventanaGerencia;
 
     /**
      * @param args the command line arguments
@@ -26,8 +29,11 @@ public class ComercioApp {
         ventanaInventario = new GestionInventarioUI();
         ventanaInventario.setVisible(true);
 
-        ventanaGerencia = new GestionGerencia();
+        ventanaGerencia = new GestionGerenciaUI();
         ventanaGerencia.setVisible(true);
+
+        ventanaGestionVenta = new GestionVentaUI();
+        ventanaGestionVenta.setVisible(true);
     }
 
     /**
@@ -61,15 +67,29 @@ public class ComercioApp {
     /**
      * @return the ventanaGerencia
      */
-    public static GestionGerencia getVentanaGerencia() {
+    public static GestionGerenciaUI getVentanaGerencia() {
         return ventanaGerencia;
     }
 
     /**
      * @param aVentanaGerencia the ventanaGerencia to set
      */
-    public static void setVentanaGerencia(GestionGerencia aVentanaGerencia) {
+    public static void setVentanaGerencia(GestionGerenciaUI aVentanaGerencia) {
         ventanaGerencia = aVentanaGerencia;
+    }
+
+    /**
+     * @return the entityManagerFactoryEmpleados
+     */
+    public static EntityManagerFactory getEntityManagerFactoryEmpleados() {
+        return entityManagerFactoryEmpleados;
+    }
+
+    /**
+     * @param aEntityManagerFactoryEmpleados the entityManagerFactoryEmpleados to set
+     */
+    public static void setEntityManagerFactoryEmpleados(EntityManagerFactory aEntityManagerFactoryEmpleados) {
+        entityManagerFactoryEmpleados = aEntityManagerFactoryEmpleados;
     }
 
 }

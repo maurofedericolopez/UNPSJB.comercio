@@ -2,30 +2,30 @@
 <persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
   <persistence-unit name="ComercioPU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>comercio.modelo.Oferta</class>
-    <class>comercio.modelo.Categoria</class>
-    <class>comercio.modelo.Marca</class>
-    <class>comercio.modelo.Origen</class>
-    <class>comercio.modelo.PrecioAnterior</class>
-    <class>comercio.modelo.Producto</class>
-    <class>comercio.modelo.Unidad</class>
-    <class>comercio.modelo.Almacen</class>
-    <class>comercio.modelo.Egreso</class>
-    <class>comercio.modelo.ItemVenta</class>
-    <class>comercio.modelo.Lote</class>
-    <class>comercio.modelo.LoteAlmacenado</class>
-    <class>comercio.modelo.LoteEgresado</class>
-    <class>comercio.modelo.LoteRemito</class>
-    <class>comercio.modelo.ProductoEnVenta</class>
-    <class>comercio.modelo.PuntoVenta</class>
-    <class>comercio.modelo.Remito</class>
-    <class>comercio.modelo.Sucursal</class>
-    <class>comercio.modelo.Venta</class>
-    <class>comercio.modelo.Vendedor</class>
-    <class>comercio.modelo.Gerente</class>
-    <class>comercio.modelo.GestorInventario</class>
-    <class>comercio.modelo.MedioDePago</class>
-    <class>comercio.modelo.Transferencia</class>
+    <class>modelo.Unidad</class>
+    <class>modelo.Egreso</class>
+    <class>modelo.Sucursal</class>
+    <class>modelo.PuntoVenta</class>
+    <class>modelo.Oferta</class>
+    <class>modelo.Origen</class>
+    <class>modelo.Remito</class>
+    <class>modelo.ProductoEnVenta</class>
+    <class>modelo.Gerente</class>
+    <class>modelo.LoteRemito</class>
+    <class>modelo.ItemVenta</class>
+    <class>modelo.Lote</class>
+    <class>modelo.Categoria</class>
+    <class>modelo.Producto</class>
+    <class>modelo.LoteAlmacenado</class>
+    <class>modelo.Vendedor</class>
+    <class>modelo.PrecioAnterior</class>
+    <class>modelo.Empleado</class>
+    <class>modelo.MedioDePago</class>
+    <class>modelo.Marca</class>
+    <class>modelo.Almacen</class>
+    <class>modelo.LoteEgresado</class>
+    <class>modelo.Venta</class>
+    <class>modelo.GestorInventario</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value=""/>

@@ -1,6 +1,8 @@
 package comercio;
 
-import comercio.controladoresJPA.*;
+
+
+import controladoresJPA.*;
 import javax.persistence.EntityManagerFactory;
 
 /**
@@ -22,8 +24,9 @@ public class ControllerSingleton {
     private static OrigenJpaController origenJpaController = new OrigenJpaController(getEmf());
     private static UnidadJpaController unidadJpaController = new UnidadJpaController(getEmf());
     private static MedioDePagoJpaController medioDePagoJpaController = new MedioDePagoJpaController(getEmf());
+    private static OfertaJpaController ofertaJpaController = new OfertaJpaController(getEmf());
 
-    private static TransferenciaJpaController transferenciaJpaController = new TransferenciaJpaController(getEmf());
+    private static TransferenciaJpaController transferenciaJpaController = new TransferenciaJpaController();
     private static EgresoJpaController egresoJpaController = new EgresoJpaController(getEmf());
     private static RemitoJpaController remitoJpaController = new RemitoJpaController(getEmf());
     private static VentaJpaController ventaJpaController = new VentaJpaController(getEmf());
@@ -139,6 +142,13 @@ public class ControllerSingleton {
      */
     public static TransferenciaJpaController getTransferenciaJpaController() {
         return transferenciaJpaController;
+    }
+
+    /**
+     * @return the ofertaJpaController
+     */
+    public static OfertaJpaController getOfertaJpaController() {
+        return ofertaJpaController;
     }
 
 }
