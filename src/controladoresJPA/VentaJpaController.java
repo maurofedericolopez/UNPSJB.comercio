@@ -24,8 +24,8 @@ public class VentaJpaController extends Observable implements Serializable {
     private MedioDePago medioDePago = null;
     private ArrayList<ItemVenta> itemsDeVenta = new ArrayList();
 
-    public VentaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public VentaJpaController() {
+        this.emf = ControllerSingleton.getEmf();
         puntoDeVentaJpaController = ControllerSingleton.getPuntoVentaJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
@@ -34,6 +34,10 @@ public class VentaJpaController extends Observable implements Serializable {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste una entidad venta en la base de datos.
+     * @param venta 
+     */
     public void crearVenta(Venta venta) {
         if (venta.getItems() == null) {
             venta.setItems(new ArrayList<ItemVenta>());
@@ -81,6 +85,20 @@ public class VentaJpaController extends Observable implements Serializable {
                 aVenta.getItems().add(itemVenta);
                 aVenta = em.merge(aVenta);
             }
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
+    public void crearMedioDePago(MedioDePago medioPago) {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            em.persist(medioPago);
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -177,6 +195,29 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    public void editarMedioDePago(MedioDePago medioPago) throws NonexistentEntityException, Exception {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            medioPago = em.merge(medioPago);
+            em.getTransaction().commit();
+        } catch (Exception ex) {
+            String msg = ex.getLocalizedMessage();
+            if (msg == null || msg.length() == 0) {
+                Long id = medioPago.getId();
+                if (encontrarMedioPago(id) == null) {
+                    throw new NonexistentEntityException("The medioPago with id " + id + " no longer exists.");
+                }
+            }
+            throw ex;
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
     public void destruirVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -229,6 +270,27 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    public void destruirMedioDePago(Long id) throws NonexistentEntityException {
+        EntityManager em = null;
+        try {
+            em = getEntityManager();
+            em.getTransaction().begin();
+            MedioDePago medioPago;
+            try {
+                medioPago = em.getReference(MedioDePago.class, id);
+                medioPago.getId();
+            } catch (EntityNotFoundException enfe) {
+                throw new NonexistentEntityException("The medioPago with id " + id + " no longer exists.", enfe);
+            }
+            em.remove(medioPago);
+            em.getTransaction().commit();
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
     public List<Venta> encontrarVentaEntities() {
         return encontrarVentaEntities(true, -1, -1);
     }
@@ -237,12 +299,20 @@ public class VentaJpaController extends Observable implements Serializable {
         return encontrarItemVentaEntities(true, -1, -1);
     }
 
+    public List<MedioDePago> encontrarMedioPagoEntities() {
+        return encontrarMedioPagoEntities(true, -1, -1);
+    }
+
     public List<Venta> encontrarVentaEntities(int maxResults, int firstResult) {
         return encontrarVentaEntities(false, maxResults, firstResult);
     }
 
     public List<ItemVenta> encontrarItemVentaEntities(int maxResults, int firstResult) {
         return encontrarItemVentaEntities(false, maxResults, firstResult);
+    }
+
+    public List<MedioDePago> encontrarMedioPagoEntities(int maxResults, int firstResult) {
+        return encontrarMedioPagoEntities(false, maxResults, firstResult);
     }
 
     private List<Venta> encontrarVentaEntities(boolean all, int maxResults, int firstResult) {
@@ -277,6 +347,22 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    private List<MedioDePago> encontrarMedioPagoEntities(boolean all, int maxResults, int firstResult) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(MedioDePago.class));
+            Query q = em.createQuery(cq);
+            if (!all) {
+                q.setMaxResults(maxResults);
+                q.setFirstResult(firstResult);
+            }
+            return q.getResultList();
+        } finally {
+            em.close();
+        }
+    }
+
     public Venta encontrarVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -290,6 +376,15 @@ public class VentaJpaController extends Observable implements Serializable {
         EntityManager em = getEntityManager();
         try {
             return em.find(ItemVenta.class, id);
+        } finally {
+            em.close();
+        }
+    }
+
+    public MedioDePago encontrarMedioPago(Long id) {
+        EntityManager em = getEntityManager();
+        try {
+            return em.find(MedioDePago.class, id);
         } finally {
             em.close();
         }
@@ -321,6 +416,19 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    public int getMedioPagoCount() {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            Root<MedioDePago> rt = cq.from(MedioDePago.class);
+            cq.select(em.getCriteriaBuilder().count(rt));
+            Query q = em.createQuery(cq);
+            return ((Long) q.getSingleResult()).intValue();
+        } finally {
+            em.close();
+        }
+    }
+
     public void eliminarItemDeVenta(int index) throws Exception {
         if(index >= 0) {
             ItemVenta itemDeVenta = itemsDeVenta.remove(index);
@@ -331,6 +439,14 @@ public class VentaJpaController extends Observable implements Serializable {
         } else {
             throw new Exception("No ha seleccionado ningún item.");
         }
+    }
+
+    public ArrayList<MedioDePago> obtenerTodosLosMediosDePago() {
+        ArrayList<MedioDePago> mediosDePago = new ArrayList();
+        Object[] array = encontrarMedioPagoEntities().toArray();
+        for(Object o : array)
+            mediosDePago.add((MedioDePago) o);
+        return mediosDePago;
     }
 
     public void cancelarVenta() throws Exception {
@@ -357,6 +473,13 @@ public class VentaJpaController extends Observable implements Serializable {
         return itemsDeVenta;
     }
 
+    /**
+     * Agrega un objecto <code>ItemVenta</code> con el codigoProducto y la cantidadProducto especificada.
+     * @param codigoProducto el código del producto para el item.
+     * @param cantidadProducto es la cantidad de productos para el item.
+     * @throws CodigoProductoNoRegistradoException se lanza si el código del producto no está registrado en la base de datos.
+     * @throws Exception 
+     */
     public void agregarItemDeVenta(String codigoProducto, Double cantidadProducto) throws CodigoProductoNoRegistradoException, Exception {
         Producto producto = productoJpaController.buscarProductoPorCodigo(codigoProducto);
         Boolean productoDisponible = puntoDeVentaJpaController.productoDisponible(puntoDeVenta, producto, cantidadProducto);
@@ -389,6 +512,11 @@ public class VentaJpaController extends Observable implements Serializable {
         notificarCambios();
     }
 
+    /**
+     * Devuelve el monto total de la venta en curso.
+     * El monto es la suma del producto entre el precio, el descuento y la cantidad de cada producto.
+     * @return 
+     */
     public Double obtenerMontoTotal() {
         Double montoTotal = 0.0;
         Iterator<ItemVenta> i = itemsDeVenta.iterator();
@@ -474,6 +602,69 @@ public class VentaJpaController extends Observable implements Serializable {
             }
         }
         return null;
+    }
+
+    public ArrayList<ItemVenta> obtenerVentasPorMarca(Marca marca) {
+        ArrayList<ItemVenta> ventasPorMarca = new ArrayList();
+        Iterator<Producto> i = productoJpaController.obtenerProductosPorMarca(marca).iterator();
+        while(i.hasNext()) {
+            Producto producto = i.next();
+            Double cantidad = 0.0;
+            Iterator<ItemVenta> j = obtenerItemsDeVentaPorProducto(producto).iterator();
+            while(j.hasNext()) {
+                cantidad += j.next().getCantidad();
+            }
+            ItemVenta itemDeVenta = new ItemVenta();
+            itemDeVenta.setProducto(producto);
+            itemDeVenta.setCantidad(cantidad);
+            itemDeVenta.setPrecio(0.0);
+            itemDeVenta.setDescuento(0.0);
+            itemDeVenta.setVenta(null);
+            ventasPorMarca.add(itemDeVenta);
+        }
+        return ventasPorMarca;
+    }
+
+    public ArrayList<ItemVenta> obtenerVentasPorCategoria(Categoria categoria) {
+        ArrayList<ItemVenta> ventasPorMarca = new ArrayList();
+        Iterator<Producto> i = productoJpaController.obtenerProductosPorCategoria(categoria).iterator();
+        while(i.hasNext()) {
+            Producto producto = i.next();
+            Double cantidad = 0.0;
+            Iterator<ItemVenta> j = obtenerItemsDeVentaPorProducto(producto).iterator();
+            while(j.hasNext()) {
+                cantidad += j.next().getCantidad();
+            }
+            ItemVenta itemDeVenta = new ItemVenta();
+            itemDeVenta.setProducto(producto);
+            itemDeVenta.setCantidad(cantidad);
+            itemDeVenta.setPrecio(0.0);
+            itemDeVenta.setDescuento(0.0);
+            itemDeVenta.setVenta(null);
+            ventasPorMarca.add(itemDeVenta);
+        }
+        return ventasPorMarca;
+    }
+
+    private ArrayList<ItemVenta> obtenerItemsDeVentaPorProducto(Producto producto) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<ItemVenta> cq = cb.createQuery(ItemVenta.class);
+            Root<ItemVenta> root = cq.from(ItemVenta.class);
+            cq.select(root);
+            cq.where(cb.equal(root.get("producto"), producto));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<ItemVenta> losItemsDeVenta = new ArrayList();
+            for(Object o : array) {
+                losItemsDeVenta.add((ItemVenta) o);
+            }
+            return losItemsDeVenta;
+        } catch(NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
 }

@@ -24,8 +24,8 @@ public class EgresoJpaController extends Observable implements Serializable {
     private ArrayList<LoteEgresado> lotesEgresados = new ArrayList();
     private Egreso egreso;
 
-    public EgresoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public EgresoJpaController() {
+        this.emf = ControllerSingleton.getEmf();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         almacenJpaController = ControllerSingleton.getAlmacenJpaController();
     }

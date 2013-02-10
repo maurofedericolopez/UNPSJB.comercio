@@ -5,13 +5,11 @@
     <class>modelo.Unidad</class>
     <class>modelo.Egreso</class>
     <class>modelo.Sucursal</class>
-    <class>modelo.PuntoVenta</class>
     <class>modelo.Oferta</class>
     <class>modelo.Origen</class>
     <class>modelo.Remito</class>
     <class>modelo.ProductoEnVenta</class>
     <class>modelo.Gerente</class>
-    <class>modelo.LoteRemito</class>
     <class>modelo.ItemVenta</class>
     <class>modelo.Lote</class>
     <class>modelo.Categoria</class>
@@ -26,6 +24,8 @@
     <class>modelo.LoteEgresado</class>
     <class>modelo.Venta</class>
     <class>modelo.GestorInventario</class>
+    <class>modelo.PuntoVenta</class>
+    <class>modelo.LoteRemito</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value=""/>

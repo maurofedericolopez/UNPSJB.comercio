@@ -23,9 +23,9 @@ public class AlmacenJpaController implements Serializable {
 
     private LoteJpaController loteJpaController;
 
-    public AlmacenJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
-        loteJpaController = new LoteJpaController(ControllerSingleton.getEmf());
+    public AlmacenJpaController() {
+        this.emf = ControllerSingleton.getEmf();
+        loteJpaController = new LoteJpaController();
     }
     private EntityManagerFactory emf = null;
 
@@ -223,9 +223,18 @@ public class AlmacenJpaController implements Serializable {
         return almacenes;
     }
 
+    /**
+     * Descuenta de un lote de un almacen la cantidad indicada.
+     * Si el almacén no contiene el lote, lanza una excepción.
+     * Si el almacen si contiene el lote pero la cantidad que se requiere transferir es mayor al contenido en el lote, lanza una excepción.
+     * @param almacen
+     * @param lote
+     * @param cantidad
+     * @throws Exception 
+     */
     public void descontarDeAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
         LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
-        if(loteAlmacenado != null){
+        if(loteAlmacenado != null) {
             if(loteAlmacenado.getCantidad() >= cantidad) {
                 Double cantidadNueva = loteAlmacenado.getCantidad() - cantidad;
                 loteAlmacenado.setCantidad(cantidadNueva);

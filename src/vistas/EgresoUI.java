@@ -1,14 +1,12 @@
 package vistas;
 
-import comercio.ControllerSingleton;
 import controladoresJPA.EgresoJpaController;
-import modelo.Almacen;
-import modelo.Egreso;
-import modelo.LoteEgresado;
-import vistas.modelos.LoteEgresadoTableModel;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import modelo.Almacen;
+import modelo.LoteEgresado;
+import vistas.modelos.LoteEgresadoTableModel;
 
 /**
  *
@@ -24,7 +22,7 @@ public class EgresoUI extends javax.swing.JPanel {
      */
     public EgresoUI() {
         initComponents();
-        egresoJpaController = new EgresoJpaController(ControllerSingleton.getEmf());
+        egresoJpaController = new EgresoJpaController();
         lotesEgresadosTableModel = new LoteEgresadoTableModel();
         tablaLotesEgresados.setModel(lotesEgresadosTableModel);
     }
@@ -43,7 +41,7 @@ public class EgresoUI extends javax.swing.JPanel {
         campoCodigoLote = new javax.swing.JTextField();
         etiquetaCantidad = new javax.swing.JLabel();
         campoCantidad = new javax.swing.JFormattedTextField();
-        botonAgregar = new javax.swing.JButton();
+        botonGuardarLote = new javax.swing.JButton();
         botonCancelar = new javax.swing.JButton();
         panelCampos = new javax.swing.JPanel();
         etiquetaCodigoEgreso = new javax.swing.JLabel();
@@ -72,10 +70,10 @@ public class EgresoUI extends javax.swing.JPanel {
 
         etiquetaCantidad.setText("Cantidad");
 
-        botonAgregar.setText("Agregar");
-        botonAgregar.addActionListener(new java.awt.event.ActionListener() {
+        botonGuardarLote.setText("Agregar");
+        botonGuardarLote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonAgregarActionPerformed(evt);
+                botonGuardarLoteActionPerformed(evt);
             }
         });
 
@@ -97,7 +95,8 @@ public class EgresoUI extends javax.swing.JPanel {
                             .addComponent(campoCodigoLote)
                             .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(nuevoLoteLayout.createSequentialGroup()
-                        .addComponent(botonAgregar)
+                        .addGap(42, 42, 42)
+                        .addComponent(botonGuardarLote)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(botonCancelar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -115,7 +114,7 @@ public class EgresoUI extends javax.swing.JPanel {
                     .addComponent(etiquetaCantidad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(nuevoLoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonAgregar)
+                    .addComponent(botonGuardarLote)
                     .addComponent(botonCancelar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -268,7 +267,7 @@ public class EgresoUI extends javax.swing.JPanel {
         nuevoLote.pack();
     }//GEN-LAST:event_botonAgregarLoteActionPerformed
 
-    private void botonAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAgregarActionPerformed
+    private void botonGuardarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarLoteActionPerformed
         try {
             String codigoLote = campoCodigoLote.getText();
             Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
@@ -278,7 +277,7 @@ public class EgresoUI extends javax.swing.JPanel {
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_botonAgregarActionPerformed
+    }//GEN-LAST:event_botonGuardarLoteActionPerformed
 
     private void campoAlmacenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_campoAlmacenItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED) {
@@ -292,7 +291,6 @@ public class EgresoUI extends javax.swing.JPanel {
 
     private void botonRegistrarEgresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarEgresoActionPerformed
         try {
-            Egreso egreso = new Egreso();
             String codigo = campoCodigoEgreso.getText();
             String causaEspecial = campoCausaEspecial.getText();
             String observaciones = campoObservaciones.getText();
@@ -304,10 +302,10 @@ public class EgresoUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonRegistrarEgresoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton botonAgregar;
     private javax.swing.JButton botonAgregarLote;
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonCancelarEgreso;
+    private javax.swing.JButton botonGuardarLote;
     private javax.swing.JButton botonQuitarLote;
     private javax.swing.JButton botonRegistrarEgreso;
     private javax.swing.JComboBox campoAlmacen;

@@ -1,7 +1,7 @@
 package controladoresJPA;
 
+import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.NonexistentEntityException;
-import modelo.Unidad;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import modelo.Unidad;
 
 /**
  *
@@ -18,8 +19,8 @@ import javax.persistence.criteria.Root;
  */
 public class UnidadJpaController implements Serializable {
 
-    public UnidadJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public UnidadJpaController() {
+        this.emf = ControllerSingleton.getEmf();
     }
     private EntityManagerFactory emf = null;
 

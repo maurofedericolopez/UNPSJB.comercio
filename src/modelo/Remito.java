@@ -38,7 +38,7 @@ public class Remito implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fecha;
     @OneToMany(mappedBy = "remito")
-    private List<LoteRemito> lotes = new ArrayList();
+    private List<LoteRemito> lotesDelRemito = new ArrayList();
 
     @Override
     public int hashCode() {
@@ -108,17 +108,17 @@ public class Remito implements Serializable {
     }
 
     /**
-     * @return the lotes
+     * @return the lotesDelRemito
      */
-    public List<LoteRemito> getLotes() {
-        return lotes;
+    public List<LoteRemito> getLotesDelRemito() {
+        return lotesDelRemito;
     }
 
     /**
-     * @param lotes the lotes to set
+     * @param lotesDelRemito the lotesDelRemito to set
      */
-    public void setLotes(List<LoteRemito> lotes) {
-        this.lotes = lotes;
+    public void setLotesDelRemito(List<LoteRemito> lotes) {
+        this.lotesDelRemito = lotes;
     }
 
 }

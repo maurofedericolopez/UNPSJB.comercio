@@ -2,13 +2,13 @@ package vistas;
 
 import comercio.ControllerSingleton;
 import controladoresJPA.EgresoJpaController;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import modelo.Egreso;
 import modelo.LoteEgresado;
 import vistas.modelos.EgresoTableModel;
 import vistas.modelos.LoteEgresadoTableModel;
-import java.util.ArrayList;
-import java.util.Date;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -26,7 +26,7 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
      */
     public ConsultaEgresosUI() {
         initComponents();
-        egresoJpaController = new EgresoJpaController(ControllerSingleton.getEmf());
+        egresoJpaController = new EgresoJpaController();
         egresoTableModel = new EgresoTableModel();
         tablaEgresos.setModel(egresoTableModel);
         egresos = egresoJpaController.obtenerTodosLosEgresos();

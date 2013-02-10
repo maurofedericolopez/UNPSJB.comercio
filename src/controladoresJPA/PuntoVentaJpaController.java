@@ -3,10 +3,6 @@ package controladoresJPA;
 import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import controladoresJPA.exceptions.NonexistentEntityException;
-import modelo.Producto;
-import modelo.ProductoEnVenta;
-import modelo.PuntoVenta;
-import modelo.Sucursal;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +12,10 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
+import modelo.Producto;
+import modelo.ProductoEnVenta;
+import modelo.PuntoVenta;
+import modelo.Sucursal;
 
 /**
  *
@@ -26,8 +26,8 @@ public class PuntoVentaJpaController implements Serializable {
     private EntityManagerFactory emf = null;
     private ProductoJpaController productoJpaController;
 
-    public PuntoVentaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public PuntoVentaJpaController() {
+        this.emf = ControllerSingleton.getEmf();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
 
@@ -381,8 +381,8 @@ public class PuntoVentaJpaController implements Serializable {
             editarProductoEnVenta(productoEnVenta);
         } else {
             productoEnVenta = new ProductoEnVenta();
-            productoEnVenta.setProducto(producto);
             productoEnVenta.setPuntoDeVenta(puntoDeVenta);
+            productoEnVenta.setProducto(producto);
             productoEnVenta.setCantidad(cantidad);
             crearProductoEnVenta(productoEnVenta);
         }

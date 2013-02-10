@@ -1,5 +1,6 @@
 package controladoresJPA;
 
+import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.CodigoProductoNoDisponibleException;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import controladoresJPA.exceptions.NonexistentEntityException;
@@ -18,8 +19,8 @@ import modelo.*;
  */
 public class ProductoJpaController extends Observable implements Serializable {
 
-    public ProductoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public ProductoJpaController() {
+        this.emf = ControllerSingleton.getEmf();
     }
     private EntityManagerFactory emf = null;
 

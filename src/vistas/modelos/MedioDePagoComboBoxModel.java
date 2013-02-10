@@ -1,10 +1,10 @@
 package vistas.modelos;
 
-import comercio.ControllerSingleton;
-import modelo.MedioDePago;
+import controladoresJPA.VentaJpaController;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
+import modelo.MedioDePago;
 
 /**
  *
@@ -17,7 +17,7 @@ public class MedioDePagoComboBoxModel extends AbstractListModel implements Combo
 
     public MedioDePagoComboBoxModel() {
         super();
-        mediosDePago = ControllerSingleton.getMedioDePagoJpaController().obtenerTodosLosMediosDePago();
+        mediosDePago = new VentaJpaController().obtenerTodosLosMediosDePago();
     }
 
     @Override

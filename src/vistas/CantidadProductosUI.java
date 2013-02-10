@@ -6,11 +6,11 @@ import controladoresJPA.LoteJpaController;
 import controladoresJPA.ProductoJpaController;
 import controladoresJPA.PuntoVentaJpaController;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
+import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import modelo.Almacen;
 import modelo.Producto;
 import modelo.PuntoVenta;
-import java.awt.BorderLayout;
-import javax.swing.JOptionPane;
 
 /**
  *

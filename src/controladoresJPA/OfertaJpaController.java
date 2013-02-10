@@ -2,10 +2,6 @@ package controladoresJPA;
 
 import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.NonexistentEntityException;
-import modelo.Categoria;
-import modelo.Marca;
-import modelo.Oferta;
-import modelo.Producto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,6 +14,10 @@ import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
+import modelo.Categoria;
+import modelo.Marca;
+import modelo.Oferta;
+import modelo.Producto;
 
 /**
  *
@@ -28,8 +28,8 @@ public class OfertaJpaController implements Serializable {
     private EntityManagerFactory emf = null;
     private ProductoJpaController productoJpaController;
 
-    public OfertaJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public OfertaJpaController() {
+        this.emf = ControllerSingleton.getEmf();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
 

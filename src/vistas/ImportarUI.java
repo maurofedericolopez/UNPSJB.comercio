@@ -1,14 +1,12 @@
 package vistas;
 
-import comercio.ControllerSingleton;
 import controladoresJPA.RemitoJpaController;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
+import java.util.Date;
+import javax.swing.JOptionPane;
 import modelo.Almacen;
 import modelo.Remito;
 import vistas.modelos.LotesDelRemitoTableModel;
-import java.awt.event.ItemEvent;
-import java.util.Date;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,7 +23,7 @@ public class ImportarUI extends javax.swing.JPanel {
     public ImportarUI() {
         initComponents();
         campoFechaRemito.setValue(new Date());
-        remitoJpaController = new RemitoJpaController(ControllerSingleton.getEmf());
+        remitoJpaController = new RemitoJpaController();
         modeloTabla = new LotesDelRemitoTableModel(remitoJpaController);
         tablaLotesDelRemito.setModel(modeloTabla);
     }

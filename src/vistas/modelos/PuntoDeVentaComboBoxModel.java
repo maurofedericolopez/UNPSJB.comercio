@@ -1,10 +1,10 @@
 package vistas.modelos;
 
 import comercio.ControllerSingleton;
-import modelo.PuntoVenta;
 import java.util.ArrayList;
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
+import modelo.PuntoVenta;
 
 /**
  *

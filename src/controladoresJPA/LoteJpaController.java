@@ -1,5 +1,6 @@
 package controladoresJPA;
 
+import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,8 +20,8 @@ import modelo.*;
  */
 public class LoteJpaController implements Serializable {
 
-    public LoteJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public LoteJpaController() {
+        this.emf = ControllerSingleton.getEmf();
     }
     private EntityManagerFactory emf = null;
 
@@ -100,7 +101,7 @@ public class LoteJpaController implements Serializable {
             }
             em.persist(loteRemito);
             if (remito != null) {
-                remito.getLotes().add(loteRemito);
+                remito.getLotesDelRemito().add(loteRemito);
                 remito = em.merge(remito);
             }
             em.getTransaction().commit();
@@ -224,11 +225,11 @@ public class LoteJpaController implements Serializable {
             }
             loteRemito = em.merge(loteRemito);
             if (remitoOld != null && !remitoOld.equals(remitoNew)) {
-                remitoOld.getLotes().remove(loteRemito);
+                remitoOld.getLotesDelRemito().remove(loteRemito);
                 remitoOld = em.merge(remitoOld);
             }
             if (remitoNew != null && !remitoNew.equals(remitoOld)) {
-                remitoNew.getLotes().add(loteRemito);
+                remitoNew.getLotesDelRemito().add(loteRemito);
                 remitoNew = em.merge(remitoNew);
             }
             em.getTransaction().commit();
@@ -335,7 +336,7 @@ public class LoteJpaController implements Serializable {
             }
             Remito remito = loteRemito.getRemito();
             if (remito != null) {
-                remito.getLotes().remove(loteRemito);
+                remito.getLotesDelRemito().remove(loteRemito);
                 remito = em.merge(remito);
             }
             em.remove(loteRemito);

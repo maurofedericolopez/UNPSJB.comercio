@@ -1,12 +1,7 @@
 package vistas;
 
-import comercio.ControllerSingleton;
 import controladoresJPA.VentaJpaController;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
-import modelo.MedioDePago;
-import modelo.PuntoVenta;
-import modelo.Vendedor;
-import vistas.modelos.ItemDeVentaTableModel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
@@ -14,6 +9,10 @@ import java.awt.event.ItemEvent;
 import java.util.Date;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import modelo.MedioDePago;
+import modelo.PuntoVenta;
+import modelo.Vendedor;
+import vistas.modelos.ItemDeVentaTableModel;
 
 /**
  *
@@ -30,7 +29,7 @@ public class GestionVentaUI extends javax.swing.JFrame {
      */
     public GestionVentaUI() {
         initComponents();
-        ventaJpaController = new VentaJpaController(ControllerSingleton.getEmf());
+        ventaJpaController = new VentaJpaController();
         itemDeVentaTableModel = new ItemDeVentaTableModel(ventaJpaController);
         tablaItemsDeVenta.setModel(itemDeVentaTableModel);
         repintarVentana();
@@ -470,13 +469,6 @@ public class GestionVentaUI extends javax.swing.JFrame {
     private javax.swing.JPanel panelUltimo;
     private javax.swing.JTable tablaItemsDeVenta;
     // End of variables declaration//GEN-END:variables
-
-    private void agregarComponente(JComponent componente) {
-        getContentPane().removeAll();
-        add(componente, BorderLayout.CENTER);
-        componente.setVisible(true);
-        componente.updateUI();
-    }
 
     private void repintarVentana() {
         campoMontoTotal.setValue(ventaJpaController.obtenerMontoTotal());

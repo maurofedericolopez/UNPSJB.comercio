@@ -27,8 +27,8 @@ public class RemitoJpaController extends Observable implements Serializable {
     private Remito remito = null;
     private Almacen almacen = null;
 
-    public RemitoJpaController(EntityManagerFactory emf) {
-        this.emf = emf;
+    public RemitoJpaController() {
+        this.emf = ControllerSingleton.getEmf();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
@@ -38,26 +38,26 @@ public class RemitoJpaController extends Observable implements Serializable {
     }
 
     public void crearRemito(Remito remito) {
-        if (remito.getLotes() == null) {
-            remito.setLotes(new ArrayList<LoteRemito>());
+        if (remito.getLotesDelRemito() == null) {
+            remito.setLotesDelRemito(new ArrayList<LoteRemito>());
         }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
             List<LoteRemito> attachedLotes = new ArrayList<>();
-            for (LoteRemito lotesLoteRemitoToAttach : remito.getLotes()) {
+            for (LoteRemito lotesLoteRemitoToAttach : remito.getLotesDelRemito()) {
                 lotesLoteRemitoToAttach = em.getReference(lotesLoteRemitoToAttach.getClass(), lotesLoteRemitoToAttach.getId());
                 attachedLotes.add(lotesLoteRemitoToAttach);
             }
-            remito.setLotes(attachedLotes);
+            remito.setLotesDelRemito(attachedLotes);
             em.persist(remito);
-            for (LoteRemito lotesLoteRemito : remito.getLotes()) {
+            for (LoteRemito lotesLoteRemito : remito.getLotesDelRemito()) {
                 Remito oldRemitoOfLotesLoteRemito = lotesLoteRemito.getRemito();
                 lotesLoteRemito.setRemito(remito);
                 lotesLoteRemito = em.merge(lotesLoteRemito);
                 if (oldRemitoOfLotesLoteRemito != null) {
-                    oldRemitoOfLotesLoteRemito.getLotes().remove(lotesLoteRemito);
+                    oldRemitoOfLotesLoteRemito.getLotesDelRemito().remove(lotesLoteRemito);
                     oldRemitoOfLotesLoteRemito = em.merge(oldRemitoOfLotesLoteRemito);
                 }
             }
@@ -75,15 +75,15 @@ public class RemitoJpaController extends Observable implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Remito persistentRemito = em.find(Remito.class, remito.getId());
-            List<LoteRemito> lotesOld = persistentRemito.getLotes();
-            List<LoteRemito> lotesNew = remito.getLotes();
+            List<LoteRemito> lotesOld = persistentRemito.getLotesDelRemito();
+            List<LoteRemito> lotesNew = remito.getLotesDelRemito();
             List<LoteRemito> attachedLotesNew = new ArrayList<>();
             for (LoteRemito lotesNewLoteRemitoToAttach : lotesNew) {
                 lotesNewLoteRemitoToAttach = em.getReference(lotesNewLoteRemitoToAttach.getClass(), lotesNewLoteRemitoToAttach.getId());
                 attachedLotesNew.add(lotesNewLoteRemitoToAttach);
             }
             lotesNew = attachedLotesNew;
-            remito.setLotes(lotesNew);
+            remito.setLotesDelRemito(lotesNew);
             remito = em.merge(remito);
             for (LoteRemito lotesOldLoteRemito : lotesOld) {
                 if (!lotesNew.contains(lotesOldLoteRemito)) {
@@ -97,7 +97,7 @@ public class RemitoJpaController extends Observable implements Serializable {
                     lotesNewLoteRemito.setRemito(remito);
                     lotesNewLoteRemito = em.merge(lotesNewLoteRemito);
                     if (oldRemitoOfLotesNewLoteRemito != null && !oldRemitoOfLotesNewLoteRemito.equals(remito)) {
-                        oldRemitoOfLotesNewLoteRemito.getLotes().remove(lotesNewLoteRemito);
+                        oldRemitoOfLotesNewLoteRemito.getLotesDelRemito().remove(lotesNewLoteRemito);
                         oldRemitoOfLotesNewLoteRemito = em.merge(oldRemitoOfLotesNewLoteRemito);
                     }
                 }
@@ -131,7 +131,7 @@ public class RemitoJpaController extends Observable implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The remito with id " + id + " no longer exists.", enfe);
             }
-            List<LoteRemito> lotes = aRemito.getLotes();
+            List<LoteRemito> lotes = aRemito.getLotesDelRemito();
             for (LoteRemito lotesLoteRemito : lotes) {
                 lotesLoteRemito.setRemito(null);
                 lotesLoteRemito = em.merge(lotesLoteRemito);
