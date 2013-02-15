@@ -1,14 +1,14 @@
 package vistas;
 
 import comercio.ControllerSingleton;
-import controladoresJPA.OfertaJpaController;
+import controladoresJPA.ProductoJpaController;
 import controladoresJPA.exceptions.CampoIncompletoException;
-import modelo.Categoria;
-import modelo.Marca;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import modelo.Categoria;
+import modelo.Marca;
 
 /**
  *
@@ -16,14 +16,14 @@ import javax.swing.JOptionPane;
  */
 public class OfertaUI extends javax.swing.JPanel {
 
-    private OfertaJpaController ofertaJpaController;
+    private ProductoJpaController productoJpaController;
 
     /**
      * Creates new form OfertaUI
      */
     public OfertaUI() {
         initComponents();
-        ofertaJpaController = ControllerSingleton.getOfertaJpaController();
+        productoJpaController = ControllerSingleton.getProductoJpaController();
     }
 
     /**
@@ -295,7 +295,7 @@ public class OfertaUI extends javax.swing.JPanel {
             Double descuento = ((Number) campoPorcentajeDescuentoProducto.getValue()).doubleValue();
             Date fechaInicio = (Date) campoFechaInicioProducto.getValue();
             Date fechaFin = (Date) campoFechaFinProducto.getValue();
-            ofertaJpaController.crearOfertaParaProducto(codigoProducto, descuento, fechaInicio, fechaFin);
+            productoJpaController.crearOfertaParaProducto(codigoProducto, descuento, fechaInicio, fechaFin);
             campoCodigoProducto.setText("");
             campoPorcentajeDescuentoProducto.setValue(null);
             campoFechaInicioProducto.setValue(null);
@@ -314,7 +314,7 @@ public class OfertaUI extends javax.swing.JPanel {
             Double descuento = ((Number) campoPorcentajeDescuentoCategoria.getValue()).doubleValue();
             Date fechaInicio = (Date) campoFechaInicioCategoria.getValue();
             Date fechaFin = (Date) campoFechaFinCategoria.getValue();
-            ofertaJpaController.crearOfertaParaProductosDeUnaCategoria(categoria, descuento, fechaInicio, fechaFin);
+            productoJpaController.crearOfertaParaProductosDeUnaCategoria(categoria, descuento, fechaInicio, fechaFin);
             campoCategoria.setSelectedItem(null);
             campoPorcentajeDescuentoCategoria.setValue(null);
             campoFechaInicioCategoria.setValue(null);
@@ -333,7 +333,7 @@ public class OfertaUI extends javax.swing.JPanel {
             Double descuento = ((Number) campoPorcentajeDescuentoMarca.getValue()).doubleValue();
             Date fechaInicio = (Date) campoFechaInicioMarca.getValue();
             Date fechaFin = (Date) campoFechaFinMarca.getValue();
-            ofertaJpaController.crearOfertaParaProductosDeUnaMarca(marca, descuento, fechaInicio, fechaFin);
+            productoJpaController.crearOfertaParaProductosDeUnaMarca(marca, descuento, fechaInicio, fechaFin);
             campoCategoria.setSelectedItem(null);
             campoPorcentajeDescuentoMarca.setValue(null);
             campoFechaInicioMarca.setValue(null);

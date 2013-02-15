@@ -7,7 +7,7 @@ import java.util.Iterator;
 import modelo.*;
 
 /**
- *
+ * Ésta clase se encarga de realizar las transferencias de productos hacia un punto de venta o almacén.
  * @author Mauro Federico Lopez
  */
 public class TransferenciaJpaController implements Serializable {
@@ -16,6 +16,9 @@ public class TransferenciaJpaController implements Serializable {
     private AlmacenJpaController almacenJpaController;
     private PuntoVentaJpaController puntoVentaJpaController;
 
+    /**
+     * Construye un nuevo controlador para realizar las transferencias de productos.
+     */
     public TransferenciaJpaController() {
         loteJpaController = ControllerSingleton.getLoteJpaController();
         almacenJpaController = ControllerSingleton.getAlmacenJpaController();
@@ -27,10 +30,10 @@ public class TransferenciaJpaController implements Serializable {
      * Busca un lote con el mismo código de lote.
      * Se descuenta del almacén la cantidad de productos del lote.
      * Se obtiene el producto del lote para luego aumentar el stock en venta del punto de venta especificado.
-     * @param codigoLote
-     * @param cantidad
-     * @param almacen
-     * @param puntoDeVenta
+     * @param codigoLote es el codigo del lote a transferir.
+     * @param cantidad es la cantidad que requiere transferir.
+     * @param almacen es el <code>Almacen</code> de donde se transferirán los productos.
+     * @param puntoDeVenta es el <code>PuntoVenta</code> donde se transferirán los productos.
      * @throws Exception 
      */
     public void transferirProductosAVenta(String codigoLote, Double cantidad, Almacen almacen, PuntoVenta puntoDeVenta) throws Exception {
@@ -45,10 +48,10 @@ public class TransferenciaJpaController implements Serializable {
      * Busca un lote con el mismo código de lote.
      * Se descuenta del almacén origen de la transferencia la cantidad de productos del lote.
      * Se aumenta el stock en almacén destino de la transferencia.
-     * @param codigoLote
-     * @param cantidad
-     * @param almacenOrigen
-     * @param almacenDestino
+     * @param codigoLote es el codigo del lote a transferir.
+     * @param cantidad es la cantidad que requiere transferir.
+     * @param almacenOrigen es el <code>Almacen</code> de donde se transferirán los productos.
+     * @param almacenDestino es el <code>Almacen</code> donde se transferirán los productos.
      * @throws Exception 
      */
     public void transferirProductosAlmacen(String codigoLote, Double cantidad, Almacen almacenOrigen, Almacen almacenDestino) throws Exception {
@@ -60,8 +63,8 @@ public class TransferenciaJpaController implements Serializable {
     /**
      * Obtiene los lotes del almacén especificado que están próximos a vencer.
      * Especificamente los lotes que tienen fecha de vencimiento entre la fecha actual y dentro de 7 días.
-     * @param almacen
-     * @return 
+     * @param almacen es el <code>Almacen</code> de donde se obtendrán los lotes próximos a vencer.
+     * @return lotesAlmacenados
      */
     public ArrayList<LoteAlmacenado> obtenerLotesProximasAVencerDeAlmacen(Almacen almacen) {
         ArrayList<LoteAlmacenado> lotesAlmacenados = new ArrayList();

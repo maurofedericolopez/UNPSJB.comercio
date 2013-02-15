@@ -22,7 +22,7 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
         super();
         productoJpaController = ControllerSingleton.getProductoJpaController();
         productoJpaController.addObserver(this);
-        productos = productoJpaController.obtenerProductos();
+        productos = productoJpaController.obtenerTodosLosProductos();
     }
 
     @Override
@@ -101,7 +101,7 @@ public class ProductoTableModel extends AbstractTableModel implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        productos = productoJpaController.obtenerProductos();
+        productos = productoJpaController.obtenerTodosLosProductos();
         fireTableDataChanged();
     }
 

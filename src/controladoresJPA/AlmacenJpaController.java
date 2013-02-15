@@ -16,23 +16,31 @@ import javax.swing.JOptionPane;
 import modelo.*;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de la entidad <code>Almacen</code>.
+ * También es responsable de los movimientos de inventario en almacenes.
  * @author Mauro Federico Lopez
  */
 public class AlmacenJpaController implements Serializable {
 
     private LoteJpaController loteJpaController;
 
+    /**
+     * Construye un nuevo controlador para la entidad <code>Almacen</code>.
+     */
     public AlmacenJpaController() {
         this.emf = ControllerSingleton.getEmf();
         loteJpaController = new LoteJpaController();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste un objeto <code>Almacen</code> en la base de datos.
+     * @param almacen es el <code>Almacen</code> que se persistirá.
+     */
     public void crearAlmacen(Almacen almacen) {
         if (almacen.getLotesAlmacenados() == null) {
             almacen.setLotesAlmacenados(new ArrayList<LoteAlmacenado>());
@@ -74,6 +82,12 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>Almacen</code> en la base de datos.
+     * @param almacen es el <code>Almacen</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el almacen que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarAlmacen(Almacen almacen) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -138,6 +152,11 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un almacen de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del almacen en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el almacen que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirAlmacen(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -169,11 +188,11 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
-    public List<Almacen> encontrarAlmacenEntities() {
+    private List<Almacen> encontrarAlmacenEntities() {
         return encontrarAlmacenEntities(true, -1, -1);
     }
 
-    public List<Almacen> encontrarAlmacenEntities(int maxResults, int firstResult) {
+    private List<Almacen> encontrarAlmacenEntities(int maxResults, int firstResult) {
         return encontrarAlmacenEntities(false, maxResults, firstResult);
     }
 
@@ -193,6 +212,11 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Almacen</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del almacen en la base de datos.
+     * @return almacen
+     */
     public Almacen encontrarAlmacen(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -202,6 +226,10 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de almacenes registrados en la base de datos.
+     * @return cantidad
+     */
     public int getAlmacenCount() {
         EntityManager em = getEntityManager();
         try {
@@ -215,6 +243,11 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todos los almacenes registrados en la base de datos.
+     * Devuelve un ArrayList de almacenes.
+     * @return almacenes
+     */
     public ArrayList<Almacen> obtenerTodosLosAlmacenes() {
         ArrayList<Almacen> almacenes = new ArrayList();
         Object[] array = encontrarAlmacenEntities().toArray();
@@ -227,10 +260,10 @@ public class AlmacenJpaController implements Serializable {
      * Descuenta de un lote de un almacen la cantidad indicada.
      * Si el almacén no contiene el lote, lanza una excepción.
      * Si el almacen si contiene el lote pero la cantidad que se requiere transferir es mayor al contenido en el lote, lanza una excepción.
-     * @param almacen
-     * @param lote
-     * @param cantidad
-     * @throws Exception 
+     * @param almacen el <code>Almacen</code> donde se modificará el inventario.
+     * @param lote el <code>Lote</code> de donde se descontará.
+     * @param cantidad la cantidad que se descontará.
+     * @throws Exception Se lanza si no hay cantidad suficiente para descontar o si el almacen no contiene al lote especificado.
      */
     public void descontarDeAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
         LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
@@ -247,6 +280,14 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Incrementa la cantidad de lote en el almacen especificado.
+     * Si el lote no está en el almacen, se agrega.
+     * @param almacen el <code>Almacen</code> donde se modificará el inventario.
+     * @param lote el <code>Lote</code> donde se incrementará.
+     * @param cantidad la cantidad que se requiere incrementar.
+     * @throws Exception Se lanza si ocurre un error en la base de datos.
+     */
     public void aumentarStockEnAlmacen(Almacen almacen, Lote lote, Double cantidad) throws Exception {
         LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
         if(loteAlmacenado != null) {
@@ -262,6 +303,13 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Modifica la cantidad del lote en el almacen especificado.
+     * @param almacen el <code>Almacen</code> donde se modificará el inventario.
+     * @param codigoLote es el codigo del lote para buscar en la base de datos.
+     * @param cantidad es la cantidad con la que se quiere reemplazar al viejo valor.
+     * @throws Exception Se lanza si el codigo del lote no está registrado en la base de datos, o si el almacen no contiene al lote especificado.
+     */
     public void corregirLoteAlmacenado(Almacen almacen, String codigoLote, Double cantidad) throws Exception {
         Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
         LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
@@ -277,6 +325,12 @@ public class AlmacenJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de productos que existen en el almacen especificado.
+     * @param almacen el <code>Almacen</code> donde se buscará el producto.
+     * @param producto el <code>Producto</code> que se buscará.
+     * @return cantidad.
+     */
     public Double cantidadDeProductosEnAlmacen(Almacen almacen, Producto producto) {
         Iterator<Lote> i = loteJpaController.obtenerLotesPorProducto(producto).iterator();
         Double cantidad = 0.0;
@@ -288,6 +342,11 @@ public class AlmacenJpaController implements Serializable {
         return cantidad;
     }
 
+    /**
+     * Devuelve una lista con todos los lotes que están próximos a vencer en un almacén especificado.
+     * @param almacen el <code>Almacen</code> donde se buscarán los lotes.
+     * @return lotesProximosAVencer.
+     */
     public ArrayList<LoteAlmacenado> obtenerLotesProximosAVencerDeAlmacen(Almacen almacen) {
         ArrayList<LoteAlmacenado> lotesAlmacenados = new ArrayList();
         Iterator<Lote> i = loteJpaController.obtenerLotesProximosAVencer().iterator();

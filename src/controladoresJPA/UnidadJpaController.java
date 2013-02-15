@@ -14,20 +14,27 @@ import javax.persistence.criteria.Root;
 import modelo.Unidad;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de la entidad <code>Unidad</code>.
  * @author Mauro Federico Lopez
  */
 public class UnidadJpaController implements Serializable {
 
+    /**
+     * Construye un nuevo controlador para la entidad <code>Unidad</code>.
+     */
     public UnidadJpaController() {
         this.emf = ControllerSingleton.getEmf();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste un objeto <code>Unidad</code> en la base de datos.
+     * @param unidad es la <code>Unidad</code> que se persistirá.
+     */
     public void crearUnidad(Unidad unidad) {
         EntityManager em = null;
         try {
@@ -42,6 +49,12 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>Unidad</code> en la base de datos.
+     * @param unidad es la <code>Unidad</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la unidad que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarUnidad(Unidad unidad) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -65,6 +78,11 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina una unidad de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> de la unidad en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la unidad que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirUnidad(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -86,11 +104,11 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
-    public List<Unidad> encontrarUnidadEntities() {
+    private List<Unidad> encontrarUnidadEntities() {
         return encontrarUnidadEntities(true, -1, -1);
     }
 
-    public List<Unidad> encontrarUnidadEntities(int maxResults, int firstResult) {
+    private List<Unidad> encontrarUnidadEntities(int maxResults, int firstResult) {
         return encontrarUnidadEntities(false, maxResults, firstResult);
     }
 
@@ -110,6 +128,11 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Unidad</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> de la unidad en la base de datos.
+     * @return 
+     */
     public Unidad encontrarUnidad(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -119,6 +142,10 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de unidades registradas en la base de datos.
+     * @return cantidad
+     */
     public int getUnidadCount() {
         EntityManager em = getEntityManager();
         try {
@@ -132,6 +159,11 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todas las unidades registradas en la base de datos.
+     * Devuelve un ArrayList de unidades.
+     * @return unidades
+     */
     public ArrayList<Unidad> obtenerTodasLasUnidades() {
         ArrayList<Unidad> unidades = new ArrayList();
         Object[] array = encontrarUnidadEntities().toArray();

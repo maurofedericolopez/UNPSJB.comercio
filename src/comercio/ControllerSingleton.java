@@ -23,14 +23,11 @@ public class ControllerSingleton {
     private static MarcaJpaController marcaJpaController = new MarcaJpaController();
     private static OrigenJpaController origenJpaController = new OrigenJpaController();
     private static UnidadJpaController unidadJpaController = new UnidadJpaController();
-    private static MedioDePagoJpaController medioDePagoJpaController = new MedioDePagoJpaController(getEmf());
-    private static OfertaJpaController ofertaJpaController = new OfertaJpaController();
 
     private static TransferenciaJpaController transferenciaJpaController = new TransferenciaJpaController();
     private static EgresoJpaController egresoJpaController = new EgresoJpaController();
     private static RemitoJpaController remitoJpaController = new RemitoJpaController();
     private static VentaJpaController ventaJpaController = new VentaJpaController();
-    private static ItemVentaJpaController itemDeVentaJpaController = new ItemVentaJpaController(getEmf());
 
     /**
      * @return the almacenJpaController
@@ -89,13 +86,6 @@ public class ControllerSingleton {
     }
 
     /**
-     * @return the medioDePagoJpaController
-     */
-    public static MedioDePagoJpaController getMedioDePagoJpaController() {
-        return medioDePagoJpaController;
-    }
-
-    /**
      * @return the productoJpaController
      */
     public static ProductoJpaController getProductoJpaController() {
@@ -131,24 +121,10 @@ public class ControllerSingleton {
     }
 
     /**
-     * @return the itemDeVentaJpaController
-     */
-    public static ItemVentaJpaController getItemDeVentaJpaController() {
-        return itemDeVentaJpaController;
-    }
-
-    /**
      * @return the transferenciaJpaController
      */
     public static TransferenciaJpaController getTransferenciaJpaController() {
         return transferenciaJpaController;
-    }
-
-    /**
-     * @return the ofertaJpaController
-     */
-    public static OfertaJpaController getOfertaJpaController() {
-        return ofertaJpaController;
     }
 
 }

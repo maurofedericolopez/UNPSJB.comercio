@@ -11,7 +11,8 @@ import javax.persistence.criteria.Root;
 import modelo.*;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de la entidad <code>Egreso</code>
+ * Tambien es responsable de llevar a cabo todos egresos por causas especiales.
  * @author Mauro Federico Lopez
  */
 public class EgresoJpaController extends Observable implements Serializable {
@@ -24,16 +25,23 @@ public class EgresoJpaController extends Observable implements Serializable {
     private ArrayList<LoteEgresado> lotesEgresados = new ArrayList();
     private Egreso egreso;
 
+    /**
+     * Construye un nuevo controlador para la entidad <code>Egreso</code>.
+     */
     public EgresoJpaController() {
         this.emf = ControllerSingleton.getEmf();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         almacenJpaController = ControllerSingleton.getAlmacenJpaController();
     }
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste un objeto <code>Egreso</code> en la base de datos.
+     * @param egreso es la <code>Egreso</code> que se persistirá.
+     */
     public void crearEgreso(Egreso egreso) {
         if (egreso.getLotesEgresados() == null) {
             egreso.setLotesEgresados(new ArrayList());
@@ -66,6 +74,12 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>Egreso</code> en la base de datos.
+     * @param egreso es el <code>Egreso</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el egreso que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarEgreso(Egreso egreso) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -116,6 +130,11 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Elimina un egreso de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del egreso en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el egreso que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirEgreso(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -142,11 +161,11 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
-    public List<Egreso> encontrarEgresoEntities() {
+    private List<Egreso> encontrarEgresoEntities() {
         return encontrarEgresoEntities(true, -1, -1);
     }
 
-    public List<Egreso> encontrarEgresoEntities(int maxResults, int firstResult) {
+    private List<Egreso> encontrarEgresoEntities(int maxResults, int firstResult) {
         return encontrarEgresoEntities(false, maxResults, firstResult);
     }
 
@@ -166,6 +185,11 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Egreso</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del egreso en la base de datos.
+     * @return egreso
+     */
     public Egreso encontrarEgreso(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -175,6 +199,10 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de egresos registrados en la base de datos.
+     * @return cantidad
+     */
     public int getEgresoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -188,7 +216,13 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
-    private Boolean codigoEgresoDisponible(String codigo) throws Exception {
+    /**
+     * Devolverá <code>true</code> si el codigo de egreso no fue registrado en la base de datos.
+     * @param codigo es el codigo que se analizará.
+     * @return boolean
+     * @throws Exception 
+     */
+    public Boolean codigoEgresoDisponible(String codigo) throws Exception {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -205,6 +239,12 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Agrega un lote al egreso en curso.
+     * @param codigoLote es el codigo del lote que identifica al lote de manera univoca.
+     * @param cantidad es la cantidad del lote que se va a egresar.
+     * @throws Exception Se lanza si el codigo del lote no está registrado en la base de datos, o si la cantidad del lote no satisface la demanda.
+     */
     public void agregarLote(String codigoLote, Double cantidad) throws Exception {
         Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
         LoteAlmacenado loteAlmacenado = loteJpaController.buscarLoteAlmacenado(almacen, lote);
@@ -256,7 +296,12 @@ public class EgresoJpaController extends Observable implements Serializable {
         notificarCambios();
     }
 
-    private ArrayList<LoteAlmacenado> obtenerLotesAlmacenadosDeAlmacen(Almacen almacen) {
+    /**
+     * Devuelve una lista con todos los lotes almacenados por un almacen.
+     * @param almacen es el almacen de donde se buscarán los lotes.
+     * @return lotesAlmancenados.
+     */
+    public ArrayList<LoteAlmacenado> obtenerLotesAlmacenadosDeAlmacen(Almacen almacen) {
         ArrayList<LoteAlmacenado> la = new ArrayList();
         Object[] array = almacen.getLotesAlmacenados().toArray();
         for(Object o : array)
@@ -269,6 +314,13 @@ public class EgresoJpaController extends Observable implements Serializable {
         notifyObservers();
     }
 
+    /**
+     * Se registran los datos del egreso.
+     * @param codigo es el codigo del egreso.
+     * @param causaEspecial es la causa especial por la cual se egresan los lotes.
+     * @param observaciones son las observaciones del egreso.
+     * @throws Exception Se lanza si el codigo de egreso ya está registrado en la base de datos.
+     */
     public void agregarDatosDelEgreso(String codigo, String causaEspecial, String observaciones) throws Exception {
         if(codigoEgresoDisponible(codigo)) {
             egreso = new Egreso();
@@ -279,7 +331,10 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
-    public void persistirOperacion() throws Exception {
+    /**
+     * Persiste los datos del egreso y los lotes asociados al egreso.
+     */
+    public void persistirOperacion() {
         crearEgreso(egreso);
         Iterator<LoteEgresado> i = lotesEgresados.iterator();
         while(i.hasNext()) {
@@ -289,6 +344,11 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todos los egresos registrados en la base de datos.
+     * Devuelve un ArrayList de egresos.
+     * @return egresos
+     */
     public ArrayList<Egreso> obtenerTodosLosEgresos() {
         Object[] array = encontrarEgresoEntities().toArray();
         ArrayList<Egreso> egresos = new ArrayList();
@@ -297,6 +357,12 @@ public class EgresoJpaController extends Observable implements Serializable {
         return egresos;
     }
 
+    /**
+     * Devuelve una lista con todos los egresos en una fecha dada.
+     * Devuelve un ArrayList de egresos por fecha.
+     * @param fecha es la fecha por la cual se filtrarán los egresos.
+     * @return egresosPorFecha
+     */
     public ArrayList<Egreso> obtenerEgresosPorFecha(Date fecha) {
         EntityManager em = getEntityManager();
         try {
@@ -317,6 +383,12 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Egreso</code> buscado por su codigo en la base de datos.
+     * @param codigo es el codigo del egreso.
+     * @return egreso
+     * @throws Exception Se lanza si el egreso buscado por el codigo no está registrado en la base de datos.
+     */
     public Egreso obtenerEgresoPorCodigo(String codigo) throws Exception {
         EntityManager em = getEntityManager();
         try {
@@ -333,6 +405,11 @@ public class EgresoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista con todos los lotes asociados al egreso en curso.
+     * @param egreso es el egreso de donde se buscaran los lotes.
+     * @return lotesEgresados.
+     */
     public ArrayList<LoteEgresado> obtenerLotesEgresados(Egreso egreso) {
         Object[] array = egreso.getLotesEgresados().toArray();
         ArrayList<LoteEgresado> egresoLotesEgresados = new ArrayList();

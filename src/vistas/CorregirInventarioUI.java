@@ -4,11 +4,9 @@ import comercio.ControllerSingleton;
 import controladoresJPA.AlmacenJpaController;
 import controladoresJPA.PuntoVentaJpaController;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
+import javax.swing.JOptionPane;
 import modelo.Almacen;
 import modelo.PuntoVenta;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  *

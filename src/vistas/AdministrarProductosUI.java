@@ -413,7 +413,7 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
             nuevoProducto.setUnidad((Unidad) campoUnidadNuevo.getSelectedItem());
             nuevoProducto.setOrigen((Origen) campoOrigenNuevo.getSelectedItem());
             nuevoProducto.setPrecioActual(((Number) campoPrecioNuevo.getValue()).doubleValue());
-            productoJpaController.crearProducto(producto);
+            productoJpaController.registrarProducto(producto);
             limpiarCampos();
             nuevoProductoUI.setVisible(false);
         } catch(CampoIncompletoException ex) {

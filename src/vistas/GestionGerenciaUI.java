@@ -115,11 +115,11 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
     }//GEN-LAST:event_itemMenuCrearOfertaTemporalActionPerformed
 
     private void itemMenuVentaPorCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVentaPorCategoriaActionPerformed
-        // TODO add your handling code here:
+        agregarComponente(new VentasPorCategoriaUI());
     }//GEN-LAST:event_itemMenuVentaPorCategoriaActionPerformed
 
     private void itemMenuVentaPorMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVentaPorMarcaActionPerformed
-        // TODO add your handling code here:
+        agregarComponente(new VentasPorMarcaUI());
     }//GEN-LAST:event_itemMenuVentaPorMarcaActionPerformed
 
     private void itemMenuVentasMensualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVentasMensualActionPerformed

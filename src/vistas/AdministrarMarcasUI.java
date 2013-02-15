@@ -144,7 +144,7 @@ public class AdministrarMarcasUI extends javax.swing.JPanel {
         Marca nuevaMarca = new Marca();
         nuevaMarca.setNombre(campoNombre.getText());
         nuevaMarca.setAbreviacion(campoAbreviacion.getText());
-        marcaJpaController.create(nuevaMarca);
+        marcaJpaController.crearMarca(nuevaMarca);
         limpiarCampos();
         nuevaMarcaUI.setVisible(false);
     }//GEN-LAST:event_botonGuardarNuevaMarcaActionPerformed
@@ -153,7 +153,7 @@ public class AdministrarMarcasUI extends javax.swing.JPanel {
         try {
             Integer rowSelected = tablaMarcas.getSelectedRow();
             if (rowSelected >= 0)
-                marcaJpaController.destroy(marcaTableModel.obtenerMarca(rowSelected).getId());
+                marcaJpaController.destruirMarca(marcaTableModel.obtenerMarca(rowSelected).getId());
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(AdministrarMarcasUI.class.getName()).log(Level.SEVERE, null, ex);
         }

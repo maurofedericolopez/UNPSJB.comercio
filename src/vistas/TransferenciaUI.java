@@ -2,9 +2,9 @@ package vistas;
 
 import comercio.ControllerSingleton;
 import controladoresJPA.TransferenciaJpaController;
+import javax.swing.JOptionPane;
 import modelo.Almacen;
 import modelo.PuntoVenta;
-import javax.swing.JOptionPane;
 
 /**
  *

@@ -2,11 +2,11 @@ package vistas;
 
 import comercio.ControllerSingleton;
 import controladoresJPA.AlmacenJpaController;
+import java.awt.event.ItemEvent;
+import java.util.ArrayList;
 import modelo.Almacen;
 import modelo.LoteAlmacenado;
 import vistas.modelos.LotesProximosAVencerTableModel;
-import java.awt.event.ItemEvent;
-import java.util.ArrayList;
 
 /**
  *

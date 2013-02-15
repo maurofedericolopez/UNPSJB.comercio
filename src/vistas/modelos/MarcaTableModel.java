@@ -75,11 +75,11 @@ public class MarcaTableModel extends AbstractTableModel implements Observer {
             switch (columnIndex){
                 case 0 :
                     m.setNombre(valor);
-                    marcaController.edit(m);
+                    marcaController.editarMarca(m);
                     break;
                 case 1 :
                     m.setAbreviacion(valor);
-                    marcaController.edit(m);
+                    marcaController.editarMarca(m);
                     break;
                 default:;
             }

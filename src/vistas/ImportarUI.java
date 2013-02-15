@@ -1,11 +1,10 @@
 package vistas;
 
 import controladoresJPA.RemitoJpaController;
-import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
+import java.awt.event.ItemEvent;
 import java.util.Date;
 import javax.swing.JOptionPane;
 import modelo.Almacen;
-import modelo.Remito;
 import vistas.modelos.LotesDelRemitoTableModel;
 
 /**
@@ -57,7 +56,7 @@ public class ImportarUI extends javax.swing.JPanel {
         etiquetaFechaRemito = new javax.swing.JLabel();
         campoFechaRemito = new javax.swing.JFormattedTextField();
         etiquetaSucursalAlmacen = new javax.swing.JLabel();
-        campoSucursalAlmacen = new javax.swing.JComboBox();
+        campoAlmacen = new javax.swing.JComboBox();
         panelLotesRemito = new javax.swing.JPanel();
         jsp = new javax.swing.JScrollPane();
         tablaLotesDelRemito = new javax.swing.JTable();
@@ -189,7 +188,12 @@ public class ImportarUI extends javax.swing.JPanel {
 
         etiquetaSucursalAlmacen.setText("Número de sucursal y de almacén donde se alojarán los lotes");
 
-        campoSucursalAlmacen.setModel(new vistas.modelos.AlmacenComboBoxModel());
+        campoAlmacen.setModel(new vistas.modelos.AlmacenComboBoxModel());
+        campoAlmacen.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                campoAlmacenItemStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelDatosDelRemitoLayout = new javax.swing.GroupLayout(panelDatosDelRemito);
         panelDatosDelRemito.setLayout(panelDatosDelRemitoLayout);
@@ -207,7 +211,7 @@ public class ImportarUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(etiquetaSucursalAlmacen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(campoSucursalAlmacen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(campoAlmacen, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(348, Short.MAX_VALUE))
         );
         panelDatosDelRemitoLayout.setVerticalGroup(
@@ -222,7 +226,7 @@ public class ImportarUI extends javax.swing.JPanel {
                 .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etiquetaFechaRemito)
                     .addComponent(campoFechaRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoSucursalAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -338,15 +342,11 @@ public class ImportarUI extends javax.swing.JPanel {
 
     private void botonRegistrarOperaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarOperaciónActionPerformed
         try {
-            Remito remito = new Remito();
-            remito.setCodigo(campoCodigoRemito.getText());
-            remito.setFecha((Date) campoFechaRemito.getValue());
-            Almacen almacen = (Almacen) campoSucursalAlmacen.getSelectedItem();
-            remitoJpaController.registrarDatosRemito(remito, almacen);
+            String codigo = campoCodigoRemito.getText();
+            Date fecha = (Date) campoFechaRemito.getValue();
+            remitoJpaController.registrarDatosRemito(codigo, fecha);
             remitoJpaController.persistirOperacion();
             JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
-        } catch (CodigoProductoNoRegistradoException ex) {
-            ex.mostrarDialogo();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -384,6 +384,13 @@ public class ImportarUI extends javax.swing.JPanel {
         remitoJpaController.cancelarIngresoDeLotesDeProductos();
     }//GEN-LAST:event_botonCancelarOperacionActionPerformed
 
+    private void campoAlmacenItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_campoAlmacenItemStateChanged
+        if(evt.getStateChange() == ItemEvent.SELECTED) {
+            Almacen almacen = (Almacen) campoAlmacen.getSelectedItem();
+            remitoJpaController.setAlmacen(almacen);
+        }
+    }//GEN-LAST:event_campoAlmacenItemStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonCancelar;
     private javax.swing.JButton botonCancelarOperacion;
@@ -391,6 +398,7 @@ public class ImportarUI extends javax.swing.JPanel {
     private javax.swing.JButton botonGuardar;
     private javax.swing.JButton botonNuevoLoteRemito;
     private javax.swing.JButton botonRegistrarOperación;
+    private javax.swing.JComboBox campoAlmacen;
     private javax.swing.JFormattedTextField campoCantidad;
     private javax.swing.JTextField campoCodigoLote;
     private javax.swing.JTextField campoCodigoProducto;
@@ -398,7 +406,6 @@ public class ImportarUI extends javax.swing.JPanel {
     private javax.swing.JFormattedTextField campoFechaProduccion;
     private javax.swing.JFormattedTextField campoFechaRemito;
     private javax.swing.JFormattedTextField campoFechaVencimiento;
-    private javax.swing.JComboBox campoSucursalAlmacen;
     private javax.swing.JLabel etiquetaCantidad;
     private javax.swing.JLabel etiquetaCodigoLote;
     private javax.swing.JLabel etiquetaCodigoProducto;

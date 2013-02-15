@@ -15,21 +15,29 @@ import javax.persistence.criteria.Root;
 import modelo.Categoria;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de la entidad <code>Categoria</code>.
  * @author Mauro Federico Lopez
  */
 public class CategoriaJpaController extends Observable implements Serializable {
 
+    /**
+     * Construye un nuevo controlador para la entidad <code>Categoria</code>.
+     */
     public CategoriaJpaController() {
         this.emf = ControllerSingleton.getEmf();
     }
+
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Categoria categoria) {
+    /**
+     * Persiste un objeto <code>Categoria</code> en la base de datos.
+     * @param categoria es la <code>Categoria</code> que se persistirá.
+     */
+    public void crearCategoria(Categoria categoria) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -44,7 +52,13 @@ public class CategoriaJpaController extends Observable implements Serializable {
         }
     }
 
-    public void edit(Categoria categoria) throws NonexistentEntityException, Exception {
+    /**
+     * Actualiza un objeto <code>Categoria</code> en la base de datos.
+     * @param categoria es la <code>Categoria</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la categoria que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
+    public void editarCategoria(Categoria categoria) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,7 +69,7 @@ public class CategoriaJpaController extends Observable implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = categoria.getId();
-                if (findCategoria(id) == null) {
+                if (encontrarCategoria(id) == null) {
                     throw new NonexistentEntityException("The categoria with id " + id + " no longer exists.");
                 }
             }
@@ -68,7 +82,12 @@ public class CategoriaJpaController extends Observable implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    /**
+     * Elimina una categoria de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> de la categoría en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la categoria que se quiere eliminar no existe en la base de datos.
+     */
+    public void destruirCategoria(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -89,16 +108,15 @@ public class CategoriaJpaController extends Observable implements Serializable {
             notificarCambios();
         }
     }
-
-    public List<Categoria> findCategoriaEntities() {
-        return findCategoriaEntities(true, -1, -1);
+    private List<Categoria> encontrarCategoriaEntities() {
+        return encontrarCategoriaEntities(true, -1, -1);
     }
 
-    public List<Categoria> findCategoriaEntities(int maxResults, int firstResult) {
-        return findCategoriaEntities(false, maxResults, firstResult);
+    private List<Categoria> encontrarCategoriaEntities(int maxResults, int firstResult) {
+        return encontrarCategoriaEntities(false, maxResults, firstResult);
     }
 
-    private List<Categoria> findCategoriaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Categoria> encontrarCategoriaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -114,7 +132,12 @@ public class CategoriaJpaController extends Observable implements Serializable {
         }
     }
 
-    public Categoria findCategoria(Long id) {
+    /**
+     * Devuelve un objeto <code>Categoria</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> de la categoría en la base de datos.
+     * @return categoria.
+     */
+    public Categoria encontrarCategoria(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Categoria.class, id);
@@ -123,6 +146,10 @@ public class CategoriaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de categorias registrados en la base de datos.
+     * @return cantidad
+     */
     public int getCategoriaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -136,9 +163,14 @@ public class CategoriaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todas las categorias registradas en la base de datos.
+     * Devuelve un ArrayList de categorias.
+     * @return categorias
+     */
     public ArrayList<Categoria> obtenerTodasLasCategorias() {
         ArrayList<Categoria> categorias = new ArrayList();
-        Object[] array = findCategoriaEntities().toArray();
+        Object[] array = encontrarCategoriaEntities().toArray();
         for(Object o : array)
             categorias.add((Categoria) o);
         return categorias;

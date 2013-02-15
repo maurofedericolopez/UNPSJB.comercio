@@ -25,11 +25,15 @@ public class MarcaJpaController extends Observable implements Serializable {
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Marca marca) {
+    /**
+     * Persiste un objeto <code>Marca</code> en la base de datos.
+     * @param marca 
+     */
+    public void crearMarca(Marca marca) {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -43,8 +47,13 @@ public class MarcaJpaController extends Observable implements Serializable {
             notificarCambios();
         }
     }
-
-    public void edit(Marca marca) throws NonexistentEntityException, Exception {
+    /**
+     * Actualiza un objeto <code>Marca</code> en la base de datos.
+     * @param marca
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la marca que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
+    public void editarMarca(Marca marca) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -55,7 +64,7 @@ public class MarcaJpaController extends Observable implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = marca.getId();
-                if (findMarca(id) == null) {
+                if (encontrarMarca(id) == null) {
                     throw new NonexistentEntityException("The marca with id " + id + " no longer exists.");
                 }
             }
@@ -68,7 +77,12 @@ public class MarcaJpaController extends Observable implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    /**
+     * Elimina una marca de la base de datos con el <code>id</code> especificado.
+     * @param id
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la marca que se quiere eliminar no existe en la base de datos.
+     */
+    public void destruirMarca(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -90,15 +104,15 @@ public class MarcaJpaController extends Observable implements Serializable {
         }
     }
 
-    public List<Marca> findMarcaEntities() {
-        return findMarcaEntities(true, -1, -1);
+    private List<Marca> encontrarMarcaEntities() {
+        return encontrarMarcaEntities(true, -1, -1);
     }
 
-    public List<Marca> findMarcaEntities(int maxResults, int firstResult) {
-        return findMarcaEntities(false, maxResults, firstResult);
+    private List<Marca> encontrarMarcaEntities(int maxResults, int firstResult) {
+        return encontrarMarcaEntities(false, maxResults, firstResult);
     }
 
-    private List<Marca> findMarcaEntities(boolean all, int maxResults, int firstResult) {
+    private List<Marca> encontrarMarcaEntities(boolean all, int maxResults, int firstResult) {
         EntityManager em = getEntityManager();
         try {
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
@@ -114,7 +128,12 @@ public class MarcaJpaController extends Observable implements Serializable {
         }
     }
 
-    public Marca findMarca(Long id) {
+    /**
+     * Devuelve un objeto <code>Marca</code> buscado por su id en la base de datos.
+     * @param id
+     * @return 
+     */
+    public Marca encontrarMarca(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Marca.class, id);
@@ -123,6 +142,10 @@ public class MarcaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de marcas registradas en la base de datos.
+     * @return 
+     */
     public int getMarcaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -136,9 +159,14 @@ public class MarcaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todas las marcas registrados en la base de datos.
+     * Devuelve un ArrayList de marcas.
+     * @return 
+     */
     public ArrayList<Marca> obtenerTodasLasMarcas() {
         ArrayList<Marca> marcas = new ArrayList();
-        Object[] array = findMarcaEntities().toArray();
+        Object[] array = encontrarMarcaEntities().toArray();
         for(Object o : array)
             marcas.add((Marca) o);
         return marcas;

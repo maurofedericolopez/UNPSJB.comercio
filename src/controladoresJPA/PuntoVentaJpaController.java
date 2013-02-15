@@ -18,7 +18,8 @@ import modelo.PuntoVenta;
 import modelo.Sucursal;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de la entidad <code>PuntoVenta</code> y <code>ProductoEnVenta</code>.
+ * También es responsable de los movimientos de inventario en los puntos de venta.
  * @author Mauro Federico Lopez
  */
 public class PuntoVentaJpaController implements Serializable {
@@ -26,15 +27,22 @@ public class PuntoVentaJpaController implements Serializable {
     private EntityManagerFactory emf = null;
     private ProductoJpaController productoJpaController;
 
+    /**
+     * Construye un nuevo controlador para las entidades <code>PuntoVenta</code> y <code>ProductoEnVenta</code>.
+     */
     public PuntoVentaJpaController() {
         this.emf = ControllerSingleton.getEmf();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste un objeto <code>PuntoVenta</code> en la base de datos.
+     * @param puntoVenta es el <code>PuntoVenta</code>  que se persistirá.
+     */
     public void crearPuntoDeVenta(PuntoVenta puntoVenta) {
         if (puntoVenta.getProductosEnVenta() == null) {
             puntoVenta.setProductosEnVenta(new ArrayList<ProductoEnVenta>());
@@ -76,6 +84,10 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Persiste un objeto <code>ProductoEnVenta</code> en la base de datos.
+     * @param productoEnVenta es el <code>ProductoEnVenta</code> que se persistirá.
+     */
     public void crearProductoEnVenta(ProductoEnVenta productoEnVenta) {
         EntityManager em = null;
         try {
@@ -99,6 +111,12 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>PuntoVenta</code> en la base de datos.
+     * @param puntoVenta es el <code>PuntoVenta</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el punto de venta que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarPuntoDeVenta(PuntoVenta puntoVenta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -163,6 +181,12 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>ProductoEnVenta</code> en la base de datos.
+     * @param productoEnVenta es el <code>ProductoEnVenta</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el producto en venta que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarProductoEnVenta(ProductoEnVenta productoEnVenta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -201,6 +225,11 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un punto de venta de la base de datos con el <code>id</code> especificado.
+     * @param id el id del punto de venta en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el punto de venta que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirPuntoDeVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -232,6 +261,11 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un producto en venta de la base de datos con el <code>id</code> especificado.
+     * @param id el id del producto en venta en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el producto en venta que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirProductoEnVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -258,19 +292,19 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
-    public List<PuntoVenta> encontrarPuntoVentaEntities() {
+    private List<PuntoVenta> encontrarPuntoVentaEntities() {
         return encontrarPuntoVentaEntities(true, -1, -1);
     }
 
-    public List<ProductoEnVenta> encontrarProductoEnVentaEntities() {
+    private List<ProductoEnVenta> encontrarProductoEnVentaEntities() {
         return encontrarProductoEnVentaEntities(true, -1, -1);
     }
 
-    public List<PuntoVenta> encontrarPuntoVentaEntities(int maxResults, int firstResult) {
+    private List<PuntoVenta> encontrarPuntoVentaEntities(int maxResults, int firstResult) {
         return encontrarPuntoVentaEntities(false, maxResults, firstResult);
     }
 
-    public List<ProductoEnVenta> encontrarProductoEnVentaEntities(int maxResults, int firstResult) {
+    private List<ProductoEnVenta> encontrarProductoEnVentaEntities(int maxResults, int firstResult) {
         return encontrarProductoEnVentaEntities(false, maxResults, firstResult);
     }
 
@@ -306,6 +340,12 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    
+    /**
+     * Devuelve un objeto <code>PuntoVenta</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del punto de venta en la base de datos.
+     * @return 
+     */
     public PuntoVenta encontrarPuntoVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -315,6 +355,11 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>ProductoEnVenta</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del producto en venta en la base de datos.
+     * @return productoEnVenta
+     */
     public ProductoEnVenta encontrarProductoEnVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -324,6 +369,10 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de puntos de venta registrados en la base de datos.
+     * @return cantidad
+     */
     public int getPuntoVentaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -337,6 +386,10 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de productos en venta registrados en la base de datos.
+     * @return cantidad
+     */
     public int getProductoEnVentaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -350,6 +403,11 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todos los puntos de venta registrados en la base de datos.
+     * Devuelve un ArrayList de puntos de venta.
+     * @return puntosDeVenta
+     */
     public ArrayList<PuntoVenta> obtenerTodosLosPuntosDeVenta() {
         ArrayList<PuntoVenta> puntosDeVenta = new ArrayList();
         Object[] array = encontrarPuntoVentaEntities().toArray();
@@ -358,6 +416,15 @@ public class PuntoVentaJpaController implements Serializable {
         return puntosDeVenta;
     }
 
+    /**
+     * Descuenta de un producto en venta en un punto de venta la cantidad indicada.
+     * Si el punto de venta no contiene el producto, lanza una excepción.
+     * Si el punto de venta contiene el producto pero la cantidad que se requiere transferir es mayor a la cantidad de productos en el punto de venta, lanza una excepción.
+     * @param puntoDeVenta es el <code>PuntoVenta</code> de donde se modificará el inventario.
+     * @param producto es el <code>Producto</code> que se descontará.
+     * @param cantidad es la cantidad que se requiere descontar.
+     * @throws Exception Se lanza si no hay stock para satisfacer la venta o si el punto de venta no registra el producto.
+     */
     public void descontarDePuntoDeVenta(PuntoVenta puntoDeVenta, Producto producto, Double cantidad) throws Exception {
         ProductoEnVenta productoEnVenta = buscarProductoEnVenta(puntoDeVenta, producto);
         if (productoEnVenta != null) {
@@ -373,6 +440,14 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Incrementa la cantidad de productos en el punto de venta especificado.
+     * Si el producto no está en el punto de venta, se agrega.
+     * @param puntoDeVenta el <code>PuntoVenta</code> donde se modificará el inventario.
+     * @param producto el <code>Producto</code> que se incrementará.
+     * @param cantidad la cantidad que se requiere incrementar.
+     * @throws Exception
+     */
     public void aumentarStockEnVenta(PuntoVenta puntoDeVenta, Producto producto, Double cantidad) throws Exception {
         ProductoEnVenta productoEnVenta = buscarProductoEnVenta(puntoDeVenta, producto);
         if(productoEnVenta != null) {
@@ -388,6 +463,12 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>ProductoEnVenta</code> buscado por punto de venta y producto en la base de datos.
+     * @param puntoDeVenta es el <code>PuntoVenta</code> por el cual se buscará.
+     * @param producto es el <code>Producto</code> por el cual se buscará.
+     * @return productoEnVenta
+     */
     public ProductoEnVenta buscarProductoEnVenta(PuntoVenta puntoDeVenta, Producto producto) {
         EntityManager em = getEntityManager();
         try {
@@ -396,7 +477,7 @@ public class PuntoVentaJpaController implements Serializable {
             Root<ProductoEnVenta> root = cq.from(ProductoEnVenta.class);
             cq.select(root);
 
-            List<Predicate> predicateList = new ArrayList<>();
+            List<Predicate> predicateList = new ArrayList<Predicate>();
 
             Predicate puntoDeVentaPredicate, productoPredicate;
 
@@ -422,6 +503,14 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Modifica la cantidad de productos en el punto de venta especificado.
+     * @param puntoDeVenta
+     * @param codigoProducto
+     * @param cantidad
+     * @throws CodigoProductoNoRegistradoException Se lanza si el codigo del producto indicado no está registrado en la base de datos.
+     * @throws Exception Se lanza si el punto de venta no contiene el producto.
+     */
     public void corregirProductoEnVenta(PuntoVenta puntoDeVenta, String codigoProducto, Double cantidad) throws CodigoProductoNoRegistradoException, Exception {
         Producto producto = productoJpaController.buscarProductoPorCodigo(codigoProducto);
         ProductoEnVenta productoEnVenta = buscarProductoEnVenta(puntoDeVenta, producto);
@@ -438,6 +527,14 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve <code>true</code> si el producto está en el punto de venta y si la cantidad satisface la demanda.
+     * @param puntoDeVenta es el <code>PuntoVenta</code> de donde se buscará el producto.
+     * @param producto es el <code>Producto</code> buscado.
+     * @param cantidad es la cantidad requerida.
+     * @return boolean
+     * @throws Exception Se lanza si el punto de venta no contiene este producto.
+     */
     public Boolean productoDisponible(PuntoVenta puntoDeVenta, Producto producto, Double cantidad) throws Exception {
         EntityManager em = getEntityManager();
         try {
@@ -446,7 +543,7 @@ public class PuntoVentaJpaController implements Serializable {
             Root<ProductoEnVenta> root = cq.from(ProductoEnVenta.class);
             cq.select(root);
 
-            List<Predicate> predicateList = new ArrayList<>();
+            List<Predicate> predicateList = new ArrayList<Predicate>();
 
             Predicate puntoDeVentaPredicate, productoPredicate;
 
@@ -476,6 +573,13 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de productos que existen en un punto de venta.
+     * @param puntoDeVenta es el <code>PuntoVenta</code> de donde se buscará el producto.
+     * @param producto es el <code>Producto</code> que se buscará.
+     * @return cantidad
+     * @throws Exception Se lanza si el punto de venta no contiene el producto.
+     */
     public Double cantidadDeProductosEnPuntoDeVenta(PuntoVenta puntoDeVenta, Producto producto) throws Exception {
         ProductoEnVenta productoEnVenta = buscarProductoEnVenta(puntoDeVenta, producto);
         if(productoEnVenta != null) {

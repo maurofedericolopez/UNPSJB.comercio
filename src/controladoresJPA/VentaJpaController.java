@@ -12,7 +12,8 @@ import javax.persistence.criteria.Root;
 import modelo.*;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de las entidades <code>MedioDePago</code>, <code>Venta</code> e <code>ItemVenta</code>.
+ * También es responsable de las transacciones de venta.
  * @author Mauro Federico Lopez
  */
 public class VentaJpaController extends Observable implements Serializable {
@@ -24,19 +25,22 @@ public class VentaJpaController extends Observable implements Serializable {
     private MedioDePago medioDePago = null;
     private ArrayList<ItemVenta> itemsDeVenta = new ArrayList();
 
+    /**
+     * Construye un nuevo controlador para las entidades <code>MedioDePago</code>, <code>Venta</code> e <code>ItemVenta</code>.
+     */
     public VentaJpaController() {
         this.emf = ControllerSingleton.getEmf();
         puntoDeVentaJpaController = ControllerSingleton.getPuntoVentaJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
     /**
-     * Persiste una entidad venta en la base de datos.
-     * @param venta 
+     * Persiste un objeto <code>Venta</code> en la base de datos.
+     * @param venta es la <code>Venta</code> que se persistirá.
      */
     public void crearVenta(Venta venta) {
         if (venta.getItems() == null) {
@@ -70,6 +74,10 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Persiste un objeto <code>ItemVenta</code> en la base de datos.
+     * @param itemVenta es el <code>ItemVenta</code> que se persistirá.
+     */
     public void crearItemVenta(ItemVenta itemVenta) {
         EntityManager em = null;
         try {
@@ -93,6 +101,10 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Persiste un objeto <code>MedioDePago</code> en la base de datos.
+     * @param medioPago es el <code>MedioDePago</code> que se persistirá.
+     */
     public void crearMedioDePago(MedioDePago medioPago) {
         EntityManager em = null;
         try {
@@ -107,6 +119,12 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>Venta</code> en la base de datos.
+     * @param venta es la <code>Venta</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la venta que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarVenta(Venta venta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -157,6 +175,12 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>ItemVenta</code> en la base de datos.
+     * @param itemVenta es el <code>ItemVenta</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el item de venta que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarItemVenta(ItemVenta itemVenta) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -195,6 +219,12 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>MedioDePago</code> en la base de datos.
+     * @param medioPago es el <code>MedioDePago</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el medio de pago que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarMedioDePago(MedioDePago medioPago) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -218,6 +248,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Elimina una venta de la base de datos con el <code>id</code> especificado.
+     * @param id el id de la venta en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando la venta que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -244,6 +279,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Elimina un item de venta de la base de datos con el <code>id</code> especificado.
+     * @param id el id del item de venta en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el item de venta que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirItemVenta(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -270,6 +310,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Elimina un medio de pago de la base de datos con el <code>id</code> especificado.
+     * @param id el id del medio de pago en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el medio de pago que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirMedioDePago(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -291,27 +336,27 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
-    public List<Venta> encontrarVentaEntities() {
+    private List<Venta> encontrarVentaEntities() {
         return encontrarVentaEntities(true, -1, -1);
     }
 
-    public List<ItemVenta> encontrarItemVentaEntities() {
+    private List<ItemVenta> encontrarItemVentaEntities() {
         return encontrarItemVentaEntities(true, -1, -1);
     }
 
-    public List<MedioDePago> encontrarMedioPagoEntities() {
+    private List<MedioDePago> encontrarMedioPagoEntities() {
         return encontrarMedioPagoEntities(true, -1, -1);
     }
 
-    public List<Venta> encontrarVentaEntities(int maxResults, int firstResult) {
+    private List<Venta> encontrarVentaEntities(int maxResults, int firstResult) {
         return encontrarVentaEntities(false, maxResults, firstResult);
     }
 
-    public List<ItemVenta> encontrarItemVentaEntities(int maxResults, int firstResult) {
+    private List<ItemVenta> encontrarItemVentaEntities(int maxResults, int firstResult) {
         return encontrarItemVentaEntities(false, maxResults, firstResult);
     }
 
-    public List<MedioDePago> encontrarMedioPagoEntities(int maxResults, int firstResult) {
+    private List<MedioDePago> encontrarMedioPagoEntities(int maxResults, int firstResult) {
         return encontrarMedioPagoEntities(false, maxResults, firstResult);
     }
 
@@ -363,6 +408,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Venta</code> buscado por su id en la base de datos.
+     * @param id el id de la venta en la base de datos.
+     * @return venta
+     */
     public Venta encontrarVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -372,6 +422,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>ItemVenta</code> buscado por su id en la base de datos.
+     * @param id el id del item de venta en la base de datos.
+     * @return itemVenta
+     */
     public ItemVenta encontrarItemVenta(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -381,6 +436,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>MedioDePago</code> buscado por su id en la base de datos.
+     * @param id el id del medio de pago en la base de datos.
+     * @return medioDePago
+     */
     public MedioDePago encontrarMedioPago(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -390,6 +450,10 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de ventas registradas en la base de datos.
+     * @return cantidad
+     */
     public int getVentaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -403,6 +467,10 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de items de venta registrados en la base de datos.
+     * @return cantidad
+     */
     public int getItemVentaCount() {
         EntityManager em = getEntityManager();
         try {
@@ -416,6 +484,10 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de medios de pago registrados en la base de datos.
+     * @return cantidad
+     */
     public int getMedioPagoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -429,6 +501,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @param index
+     * @throws Exception 
+     */
     public void eliminarItemDeVenta(int index) throws Exception {
         if(index >= 0) {
             ItemVenta itemDeVenta = itemsDeVenta.remove(index);
@@ -441,6 +518,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve una lista de todos los medios de pago registrados en la base de datos.
+     * Devuelve un ArrayList de medios de pago.
+     * @return mediosDePago
+     */
     public ArrayList<MedioDePago> obtenerTodosLosMediosDePago() {
         ArrayList<MedioDePago> mediosDePago = new ArrayList();
         Object[] array = encontrarMedioPagoEntities().toArray();
@@ -449,6 +531,10 @@ public class VentaJpaController extends Observable implements Serializable {
         return mediosDePago;
     }
 
+    /**
+     * Cancela toda la transaccion y vuelve los stock a su estado anterior.
+     * @throws Exception 
+     */
     public void cancelarVenta() throws Exception {
         Iterator<ItemVenta> i = itemsDeVenta.iterator();
         while(i.hasNext()) {
@@ -477,7 +563,7 @@ public class VentaJpaController extends Observable implements Serializable {
      * Agrega un objecto <code>ItemVenta</code> con el codigoProducto y la cantidadProducto especificada.
      * @param codigoProducto el código del producto para el item.
      * @param cantidadProducto es la cantidad de productos para el item.
-     * @throws CodigoProductoNoRegistradoException se lanza si el código del producto no está registrado en la base de datos.
+     * @throws CodigoProductoNoRegistradoException Se lanza si el codigo del producto indicado no está registrado en la base de datos.
      * @throws Exception 
      */
     public void agregarItemDeVenta(String codigoProducto, Double cantidadProducto) throws CodigoProductoNoRegistradoException, Exception {
@@ -515,7 +601,7 @@ public class VentaJpaController extends Observable implements Serializable {
     /**
      * Devuelve el monto total de la venta en curso.
      * El monto es la suma del producto entre el precio, el descuento y la cantidad de cada producto.
-     * @return 
+     * @return montoTotal
      */
     public Double obtenerMontoTotal() {
         Double montoTotal = 0.0;
@@ -534,6 +620,10 @@ public class VentaJpaController extends Observable implements Serializable {
         this.medioDePago = medioDePago;
     }
 
+    /**
+     * Persiste los datos de la venta y los items de venta.
+     * @throws Exception 
+     */
     public void persistirOperacion() throws Exception {
         Boolean b = (medioDePago != null) && (!itemsDeVenta.isEmpty()) && (puntoDeVenta != null);
         if(b) {
@@ -567,7 +657,12 @@ public class VentaJpaController extends Observable implements Serializable {
         return codigo;
     }
 
-    private Boolean codigoVentaDisponible(Long codigo) {
+    /**
+     * Devolverá true si el codigo de la venta no fue registrado en la base de datos.
+     * @param codigo es el codigo de la venta que se analizará.
+     * @return boolean
+     */
+    public Boolean codigoVentaDisponible(Long codigo) {
         EntityManager em = getEntityManager();
         try {
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -583,6 +678,11 @@ public class VentaJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * 
+     * @param producto
+     * @return 
+     */
     private Boolean productoAgregado(Producto producto) {
         Iterator<ItemVenta> i = itemsDeVenta.iterator();
         while(i.hasNext()) {
@@ -593,6 +693,11 @@ public class VentaJpaController extends Observable implements Serializable {
         return false;
     }
 
+    /**
+     * Devolve un objeto <code>ItemVenta</code> de la lista de items de la venta en curso con el producto especificado.
+     * @param producto es el <code>Producto</code> por el cual se buscará el item de venta.
+     * @return itemDeVenta
+     */
     private ItemVenta obtenerItemDeVenta(Producto producto) {
         Iterator<ItemVenta> i = itemsDeVenta.iterator();
         while(i.hasNext()) {
@@ -604,6 +709,11 @@ public class VentaJpaController extends Observable implements Serializable {
         return null;
     }
 
+    /**
+     * Devuelve una lista con todos los items de venta que tenga un producto de una marca especificada.
+     * @param marca es la <code>Marca</code> por la cual se filtraran los items de venta.
+     * @return ventasPorMarca
+     */
     public ArrayList<ItemVenta> obtenerVentasPorMarca(Marca marca) {
         ArrayList<ItemVenta> ventasPorMarca = new ArrayList();
         Iterator<Producto> i = productoJpaController.obtenerProductosPorMarca(marca).iterator();
@@ -625,8 +735,13 @@ public class VentaJpaController extends Observable implements Serializable {
         return ventasPorMarca;
     }
 
+    /**
+     * Devuelve una lista con todos los items de venta que tenga un producto de una categoría especificada.
+     * @param categoria es la <code>Categoria</code> por la cual se filtraran los items de venta.
+     * @return ventasPorCategoria
+     */
     public ArrayList<ItemVenta> obtenerVentasPorCategoria(Categoria categoria) {
-        ArrayList<ItemVenta> ventasPorMarca = new ArrayList();
+        ArrayList<ItemVenta> ventasPorCategoria = new ArrayList();
         Iterator<Producto> i = productoJpaController.obtenerProductosPorCategoria(categoria).iterator();
         while(i.hasNext()) {
             Producto producto = i.next();
@@ -641,11 +756,16 @@ public class VentaJpaController extends Observable implements Serializable {
             itemDeVenta.setPrecio(0.0);
             itemDeVenta.setDescuento(0.0);
             itemDeVenta.setVenta(null);
-            ventasPorMarca.add(itemDeVenta);
+            ventasPorCategoria.add(itemDeVenta);
         }
-        return ventasPorMarca;
+        return ventasPorCategoria;
     }
 
+    /**
+     * Devuelve una lista de items de venta que tiene al producto especificado.
+     * @param producto es la <code>Producto</code> por la cual se filtraran los items de venta.
+     * @return itemsDeVenta
+     */
     private ArrayList<ItemVenta> obtenerItemsDeVentaPorProducto(Producto producto) {
         EntityManager em = getEntityManager();
         try {

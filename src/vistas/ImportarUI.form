@@ -286,7 +286,7 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="etiquetaSucursalAlmacen" max="32767" attributes="0"/>
-                          <Component id="campoSucursalAlmacen" max="32767" attributes="0"/>
+                          <Component id="campoAlmacen" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="348" max="32767" attributes="0"/>
                   </Group>
@@ -305,7 +305,7 @@
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="etiquetaFechaRemito" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="campoFechaRemito" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoSucursalAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="campoAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -337,12 +337,15 @@
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero de sucursal y de almac&#xe9;n donde se alojar&#xe1;n los lotes"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JComboBox" name="campoSucursalAlmacen">
+            <Component class="javax.swing.JComboBox" name="campoAlmacen">
               <Properties>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
+                  <Connection code="new vistas.modelos.AlmacenComboBoxModel()" type="code"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="campoAlmacenItemStateChanged"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

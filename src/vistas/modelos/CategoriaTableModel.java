@@ -75,11 +75,11 @@ public class CategoriaTableModel extends AbstractTableModel implements Observer 
             switch (columnIndex){
                 case 0 :
                     c.setNombre(valor);
-                    categoriaJpaController.edit(c);
+                    categoriaJpaController.editarCategoria(c);
                     break;
                 case 1 :
                     c.setDescripcion(valor);
-                    categoriaJpaController.edit(c);
+                    categoriaJpaController.editarCategoria(c);
                     break;
                 default:;
             }

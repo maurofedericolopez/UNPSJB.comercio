@@ -140,7 +140,7 @@ public class AdministrarCategoriasUI extends javax.swing.JPanel {
         Categoria nuevaCategoria = new Categoria();
         nuevaCategoria.setNombre(campoNombre.getText());
         nuevaCategoria.setDescripcion(campoDescripcion.getText());
-        categoriaJpaController.create(nuevaCategoria);
+        categoriaJpaController.crearCategoria(nuevaCategoria);
         limpiarCampos();
         nuevaCategoriaUI.setVisible(false);
     }//GEN-LAST:event_botonAgregarNuevaCategoriaActionPerformed
@@ -149,7 +149,7 @@ public class AdministrarCategoriasUI extends javax.swing.JPanel {
         Integer rowSelected = tablaCategorias.getSelectedRow();
         if (rowSelected >= 0) {
             try {
-                categoriaJpaController.destroy(categoriaTablaModel.obtenerCategoria(rowSelected).getId());
+                categoriaJpaController.destruirCategoria(categoriaTablaModel.obtenerCategoria(rowSelected).getId());
             } catch (NonexistentEntityException ex) {
                 Logger.getLogger(AdministrarCategoriasUI.class.getName()).log(Level.SEVERE, null, ex);
             }

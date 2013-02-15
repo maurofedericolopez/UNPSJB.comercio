@@ -41,6 +41,7 @@ public class VentasPorCategoriaUI extends javax.swing.JPanel {
         jsp = new javax.swing.JScrollPane();
         tablaVentas = new javax.swing.JTable();
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ventas por categoría", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(900, 500));
@@ -81,6 +82,7 @@ public class VentasPorCategoriaUI extends javax.swing.JPanel {
 
         add(panel, java.awt.BorderLayout.PAGE_START);
 
+        tablaVentas.setAutoCreateRowSorter(true);
         tablaVentas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -92,6 +94,7 @@ public class VentasPorCategoriaUI extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tablaVentas.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaVentas);
 
         add(jsp, java.awt.BorderLayout.CENTER);

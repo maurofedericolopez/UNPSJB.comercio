@@ -15,20 +15,27 @@ import javax.persistence.criteria.Root;
 import modelo.*;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de laa entidades <code>Lote</code>, <code>LoteAlmacenado</code>, <code>LoteEgresado</code> y <code>LoteRemito</code>.
  * @author Mauro Federico Lopez
  */
 public class LoteJpaController implements Serializable {
 
+    /**
+     * Construye un nuevo controlador para las entidades <code>Lote</code>, <code>LoteAlmacenado</code>, <code>LoteEgresado</code> y <code>LoteRemito</code>.
+     */
     public LoteJpaController() {
         this.emf = ControllerSingleton.getEmf();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste un objeto <code>Lote</code> en la base de datos.
+     * @param lote es el <code>Lote</code> que se persistirá.
+     */
     public void crearLote(Lote lote) {
         EntityManager em = null;
         try {
@@ -43,6 +50,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Persiste un objeto <code>LoteAlmacenado</code> en la base de datos.
+     * @param loteAlmacenado es el <code>LoteAlmacenado</code> que se persistirá.
+     */
     public void crearLoteAlmacenado(LoteAlmacenado loteAlmacenado) {
         EntityManager em = null;
         try {
@@ -66,6 +77,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Persiste un objeto <code>LoteEgresado</code> en la base de datos.
+     * @param loteEgresado es el <code>LoteEgresado</code> que se persistirá.
+     */
     public void crearLoteEgresado(LoteEgresado loteEgresado) {
         EntityManager em = null;
         try {
@@ -89,6 +104,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Persiste un objeto <code>LoteRemito</code> en la base de datos.
+     * @param loteRemito es el <code>LoteRemito</code> que se persistirá.
+     */
     public void crearLoteRemito(LoteRemito loteRemito) {
         EntityManager em = null;
         try {
@@ -112,6 +131,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>Lote</code> en la base de datos.
+     * @param lote es el <code>Lote</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarLote(Lote lote) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -135,6 +160,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>LoteAlmacenado</code> en la base de datos.
+     * @param loteAlmacenado es el <code>LoteAlmacenado</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote almacenado que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarLoteAlmacenado(LoteAlmacenado loteAlmacenado) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -173,6 +204,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>LoteEgresado</code> en la base de datos.
+     * @param loteEgresado es el <code>LoteEgresado</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote egresado que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarLoteEgresado(LoteEgresado loteEgresado) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -211,6 +248,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>LoteRemito</code> en la base de datos.
+     * @param loteRemito es el <code>LoteRemito</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote remito que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarLoteRemito(LoteRemito loteRemito) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -249,6 +292,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un lote de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del lote en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirLote(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -270,6 +318,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un lote almacenado de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del lote almacenado en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote almacenado que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirLoteAlmacenado(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -296,6 +349,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un lote egresado de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del lote egresado en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote egresado que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirLoteEgresado(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -322,6 +380,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Elimina un lote remito de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del lote remito en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el lote remito que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirLoteRemito(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -348,35 +411,35 @@ public class LoteJpaController implements Serializable {
         }
     }
 
-    public List<Lote> encontrarLoteEntities() {
+    private List<Lote> encontrarLoteEntities() {
         return encontrarLoteEntities(true, -1, -1);
     }
 
-    public List<LoteAlmacenado> encontrarLoteAlmacenadoEntities() {
+    private List<LoteAlmacenado> encontrarLoteAlmacenadoEntities() {
         return encontrarLoteAlmacenadoEntities(true, -1, -1);
     }
 
-    public List<LoteEgresado> encontrarLoteEgresadoEntities() {
+    private List<LoteEgresado> encontrarLoteEgresadoEntities() {
         return encontrarLoteEgresadoEntities(true, -1, -1);
     }
 
-    public List<LoteRemito> encontrarLoteRemitoEntities() {
+    private List<LoteRemito> encontrarLoteRemitoEntities() {
         return encontrarLoteRemitoEntities(true, -1, -1);
     }
 
-    public List<Lote> encontrarLoteEntities(int maxResults, int firstResult) {
+    private List<Lote> encontrarLoteEntities(int maxResults, int firstResult) {
         return encontrarLoteEntities(false, maxResults, firstResult);
     }
 
-    public List<LoteAlmacenado> encontrarLoteAlmacenadoEntities(int maxResults, int firstResult) {
+    private List<LoteAlmacenado> encontrarLoteAlmacenadoEntities(int maxResults, int firstResult) {
         return encontrarLoteAlmacenadoEntities(false, maxResults, firstResult);
     }
 
-    public List<LoteEgresado> encontrarLoteEgresadoEntities(int maxResults, int firstResult) {
+    private List<LoteEgresado> encontrarLoteEgresadoEntities(int maxResults, int firstResult) {
         return encontrarLoteEgresadoEntities(false, maxResults, firstResult);
     }
 
-    public List<LoteRemito> encontrarLoteRemitoEntities(int maxResults, int firstResult) {
+    private List<LoteRemito> encontrarLoteRemitoEntities(int maxResults, int firstResult) {
         return encontrarLoteRemitoEntities(false, maxResults, firstResult);
     }
 
@@ -444,6 +507,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Lote</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del lote en la base de datos.
+     * @return 
+     */
     public Lote encontrarLote(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -453,6 +521,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>LoteAlmacenado</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del lote almacenado en la base de datos.
+     * @return 
+     */
     public LoteAlmacenado encontrarLoteAlmacenado(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -462,6 +535,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>LoteEgresado</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del lote egresado en la base de datos.
+     * @return 
+     */
     public LoteEgresado encontrarLoteEgresado(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -471,6 +549,11 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>LoteRemito</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del lote remito en la base de datos.
+     * @return 
+     */
     public LoteRemito encontrarLoteRemito(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -480,6 +563,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de lotes registrados en la base de datos.
+     * @return cantidad
+     */
     public int getLoteCount() {
         EntityManager em = getEntityManager();
         try {
@@ -493,6 +580,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de lotes almacenados registrados en la base de datos.
+     * @return cantidad
+     */
     public int getLoteAlmacenadoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -506,6 +597,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de lotes egresadosregistrados en la base de datos.
+     * @return cantidad
+     */
     public int getLoteEgresadoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -519,6 +614,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de lotes remitos registrados en la base de datos.
+     * @return cantidad
+     */
     public int getLoteRemitoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -532,6 +631,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Lote</code> buscado por su codigo en la base de datos.
+     * @param codigo es el codigo del lote qu se buscará.
+     * @return lote
+     * @throws Exception Se lanza si el codigo del lote no está registrado.
+     */
     public Lote buscarLotePorCodigo(String codigo) throws Exception{
         EntityManager em = getEntityManager();
         try {
@@ -548,6 +653,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>LoteAlmacenado</code> buscado por almacen y lote en la base de datos.
+     * @param almacen es el <code>Almacen</code> por el cual se buscará.
+     * @param lote es el <code>Lote</code> por el cual se buscará.
+     * @return loteAlmacenado
+     */
     public LoteAlmacenado buscarLoteAlmacenado(Almacen almacen, Lote lote) {
         EntityManager em = getEntityManager();
         try {
@@ -556,7 +667,7 @@ public class LoteJpaController implements Serializable {
             Root<LoteAlmacenado> root = cq.from(LoteAlmacenado.class);
             cq.select(root);
 
-            List<Predicate> predicateList = new ArrayList<>();
+            List<Predicate> predicateList = new ArrayList<Predicate>();
 
             Predicate lotePredicate, almacenPredicate;
 
@@ -582,6 +693,12 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devolverá <code>true</code> si el codigo del lote no fue registrado en la base de datos.
+     * @param codigo es el codigo que se analizará.
+     * @return boolean
+     * @throws Exception se lanza si el codigo del lote ya está registrado en la base de datos.
+     */
     public Boolean codigoLoteDisponible(String codigo) throws Exception {
         try {
             buscarLotePorCodigo(codigo);
@@ -591,11 +708,10 @@ public class LoteJpaController implements Serializable {
         }
     }
 
-    public Boolean codigoLoteValido(String codigo) throws Exception {
-        buscarLotePorCodigo(codigo);
-        return true;
-    }
-
+    /**
+     * Devuelve una lista con todos los lotes que estan próximos a vencer en el periodo de una semana.
+     * @return lotesProximosAVencer
+     */
     public ArrayList<Lote> obtenerLotesProximosAVencer() {
         Date hoy = new Date();
         hoy.setHours(0);
@@ -625,6 +741,13 @@ public class LoteJpaController implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de productos que hay en un lote almacenado por un almacen.
+     * @param almacen es el <code>Almacen</code> de donde se buscará el lote.
+     * @param codigoLote es el codigo del lote que se buscará.
+     * @return cantidad
+     * @throws Exception 
+     */
     public Double cantidadDeProductosEnLote(Almacen almacen, String codigoLote) throws Exception {
         Lote lote = buscarLotePorCodigo(codigoLote);
         LoteAlmacenado loteAlmacenado = buscarLoteAlmacenado(almacen, lote);
@@ -634,6 +757,11 @@ public class LoteJpaController implements Serializable {
             throw new Exception("El almacen no contiene este lote.");
     }
 
+    /**
+     * Devuelve una lista con todos los lotes que contienen al producto especificado.
+     * @param producto es el <code>Producto</code> que se buscará en los lotes.
+     * @return lotes
+     */
     public ArrayList<Lote> obtenerLotesPorProducto(Producto producto) {
         EntityManager em = getEntityManager();
         try {

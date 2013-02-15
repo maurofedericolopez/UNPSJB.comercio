@@ -14,7 +14,8 @@ import javax.persistence.criteria.Root;
 import modelo.*;
 
 /**
- *
+ * Ésta clase se encarga de las operaciones CRUD de la entidad <code>Remito</code>.
+ * Tambien es responsable de llevar a cabo todos las importaciones de productos a un almacén.
  * @author Mauro Federico Lopez
  */
 public class RemitoJpaController extends Observable implements Serializable {
@@ -27,16 +28,23 @@ public class RemitoJpaController extends Observable implements Serializable {
     private Remito remito = null;
     private Almacen almacen = null;
 
+    /**
+     * Construye un nuevo controlador para la entidad <code>Remito</code>.
+     */
     public RemitoJpaController() {
         this.emf = ControllerSingleton.getEmf();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
     }
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
+    /**
+     * Persiste un objeto <code>Remito</code> en la base de datos.
+     * @param remito es la <code>Remito</code> que se persistirá.
+     */
     public void crearRemito(Remito remito) {
         if (remito.getLotesDelRemito() == null) {
             remito.setLotesDelRemito(new ArrayList<LoteRemito>());
@@ -45,7 +53,7 @@ public class RemitoJpaController extends Observable implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<LoteRemito> attachedLotes = new ArrayList<>();
+            List<LoteRemito> attachedLotes = new ArrayList<LoteRemito>();
             for (LoteRemito lotesLoteRemitoToAttach : remito.getLotesDelRemito()) {
                 lotesLoteRemitoToAttach = em.getReference(lotesLoteRemitoToAttach.getClass(), lotesLoteRemitoToAttach.getId());
                 attachedLotes.add(lotesLoteRemitoToAttach);
@@ -69,6 +77,12 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Actualiza un objeto <code>Remito</code> en la base de datos.
+     * @param remito es el <code>Remito</code> que se actualizará en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el remito que se quiere actualizar no existe en la base de datos.
+     * @throws Exception 
+     */
     public void editarRemito(Remito remito) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
@@ -77,7 +91,7 @@ public class RemitoJpaController extends Observable implements Serializable {
             Remito persistentRemito = em.find(Remito.class, remito.getId());
             List<LoteRemito> lotesOld = persistentRemito.getLotesDelRemito();
             List<LoteRemito> lotesNew = remito.getLotesDelRemito();
-            List<LoteRemito> attachedLotesNew = new ArrayList<>();
+            List<LoteRemito> attachedLotesNew = new ArrayList<LoteRemito>();
             for (LoteRemito lotesNewLoteRemitoToAttach : lotesNew) {
                 lotesNewLoteRemitoToAttach = em.getReference(lotesNewLoteRemitoToAttach.getClass(), lotesNewLoteRemitoToAttach.getId());
                 attachedLotesNew.add(lotesNewLoteRemitoToAttach);
@@ -119,6 +133,11 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Elimina un remito de la base de datos con el <code>id</code> especificado.
+     * @param id el <code>id</code> del remito en la base de datos.
+     * @throws NonexistentEntityException Se lanza ésta excepción cuando el remito que se quiere eliminar no existe en la base de datos.
+     */
     public void destruirRemito(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
@@ -145,11 +164,11 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
-    public List<Remito> encontrarRemitoEntities() {
+    private List<Remito> encontrarRemitoEntities() {
         return encontrarRemitoEntities(true, -1, -1);
     }
 
-    public List<Remito> encontrarRemitoEntities(int maxResults, int firstResult) {
+    private List<Remito> encontrarRemitoEntities(int maxResults, int firstResult) {
         return encontrarRemitoEntities(false, maxResults, firstResult);
     }
 
@@ -169,6 +188,11 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve un objeto <code>Remito</code> buscado por su id en la base de datos.
+     * @param id el <code>id</code> del remito en la base de datos.
+     * @return remito
+     */
     public Remito encontrarRemito(Long id) {
         EntityManager em = getEntityManager();
         try {
@@ -178,6 +202,10 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Devuelve la cantidad de remitos registrados en la base de datos.
+     * @return cantidad
+     */
     public int getRemitoCount() {
         EntityManager em = getEntityManager();
         try {
@@ -191,6 +219,16 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Agrega un lote nuevo al remito en curso.
+     * @param codigoLote es el codigo del lote.
+     * @param codigoProducto es el codigo del producto.
+     * @param fechaProduccion es la fecha de produccion del lote de productos.
+     * @param fechaVencimiento es la fecha de vencimiento del lote de productos.
+     * @param cantidad es la cantidad de productos en el lote.
+     * @throws CodigoProductoNoRegistradoException Se lanza si el codigo del producto indicado no está registrado en la base de datos.
+     * @throws Exception Se lanza si el codigo del lote ya está registrado o si el codigo del producto no está registrado.
+     */
     public void agregarLote(String codigoLote, String codigoProducto, Date fechaProduccion, Date fechaVencimiento, Double cantidad) throws CodigoProductoNoRegistradoException, Exception {
         if (loteJpaController.codigoLoteDisponible(codigoLote) && codigoNoSeAgrego(codigoLote)) {
             Producto producto = productoJpaController.buscarProductoPorCodigo(codigoLote);
@@ -211,24 +249,33 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Elimina un lote del remito en curso.
+     * @param loteRemito es el remito a eliminar.
+     */
     public void eliminarLote(LoteRemito loteRemito) {
         getLotesDelRemito().remove(loteRemito);
     }
 
-    public void registrarDatosRemito(Remito remito, Almacen almacen) throws Exception {
+    /**
+     * Se registran los datos del remito.
+     * @param codigoRemito es el codigo del remito.
+     * @param fecha es la fecha del remito.
+     * @throws Exception Se lanza si en el formulario no ha seleccionado un almacén
+     */
+    public void registrarDatosRemito(String codigoRemito, Date fecha) throws Exception {
         if (almacen != null) {
-            if (remito != null) {
-                this.remito = remito;
-                this.almacen = almacen;
-                notificarCambios();
-            } else {
-                throw new Exception("No ha ingresado la fecha");
-            }
+                this.remito = new Remito();
+                this.remito.setCodigo(codigoRemito);
+                this.remito.setFecha(fecha);
         } else {
             throw new Exception("No ha seleccionado ningún almacén");
         }
     }
 
+    /**
+     * Persiste los datos del remito y los lotes asociados al remito.
+     */
     public void persistirOperacion() {
         crearRemito(remito);
         Iterator<LoteRemito> i = getLotesDelRemito().iterator();
@@ -250,6 +297,9 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
+    /**
+     * Cancela la importación de productos.
+     */
     public void cancelarIngresoDeLotesDeProductos() {
         limpiarVariables();
     }
@@ -264,7 +314,7 @@ public class RemitoJpaController extends Observable implements Serializable {
 
     private void limpiarVariables() {
         remito = null;
-        almacen = null;
+        setAlmacen(null);
         lotesDelRemito = new ArrayList();
     }
 
@@ -278,6 +328,13 @@ public class RemitoJpaController extends Observable implements Serializable {
      */
     public ArrayList<LoteRemito> getLotesDelRemito() {
         return lotesDelRemito;
+    }
+
+    /**
+     * @param almacen the almacen to set
+     */
+    public void setAlmacen(Almacen almacen) {
+        this.almacen = almacen;
     }
 
 }
