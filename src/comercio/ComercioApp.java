@@ -22,7 +22,7 @@ public class ComercioApp {
      */
     public static void main(String[] args) {
         setEntityManagerFactory(Persistence.createEntityManagerFactory("ComercioPU"));
-
+//
 //        administradorUI = new AdministradorUI();
 //        administradorUI.setVisible(true);
 

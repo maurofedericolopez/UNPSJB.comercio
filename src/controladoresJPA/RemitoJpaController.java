@@ -319,4 +319,13 @@ public class RemitoJpaController extends Observable implements Serializable {
         this.almacen = almacen;
     }
 
+    public void eliminarLote(int selectedRow) throws Exception {
+        if(selectedRow >= 0) {
+            lotesDelRemito.remove(selectedRow);
+            notificarCambios();
+        } else {
+            throw new Exception("No ha seleccionado ningún lote");
+        }
+    }
+
 }

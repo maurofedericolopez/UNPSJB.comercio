@@ -70,6 +70,8 @@ public class EgresoUI extends javax.swing.JPanel {
 
         etiquetaCantidad.setText("Cantidad");
 
+        campoCantidad.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
         botonGuardarLote.setText("Agregar");
         botonGuardarLote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -92,8 +94,8 @@ public class EgresoUI extends javax.swing.JPanel {
                             .addComponent(etiquetaCodigoLote, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(nuevoLoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoCodigoLote)
-                            .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(campoCodigoLote, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                            .addComponent(campoCantidad)))
                     .addGroup(nuevoLoteLayout.createSequentialGroup()
                         .addGap(42, 42, 42)
                         .addComponent(botonGuardarLote)
@@ -110,8 +112,8 @@ public class EgresoUI extends javax.swing.JPanel {
                     .addComponent(etiquetaCodigoLote))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(nuevoLoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaCantidad))
+                    .addComponent(etiquetaCantidad)
+                    .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(nuevoLoteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonGuardarLote)
@@ -205,6 +207,7 @@ public class EgresoUI extends javax.swing.JPanel {
             }
         ));
         tablaLotesEgresados.setEnabled(false);
+        tablaLotesEgresados.getTableHeader().setReorderingAllowed(false);
         jspTabla.setViewportView(tablaLotesEgresados);
 
         add(jspTabla, java.awt.BorderLayout.CENTER);
@@ -219,6 +222,11 @@ public class EgresoUI extends javax.swing.JPanel {
 
         botonQuitarLote.setText("Quitar Lote");
         botonQuitarLote.setEnabled(false);
+        botonQuitarLote.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonQuitarLoteActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelBotonesLayout = new javax.swing.GroupLayout(panelBotones);
         panelBotones.setLayout(panelBotonesLayout);
@@ -274,6 +282,7 @@ public class EgresoUI extends javax.swing.JPanel {
             egresoJpaController.agregarLote(codigoLote, cantidad);
             ArrayList<LoteEgresado> lotesEgresados = egresoJpaController.getLotesEgresados();
             lotesEgresadosTableModel.setLotesEgresados(lotesEgresados);
+            nuevoLote.setVisible(false);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -300,6 +309,15 @@ public class EgresoUI extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(campoCodigoEgreso, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonRegistrarEgresoActionPerformed
+
+    private void botonQuitarLoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonQuitarLoteActionPerformed
+        try {
+            int selectedRow = tablaLotesEgresados.getSelectedRow();
+            egresoJpaController.eliminarLote(selectedRow);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(campoCodigoEgreso, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botonQuitarLoteActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonAgregarLote;

@@ -256,6 +256,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
             PuntoVenta puntoDeVenta = (PuntoVenta) campoPuntoDeVenta.getSelectedItem();
             transferenciaJpaController.transferirProductosAVenta(codigoLote, cantidad, almacen, puntoDeVenta);
             JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }

@@ -3,6 +3,8 @@ package vistas;
 import controladoresJPA.RemitoJpaController;
 import java.awt.event.ItemEvent;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.Almacen;
 import vistas.modelos.LotesDelRemitoTableModel;
@@ -230,7 +232,6 @@ public class ImportarUI extends javax.swing.JPanel {
         panelLotesRemito.setMinimumSize(new java.awt.Dimension(900, 300));
         panelLotesRemito.setPreferredSize(new java.awt.Dimension(900, 385));
 
-        tablaLotesDelRemito.setAutoCreateRowSorter(true);
         tablaLotesDelRemito.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         tablaLotesDelRemito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -240,10 +241,8 @@ public class ImportarUI extends javax.swing.JPanel {
 
             }
         ));
-        tablaLotesDelRemito.setColumnSelectionAllowed(true);
         tablaLotesDelRemito.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaLotesDelRemito);
-        tablaLotesDelRemito.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 
         botonNuevoLoteRemito.setText("Nuevo");
         botonNuevoLoteRemito.addActionListener(new java.awt.event.ActionListener() {
@@ -355,7 +354,12 @@ public class ImportarUI extends javax.swing.JPanel {
     }//GEN-LAST:event_botonNuevoLoteRemitoActionPerformed
 
     private void botonEliminarLoteRemitoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarLoteRemitoActionPerformed
-        // TODO add your handling code here:
+        try {
+            int selectedRow = tablaLotesDelRemito.getSelectedRow();
+            remitoJpaController.eliminarLote(selectedRow);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonEliminarLoteRemitoActionPerformed
 
     private void botonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCancelarActionPerformed

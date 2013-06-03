@@ -406,4 +406,13 @@ public class EgresoJpaController extends Observable implements Serializable {
         return egresoLotesEgresados;
     }
 
+    public void eliminarLote(int selectedRow) throws Exception {
+        if(selectedRow >= 0) {
+            this.lotesEgresados.remove(selectedRow);
+            notificarCambios();
+        } else {
+            throw new Exception("No ha seleccionado ningún lote");
+        }
+    }
+
 }
