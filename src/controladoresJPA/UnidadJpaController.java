@@ -4,11 +4,7 @@ import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Unidad;
@@ -23,7 +19,7 @@ public class UnidadJpaController implements Serializable {
      * Construye un nuevo controlador para la entidad <code>Unidad</code>.
      */
     public UnidadJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
     }
     private EntityManagerFactory emf = null;
 
@@ -104,30 +100,6 @@ public class UnidadJpaController implements Serializable {
         }
     }
 
-    private List<Unidad> encontrarUnidadEntities() {
-        return encontrarUnidadEntities(true, -1, -1);
-    }
-
-    private List<Unidad> encontrarUnidadEntities(int maxResults, int firstResult) {
-        return encontrarUnidadEntities(false, maxResults, firstResult);
-    }
-
-    private List<Unidad> encontrarUnidadEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Unidad.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     /**
      * Devuelve un objeto <code>Unidad</code> buscado por su id en la base de datos.
      * @param id el <code>id</code> de la unidad en la base de datos.
@@ -165,11 +137,20 @@ public class UnidadJpaController implements Serializable {
      * @return unidades
      */
     public ArrayList<Unidad> obtenerTodasLasUnidades() {
-        ArrayList<Unidad> unidades = new ArrayList();
-        Object[] array = encontrarUnidadEntities().toArray();
-        for(Object o : array)
-            unidades.add((Unidad) o);
-        return unidades;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Unidad.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Unidad> unidades = new ArrayList();
+            for(Object o : array)
+                unidades.add((Unidad) o);
+            return unidades;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
 }

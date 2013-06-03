@@ -23,6 +23,7 @@ public class RemitoJpaController extends Observable implements Serializable {
     private EntityManagerFactory emf = null;
     private LoteJpaController loteJpaController;
     private ProductoJpaController productoJpaController;
+    private OperacionJpaController operacionJpaController;
 
     private ArrayList<LoteRemito> lotesDelRemito = new ArrayList();
     private Remito remito = null;
@@ -32,9 +33,10 @@ public class RemitoJpaController extends Observable implements Serializable {
      * Construye un nuevo controlador para la entidad <code>Remito</code>.
      */
     public RemitoJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
+        operacionJpaController = new OperacionJpaController();
     }
 
     private EntityManager getEntityManager() {
@@ -164,30 +166,6 @@ public class RemitoJpaController extends Observable implements Serializable {
         }
     }
 
-    private List<Remito> encontrarRemitoEntities() {
-        return encontrarRemitoEntities(true, -1, -1);
-    }
-
-    private List<Remito> encontrarRemitoEntities(int maxResults, int firstResult) {
-        return encontrarRemitoEntities(false, maxResults, firstResult);
-    }
-
-    private List<Remito> encontrarRemitoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Remito.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     /**
      * Devuelve un objeto <code>Remito</code> buscado por su id en la base de datos.
      * @param id el <code>id</code> del remito en la base de datos.
@@ -231,7 +209,7 @@ public class RemitoJpaController extends Observable implements Serializable {
      */
     public void agregarLote(String codigoLote, String codigoProducto, Date fechaProduccion, Date fechaVencimiento, Double cantidad) throws CodigoProductoNoRegistradoException, Exception {
         if (loteJpaController.codigoLoteDisponible(codigoLote) && codigoNoSeAgrego(codigoLote)) {
-            Producto producto = productoJpaController.buscarProductoPorCodigo(codigoLote);
+            Producto producto = productoJpaController.buscarProductoPorCodigo(codigoProducto);
 
             Lote lote = new Lote();
             lote.setCodigo(codigoLote);
@@ -295,6 +273,10 @@ public class RemitoJpaController extends Observable implements Serializable {
             loteAlmacenado.setCantidad(cantidad);
             loteJpaController.crearLoteAlmacenado(loteAlmacenado);
         }
+        operacionJpaController.registrarOperacionIngreso(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), remito);
+        this.lotesDelRemito = new ArrayList();
+        this.remito = null;
+        notificarCambios();
     }
 
     /**

@@ -2,6 +2,13 @@
 
 <Form version="1.5" maxVersion="1.8" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <Properties>
+    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+        <TitledBorder justification="2" title="Egresos">
+          <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
+        </TitledBorder>
+      </Border>
+    </Property>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[900, 500]"/>
     </Property>
@@ -50,8 +57,8 @@
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="campoFecha" pref="134" max="32767" attributes="0"/>
-                      <Component id="campoCodigo" max="32767" attributes="0"/>
+                      <Component id="campoCodigo" pref="134" max="32767" attributes="0"/>
+                      <Component id="campoFecha" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -66,10 +73,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="etiquetaBuscarPorFecha" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoFecha" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="botonBuscarPorFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="3" attributes="0">
+                          <Component id="etiquetaBuscarPorFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="botonBuscarPorFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="campoFecha" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -86,13 +95,6 @@
         <Component class="javax.swing.JLabel" name="etiquetaBuscarPorFecha">
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar egreso por fecha"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFecha">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="0" type="1"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonBuscarPorFecha">
@@ -117,6 +119,8 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonBuscarPorCodigoActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFecha">
         </Component>
       </SubComponents>
     </Container>
@@ -146,7 +150,7 @@
         <Component class="javax.swing.JTable" name="tablaEgresos">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.EgresoTableModel()" type="code"/>
+              <Connection code="new vistas.modelos.EgresoTableModel()" type="code"/>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0"/>

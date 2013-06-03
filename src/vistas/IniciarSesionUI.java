@@ -1,16 +1,29 @@
 package vistas;
 
+import comercio.ControllerSingleton;
+import controladoresJPA.EmpleadoJpaController;
+import java.awt.Image;
+import java.awt.Toolkit;
+import javax.swing.JOptionPane;
+import modelo.Empleado;
+import modelo.Gerente;
+import modelo.GestorInventario;
+import modelo.Vendedor;
+
 /**
  *
  * @author Mauro Federico Lopez
  */
-public class IniciarSesionUI extends javax.swing.JPanel {
+public class IniciarSesionUI extends javax.swing.JFrame {
+
+    private EmpleadoJpaController empleadoJpaController;
 
     /**
      * Creates new form IniciarSesionUI
      */
     public IniciarSesionUI() {
         initComponents();
+        empleadoJpaController = ControllerSingleton.getEmpleadoJpaController();
     }
 
     /**
@@ -22,18 +35,30 @@ public class IniciarSesionUI extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        campoContraseña = new javax.swing.JPasswordField();
-        etiquetaContraseña = new javax.swing.JLabel();
-        campoNombreUsuario = new javax.swing.JTextField();
-        etiquetaNombreUsuario = new javax.swing.JLabel();
+        campoUsername = new javax.swing.JTextField();
+        campoPassword = new javax.swing.JPasswordField();
+        etiquetaUsername = new javax.swing.JLabel();
+        etiquetaPassword = new javax.swing.JLabel();
         botonIniciarSesion = new javax.swing.JButton();
-        campoPuntoDeVenta = new javax.swing.JComboBox();
-        etiquetaPuntoVenta = new javax.swing.JLabel();
 
-        etiquetaContraseña.setText("Contraseña");
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sesión");
+        setIconImage(getIconImage());
+        setLocationByPlatform(true);
+        setMaximumSize(new java.awt.Dimension(900, 500));
+        setMinimumSize(new java.awt.Dimension(900, 500));
 
-        etiquetaNombreUsuario.setText("Nombre de Usuario");
+        campoUsername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
 
+        campoPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        etiquetaUsername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaUsername.setText("Nombre de usuario");
+
+        etiquetaPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaPassword.setText("Contraseña");
+
+        botonIniciarSesion.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         botonIniciarSesion.setText("Iniciar Sesión");
         botonIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -41,64 +66,119 @@ public class IniciarSesionUI extends javax.swing.JPanel {
             }
         });
 
-        campoPuntoDeVenta.setModel(new vistas.modelos.PuntoDeVentaComboBoxModel());
-
-        etiquetaPuntoVenta.setText("Punto de venta");
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(90, 90, 90)
+                .addGap(229, 229, 229)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(etiquetaNombreUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaContraseña, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(etiquetaPuntoVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoNombreUsuario)
-                            .addComponent(campoContraseña)
-                            .addComponent(campoPuntoDeVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(botonIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(91, Short.MAX_VALUE))
+                    .addComponent(etiquetaUsername, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(etiquetaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(campoUsername)
+                    .addComponent(campoPassword)
+                    .addComponent(botonIniciarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(265, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(93, 93, 93)
+                .addGap(143, 143, 143)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaNombreUsuario)
-                    .addComponent(campoNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaUsername))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaContraseña)
-                    .addComponent(campoContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaPuntoVenta)
-                    .addComponent(campoPuntoDeVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaPassword))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonIniciarSesion)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(258, Short.MAX_VALUE))
         );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarSesionActionPerformed
-        String nombreUsuario = campoNombreUsuario.getText();
-        String contraseña = campoContraseña.getText();
-
+        try {
+            String username = campoUsername.getText();
+            String password = campoPassword.getText();
+            Empleado empleado = empleadoJpaController.iniciarSesion(username, password);
+            empleadoJpaController.setEmpleadoQueInicioSesion(empleado);
+            if(empleado.getClass() == Gerente.class) {
+                new GestionGerenciaUI().setVisible(true);
+            } else {
+                if(empleado.getClass() == GestorInventario.class) {
+                    new GestionInventarioUI().setVisible(true);
+                } else {
+                    if(empleado.getClass() == Vendedor.class) {
+                        new GestionVentaUI().setVisible(true);
+                    }
+                }
+            }
+            this.setVisible(false);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonIniciarSesionActionPerformed
 
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /*
+         * Set the Nimbus look and feel
+         */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /*
+         * If Nimbus (introduced in Java SE 6) is not available, stay with the
+         * default look and feel. For details see
+         * http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(IniciarSesionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(IniciarSesionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(IniciarSesionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(IniciarSesionUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /*
+         * Create and display the form
+         */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                new IniciarSesionUI().setVisible(true);
+            }
+        });
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonIniciarSesion;
-    private javax.swing.JPasswordField campoContraseña;
-    private javax.swing.JTextField campoNombreUsuario;
-    private javax.swing.JComboBox campoPuntoDeVenta;
-    private javax.swing.JLabel etiquetaContraseña;
-    private javax.swing.JLabel etiquetaNombreUsuario;
-    private javax.swing.JLabel etiquetaPuntoVenta;
+    private javax.swing.JPasswordField campoPassword;
+    private javax.swing.JTextField campoUsername;
+    private javax.swing.JLabel etiquetaPassword;
+    private javax.swing.JLabel etiquetaUsername;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icono.png"));
+        return retValue;
+    }
+
 }

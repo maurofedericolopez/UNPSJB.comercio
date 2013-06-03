@@ -26,13 +26,15 @@ public class PuntoVentaJpaController implements Serializable {
 
     private EntityManagerFactory emf = null;
     private ProductoJpaController productoJpaController;
+    private OperacionJpaController operacionJpaController;
 
     /**
      * Construye un nuevo controlador para las entidades <code>PuntoVenta</code> y <code>ProductoEnVenta</code>.
      */
     public PuntoVentaJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
         productoJpaController = ControllerSingleton.getProductoJpaController();
+        operacionJpaController = new OperacionJpaController();
     }
 
     private EntityManager getEntityManager() {
@@ -292,55 +294,6 @@ public class PuntoVentaJpaController implements Serializable {
         }
     }
 
-    private List<PuntoVenta> encontrarPuntoVentaEntities() {
-        return encontrarPuntoVentaEntities(true, -1, -1);
-    }
-
-    private List<ProductoEnVenta> encontrarProductoEnVentaEntities() {
-        return encontrarProductoEnVentaEntities(true, -1, -1);
-    }
-
-    private List<PuntoVenta> encontrarPuntoVentaEntities(int maxResults, int firstResult) {
-        return encontrarPuntoVentaEntities(false, maxResults, firstResult);
-    }
-
-    private List<ProductoEnVenta> encontrarProductoEnVentaEntities(int maxResults, int firstResult) {
-        return encontrarProductoEnVentaEntities(false, maxResults, firstResult);
-    }
-
-    private List<PuntoVenta> encontrarPuntoVentaEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(PuntoVenta.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    private List<ProductoEnVenta> encontrarProductoEnVentaEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(ProductoEnVenta.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    
     /**
      * Devuelve un objeto <code>PuntoVenta</code> buscado por su id en la base de datos.
      * @param id el <code>id</code> del punto de venta en la base de datos.
@@ -409,11 +362,20 @@ public class PuntoVentaJpaController implements Serializable {
      * @return puntosDeVenta
      */
     public ArrayList<PuntoVenta> obtenerTodosLosPuntosDeVenta() {
-        ArrayList<PuntoVenta> puntosDeVenta = new ArrayList();
-        Object[] array = encontrarPuntoVentaEntities().toArray();
-        for(Object o : array)
-            puntosDeVenta.add((PuntoVenta) o);
-        return puntosDeVenta;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(PuntoVenta.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<PuntoVenta> puntosDeVenta = new ArrayList();
+            for(Object o : array)
+                puntosDeVenta.add((PuntoVenta) o);
+            return puntosDeVenta;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
     /**
@@ -521,6 +483,7 @@ public class PuntoVentaJpaController implements Serializable {
             if(showOptionDialog == 0) {
                 productoEnVenta.setCantidad(cantidad);
                 editarProductoEnVenta(productoEnVenta);
+                operacionJpaController.registrarOperacionCorreccionDeInventario(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), productoEnVenta);
             }
         } else {
             throw new Exception("El punto de venta no contiene este producto.");

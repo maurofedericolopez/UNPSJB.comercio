@@ -33,10 +33,11 @@ public class PuntoVenta implements Serializable {
     @Column(name = "idPuntoVenta")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private Long numero;
     @ManyToOne
     private Sucursal sucursal;
-        @OneToMany(mappedBy = "puntoDeVenta")
+    @OneToMany(mappedBy = "puntoDeVenta")
     private List<ProductoEnVenta> productosEnVenta = new ArrayList();
 
     @Override
@@ -61,7 +62,7 @@ public class PuntoVenta implements Serializable {
 
     @Override
     public String toString() {
-        return "Punto de venta N°" + numero + " de la Sucursal N°" + sucursal.getNumero();
+        return "punto de venta N°" + numero + " de la " + sucursal.toString();
     }
 
     /**

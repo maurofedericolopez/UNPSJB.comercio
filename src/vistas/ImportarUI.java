@@ -21,7 +21,7 @@ public class ImportarUI extends javax.swing.JPanel {
      */
     public ImportarUI() {
         initComponents();
-        campoFechaRemito.setValue(new Date());
+        campoFechaRemito.setDate(new Date());
         remitoJpaController = new RemitoJpaController();
         modeloTabla = new LotesDelRemitoTableModel(remitoJpaController);
         tablaLotesDelRemito.setModel(modeloTabla);
@@ -39,7 +39,6 @@ public class ImportarUI extends javax.swing.JPanel {
         nuevoLoteRemitoUI = new javax.swing.JDialog();
         campoCantidad = new javax.swing.JFormattedTextField();
         etiquetaFechaProduccion = new javax.swing.JLabel();
-        campoFechaProduccion = new javax.swing.JFormattedTextField();
         etiquetaFechaVencimiento = new javax.swing.JLabel();
         campoCodigoProducto = new javax.swing.JTextField();
         etiquetaCodigoLote = new javax.swing.JLabel();
@@ -47,16 +46,17 @@ public class ImportarUI extends javax.swing.JPanel {
         etiquetaCantidad = new javax.swing.JLabel();
         etiquetaCodigoProducto = new javax.swing.JLabel();
         botonCancelar = new javax.swing.JButton();
-        campoFechaVencimiento = new javax.swing.JFormattedTextField();
         botonGuardar = new javax.swing.JButton();
+        campoFechaProduccion = new com.toedter.calendar.JDateChooser();
+        campoFechaVencimiento = new com.toedter.calendar.JDateChooser();
         panelCentral = new javax.swing.JPanel();
         panelDatosDelRemito = new javax.swing.JPanel();
         etiquetaCodigoRemito = new javax.swing.JLabel();
         campoCodigoRemito = new javax.swing.JTextField();
         etiquetaFechaRemito = new javax.swing.JLabel();
-        campoFechaRemito = new javax.swing.JFormattedTextField();
         etiquetaSucursalAlmacen = new javax.swing.JLabel();
         campoAlmacen = new javax.swing.JComboBox();
+        campoFechaRemito = new com.toedter.calendar.JDateChooser();
         panelLotesRemito = new javax.swing.JPanel();
         jsp = new javax.swing.JScrollPane();
         tablaLotesDelRemito = new javax.swing.JTable();
@@ -75,8 +75,6 @@ public class ImportarUI extends javax.swing.JPanel {
 
         etiquetaFechaProduccion.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaFechaProduccion.setText("Fecha producción");
-
-        campoFechaProduccion.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         etiquetaFechaVencimiento.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaFechaVencimiento.setText("Fecha vencimiento");
@@ -97,8 +95,6 @@ public class ImportarUI extends javax.swing.JPanel {
             }
         });
 
-        campoFechaVencimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-
         botonGuardar.setText("Guardar");
         botonGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,7 +108,7 @@ public class ImportarUI extends javax.swing.JPanel {
             nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(nuevoLoteRemitoUILayout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(nuevoLoteRemitoUILayout.createSequentialGroup()
                         .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(etiquetaCodigoProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -128,10 +124,10 @@ public class ImportarUI extends javax.swing.JPanel {
                             .addComponent(etiquetaFechaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(etiquetaFechaVencimiento))
                         .addGap(18, 18, 18)
-                        .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoFechaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                        .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoFechaProduccion, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                            .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, nuevoLoteRemitoUILayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(botonGuardar)
@@ -155,11 +151,11 @@ public class ImportarUI extends javax.swing.JPanel {
                     .addComponent(etiquetaCantidad)
                     .addComponent(campoCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(etiquetaFechaProduccion)
                     .addComponent(campoFechaProduccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(nuevoLoteRemitoUILayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(etiquetaFechaVencimiento)
                     .addComponent(campoFechaVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -169,7 +165,7 @@ public class ImportarUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Importar Lotes de Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Importar Lotes de Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(900, 500));
@@ -183,8 +179,6 @@ public class ImportarUI extends javax.swing.JPanel {
         etiquetaCodigoRemito.setText("Código remito");
 
         etiquetaFechaRemito.setText("Fecha remito");
-
-        campoFechaRemito.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         etiquetaSucursalAlmacen.setText("Número de sucursal y de almacén donde se alojarán los lotes");
 
@@ -207,7 +201,7 @@ public class ImportarUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campoCodigoRemito, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-                    .addComponent(campoFechaRemito))
+                    .addComponent(campoFechaRemito, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(etiquetaSucursalAlmacen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -223,10 +217,11 @@ public class ImportarUI extends javax.swing.JPanel {
                     .addComponent(campoCodigoRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(etiquetaSucursalAlmacen))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaFechaRemito)
-                    .addComponent(campoFechaRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(campoAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelDatosDelRemitoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(etiquetaFechaRemito)
+                        .addComponent(campoAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(campoFechaRemito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -343,9 +338,11 @@ public class ImportarUI extends javax.swing.JPanel {
     private void botonRegistrarOperaciónActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarOperaciónActionPerformed
         try {
             String codigo = campoCodigoRemito.getText();
-            Date fecha = (Date) campoFechaRemito.getValue();
+            Date fecha = campoFechaRemito.getDate();
             remitoJpaController.registrarDatosRemito(codigo, fecha);
             remitoJpaController.persistirOperacion();
+            this.campoAlmacen.setSelectedItem(null);
+            this.campoCodigoRemito.setText("");
             JOptionPane.showMessageDialog(this, "Se completó la operación con éxito", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -367,16 +364,17 @@ public class ImportarUI extends javax.swing.JPanel {
 
     private void botonGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonGuardarActionPerformed
         try {
+            camposNuevoLoteCompletos();
             String codigoLote = campoCodigoLote.getText();
             String codigoProducto = campoCodigoProducto.getText();
-            Date fechaProduccion = (Date) campoFechaProduccion.getValue();
-            Date fechaVencimiento = (Date) campoFechaVencimiento.getValue();
+            Date fechaProduccion = campoFechaProduccion.getDate();
+            Date fechaVencimiento = campoFechaVencimiento.getDate();
             Double cantidad = ((Number) campoCantidad.getValue()).doubleValue();
             remitoJpaController.agregarLote(codigoLote, codigoProducto, fechaProduccion, fechaVencimiento, cantidad);
             limpiarCampos();
             nuevoLoteRemitoUI.setVisible(false);
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonGuardarActionPerformed
 
@@ -403,9 +401,9 @@ public class ImportarUI extends javax.swing.JPanel {
     private javax.swing.JTextField campoCodigoLote;
     private javax.swing.JTextField campoCodigoProducto;
     private javax.swing.JTextField campoCodigoRemito;
-    private javax.swing.JFormattedTextField campoFechaProduccion;
-    private javax.swing.JFormattedTextField campoFechaRemito;
-    private javax.swing.JFormattedTextField campoFechaVencimiento;
+    private com.toedter.calendar.JDateChooser campoFechaProduccion;
+    private com.toedter.calendar.JDateChooser campoFechaRemito;
+    private com.toedter.calendar.JDateChooser campoFechaVencimiento;
     private javax.swing.JLabel etiquetaCantidad;
     private javax.swing.JLabel etiquetaCodigoLote;
     private javax.swing.JLabel etiquetaCodigoProducto;
@@ -427,8 +425,19 @@ public class ImportarUI extends javax.swing.JPanel {
         campoCodigoLote.setText("");
         campoCodigoProducto.setText("");
         campoCantidad.setValue(0);
-        campoFechaProduccion.setValue(null);
-        campoFechaVencimiento.setValue(null);
+        campoFechaProduccion.setDate(null);
+        campoFechaVencimiento.setDate(null);
+    }
+
+    private void camposNuevoLoteCompletos() throws Exception {
+        if(campoCodigoLote.getText().isEmpty())
+            throw new Exception("No ha indicado el código del lote.");
+        if(campoCodigoLote.getText().isEmpty())
+            throw new Exception("No ha indicado el código del producto.");
+        if(campoCantidad.getValue() == null)
+            throw new Exception("No ha indicado la cantidad.");
+        if(campoFechaProduccion.getDate() == null)
+            throw new Exception("No ha indicado la fecha de producción del lote.");
     }
 
 }

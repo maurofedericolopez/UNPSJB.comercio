@@ -5,10 +5,7 @@ import controladoresJPA.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Almacen;
@@ -22,15 +19,15 @@ import modelo.Sucursal;
 public class SucursalJpaController implements Serializable {
 
     public SucursalJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
     }
     private EntityManagerFactory emf = null;
 
-    public EntityManager getEntityManager() {
+    private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
 
-    public void create(Sucursal sucursal) {
+    public void crearSucursal(Sucursal sucursal) {
         if (sucursal.getAlmacenes() == null) {
             sucursal.setAlmacenes(new ArrayList<Almacen>());
         }
@@ -80,7 +77,7 @@ public class SucursalJpaController implements Serializable {
         }
     }
 
-    public void edit(Sucursal sucursal) throws NonexistentEntityException, Exception {
+    public void editarSucursal(Sucursal sucursal) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -144,7 +141,7 @@ public class SucursalJpaController implements Serializable {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
                 Long id = sucursal.getId();
-                if (findSucursal(id) == null) {
+                if (encontrarSucursal(id) == null) {
                     throw new NonexistentEntityException("The sucursal with id " + id + " no longer exists.");
                 }
             }
@@ -156,7 +153,7 @@ public class SucursalJpaController implements Serializable {
         }
     }
 
-    public void destroy(Long id) throws NonexistentEntityException {
+    public void destruirSucursal(Long id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -187,31 +184,7 @@ public class SucursalJpaController implements Serializable {
         }
     }
 
-    public List<Sucursal> findSucursalEntities() {
-        return findSucursalEntities(true, -1, -1);
-    }
-
-    public List<Sucursal> findSucursalEntities(int maxResults, int firstResult) {
-        return findSucursalEntities(false, maxResults, firstResult);
-    }
-
-    private List<Sucursal> findSucursalEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Sucursal.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    public Sucursal findSucursal(Long id) {
+    public Sucursal encontrarSucursal(Long id) {
         EntityManager em = getEntityManager();
         try {
             return em.find(Sucursal.class, id);
@@ -234,11 +207,20 @@ public class SucursalJpaController implements Serializable {
     }
 
     public ArrayList<Sucursal> obtenerTodasLasSucursales() {
-        ArrayList<Sucursal> sucursales = new ArrayList();
-        Object[] array = findSucursalEntities().toArray();
-        for(Object o : array)
-            sucursales.add((Sucursal) o);
-        return sucursales;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Sucursal.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Sucursal> sucursales = new ArrayList();
+            for(Object o : array)
+                sucursales.add((Sucursal) o);
+            return sucursales;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
 }

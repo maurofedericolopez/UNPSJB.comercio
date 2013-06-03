@@ -4,9 +4,8 @@ package comercio;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import vistas.GestionGerenciaUI;
-import vistas.GestionInventarioUI;
-import vistas.GestionVentaUI;
+import vistas.AdministradorUI;
+import vistas.IniciarSesionUI;
 
 /**
  *
@@ -15,10 +14,8 @@ import vistas.GestionVentaUI;
 public class ComercioApp {
 
     private static EntityManagerFactory entityManagerFactory;
-    private static EntityManagerFactory entityManagerFactoryEmpleados;
-    private static GestionInventarioUI ventanaInventario;
-    private static GestionVentaUI ventanaGestionVenta;
-    private static GestionGerenciaUI ventanaGerencia;
+    private static AdministradorUI administradorUI;
+    private static IniciarSesionUI iniciarSesionUI;
 
     /**
      * @param args the command line arguments
@@ -26,14 +23,11 @@ public class ComercioApp {
     public static void main(String[] args) {
         setEntityManagerFactory(Persistence.createEntityManagerFactory("ComercioPU"));
 
-        ventanaInventario = new GestionInventarioUI();
-        ventanaInventario.setVisible(true);
+//        administradorUI = new AdministradorUI();
+//        administradorUI.setVisible(true);
 
-        ventanaGerencia = new GestionGerenciaUI();
-        ventanaGerencia.setVisible(true);
-
-        ventanaGestionVenta = new GestionVentaUI();
-        ventanaGestionVenta.setVisible(true);
+        iniciarSesionUI = new IniciarSesionUI();
+        iniciarSesionUI.setVisible(true);
     }
 
     /**
@@ -48,48 +42,6 @@ public class ComercioApp {
      */
     public static void setEntityManagerFactory(EntityManagerFactory aEntityManager) {
         entityManagerFactory = aEntityManager;
-    }
-
-    /**
-     * @return the ventanaInventario
-     */
-    public static GestionInventarioUI getVentanaInventario() {
-        return ventanaInventario;
-    }
-
-    /**
-     * @param aVentanaInventario the ventanaInventario to set
-     */
-    public static void setVentanaInventario(GestionInventarioUI aVentanaInventario) {
-        ventanaInventario = aVentanaInventario;
-    }
-
-    /**
-     * @return the ventanaGerencia
-     */
-    public static GestionGerenciaUI getVentanaGerencia() {
-        return ventanaGerencia;
-    }
-
-    /**
-     * @param aVentanaGerencia the ventanaGerencia to set
-     */
-    public static void setVentanaGerencia(GestionGerenciaUI aVentanaGerencia) {
-        ventanaGerencia = aVentanaGerencia;
-    }
-
-    /**
-     * @return the entityManagerFactoryEmpleados
-     */
-    public static EntityManagerFactory getEntityManagerFactoryEmpleados() {
-        return entityManagerFactoryEmpleados;
-    }
-
-    /**
-     * @param aEntityManagerFactoryEmpleados the entityManagerFactoryEmpleados to set
-     */
-    public static void setEntityManagerFactoryEmpleados(EntityManagerFactory aEntityManagerFactoryEmpleados) {
-        entityManagerFactoryEmpleados = aEntityManagerFactoryEmpleados;
     }
 
 }

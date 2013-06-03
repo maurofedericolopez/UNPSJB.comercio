@@ -24,7 +24,7 @@ public class LoteJpaController implements Serializable {
      * Construye un nuevo controlador para las entidades <code>Lote</code>, <code>LoteAlmacenado</code>, <code>LoteEgresado</code> y <code>LoteRemito</code>.
      */
     public LoteJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
     }
     private EntityManagerFactory emf = null;
 
@@ -408,102 +408,6 @@ public class LoteJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
-        }
-    }
-
-    private List<Lote> encontrarLoteEntities() {
-        return encontrarLoteEntities(true, -1, -1);
-    }
-
-    private List<LoteAlmacenado> encontrarLoteAlmacenadoEntities() {
-        return encontrarLoteAlmacenadoEntities(true, -1, -1);
-    }
-
-    private List<LoteEgresado> encontrarLoteEgresadoEntities() {
-        return encontrarLoteEgresadoEntities(true, -1, -1);
-    }
-
-    private List<LoteRemito> encontrarLoteRemitoEntities() {
-        return encontrarLoteRemitoEntities(true, -1, -1);
-    }
-
-    private List<Lote> encontrarLoteEntities(int maxResults, int firstResult) {
-        return encontrarLoteEntities(false, maxResults, firstResult);
-    }
-
-    private List<LoteAlmacenado> encontrarLoteAlmacenadoEntities(int maxResults, int firstResult) {
-        return encontrarLoteAlmacenadoEntities(false, maxResults, firstResult);
-    }
-
-    private List<LoteEgresado> encontrarLoteEgresadoEntities(int maxResults, int firstResult) {
-        return encontrarLoteEgresadoEntities(false, maxResults, firstResult);
-    }
-
-    private List<LoteRemito> encontrarLoteRemitoEntities(int maxResults, int firstResult) {
-        return encontrarLoteRemitoEntities(false, maxResults, firstResult);
-    }
-
-    private List<Lote> encontrarLoteEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Lote.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    private List<LoteAlmacenado> encontrarLoteAlmacenadoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(LoteAlmacenado.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    private List<LoteEgresado> encontrarLoteEgresadoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(LoteEgresado.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    private List<LoteRemito> encontrarLoteRemitoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(LoteRemito.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
         }
     }
 

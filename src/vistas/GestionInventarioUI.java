@@ -27,19 +27,83 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelInicioSesion = new javax.swing.JPanel();
+        etiquetaNombreDeUsuario = new javax.swing.JLabel();
+        campoUsername = new javax.swing.JTextField();
+        etiquetaContraseña = new javax.swing.JLabel();
+        campoPassword = new javax.swing.JPasswordField();
+        botonIniciarSesion = new javax.swing.JButton();
         barraMenu = new javax.swing.JMenuBar();
-        menuAdministracion = new javax.swing.JMenu();
-        itemMenuAdministrarProductos = new javax.swing.JMenuItem();
-        itemMenuAdministrarCategorias = new javax.swing.JMenuItem();
-        itemMenuAdministrarMarcas = new javax.swing.JMenuItem();
         menuOperaciones = new javax.swing.JMenu();
         itemMenuImportarLotes = new javax.swing.JMenuItem();
         itemMenuTransferencia = new javax.swing.JMenuItem();
         itemMenuEgreso = new javax.swing.JMenuItem();
         itemMenuCorregirInventarioManualmente = new javax.swing.JMenuItem();
+        itemMenuCerrarSesion = new javax.swing.JMenuItem();
+        menuAdministracion = new javax.swing.JMenu();
+        itemMenuAdministrarProductos = new javax.swing.JMenuItem();
+        itemMenuAdministrarCategorias = new javax.swing.JMenuItem();
+        itemMenuAdministrarMarcas = new javax.swing.JMenuItem();
         menuConsultas = new javax.swing.JMenu();
         itemMenuProductosProximosAVencer = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
+
+        panelInicioSesion.setMaximumSize(new java.awt.Dimension(900, 500));
+        panelInicioSesion.setMinimumSize(new java.awt.Dimension(900, 500));
+        panelInicioSesion.setPreferredSize(new java.awt.Dimension(900, 500));
+
+        etiquetaNombreDeUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaNombreDeUsuario.setText("Nombre de usuario");
+
+        campoUsername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        etiquetaContraseña.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaContraseña.setText("Contraseña");
+
+        campoPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        botonIniciarSesion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botonIniciarSesion.setText("Iniciar Sesión");
+        botonIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonIniciarSesionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInicioSesionLayout = new javax.swing.GroupLayout(panelInicioSesion);
+        panelInicioSesion.setLayout(panelInicioSesionLayout);
+        panelInicioSesionLayout.setHorizontalGroup(
+            panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                .addGap(268, 268, 268)
+                .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                        .addComponent(etiquetaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(campoPassword)
+                            .addComponent(botonIniciarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                        .addComponent(etiquetaNombreDeUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(298, 298, 298))
+        );
+        panelInicioSesionLayout.setVerticalGroup(
+            panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                .addGap(128, 128, 128)
+                .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaNombreDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonIniciarSesion)
+                .addContainerGap(279, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestión de inventario");
@@ -49,34 +113,6 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(950, 550));
         setPreferredSize(new java.awt.Dimension(950, 550));
         setResizable(false);
-
-        menuAdministracion.setText("Administración");
-
-        itemMenuAdministrarProductos.setText("Administrar Productos");
-        itemMenuAdministrarProductos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuAdministrarProductosActionPerformed(evt);
-            }
-        });
-        menuAdministracion.add(itemMenuAdministrarProductos);
-
-        itemMenuAdministrarCategorias.setText("Administrar Categorias");
-        itemMenuAdministrarCategorias.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuAdministrarCategoriasActionPerformed(evt);
-            }
-        });
-        menuAdministracion.add(itemMenuAdministrarCategorias);
-
-        itemMenuAdministrarMarcas.setText("Administrar Marcas");
-        itemMenuAdministrarMarcas.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                itemMenuAdministrarMarcasActionPerformed(evt);
-            }
-        });
-        menuAdministracion.add(itemMenuAdministrarMarcas);
-
-        barraMenu.add(menuAdministracion);
 
         menuOperaciones.setText("Operaciones");
 
@@ -112,7 +148,43 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         });
         menuOperaciones.add(itemMenuCorregirInventarioManualmente);
 
+        itemMenuCerrarSesion.setText("Cerrar sesión");
+        itemMenuCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuCerrarSesionActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(itemMenuCerrarSesion);
+
         barraMenu.add(menuOperaciones);
+
+        menuAdministracion.setText("Administración");
+
+        itemMenuAdministrarProductos.setText("Administrar Productos");
+        itemMenuAdministrarProductos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAdministrarProductosActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemMenuAdministrarProductos);
+
+        itemMenuAdministrarCategorias.setText("Administrar Categorias");
+        itemMenuAdministrarCategorias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAdministrarCategoriasActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemMenuAdministrarCategorias);
+
+        itemMenuAdministrarMarcas.setText("Administrar Marcas");
+        itemMenuAdministrarMarcas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuAdministrarMarcasActionPerformed(evt);
+            }
+        });
+        menuAdministracion.add(itemMenuAdministrarMarcas);
+
+        barraMenu.add(menuAdministracion);
 
         menuConsultas.setText("Consultas");
 
@@ -175,6 +247,15 @@ public class GestionInventarioUI extends javax.swing.JFrame {
         agregarComponente(new CantidadProductosUI());
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void botonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarSesionActionPerformed
+        String username = campoUsername.getText();
+        String password = campoPassword.getText();
+    }//GEN-LAST:event_botonIniciarSesionActionPerformed
+
+    private void itemMenuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuCerrarSesionActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_itemMenuCerrarSesionActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -219,9 +300,15 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraMenu;
+    private javax.swing.JButton botonIniciarSesion;
+    private javax.swing.JPasswordField campoPassword;
+    private javax.swing.JTextField campoUsername;
+    private javax.swing.JLabel etiquetaContraseña;
+    private javax.swing.JLabel etiquetaNombreDeUsuario;
     private javax.swing.JMenuItem itemMenuAdministrarCategorias;
     private javax.swing.JMenuItem itemMenuAdministrarMarcas;
     private javax.swing.JMenuItem itemMenuAdministrarProductos;
+    private javax.swing.JMenuItem itemMenuCerrarSesion;
     private javax.swing.JMenuItem itemMenuCorregirInventarioManualmente;
     private javax.swing.JMenuItem itemMenuEgreso;
     private javax.swing.JMenuItem itemMenuImportarLotes;
@@ -231,6 +318,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     private javax.swing.JMenu menuAdministracion;
     private javax.swing.JMenu menuConsultas;
     private javax.swing.JMenu menuOperaciones;
+    private javax.swing.JPanel panelInicioSesion;
     // End of variables declaration//GEN-END:variables
 
     private void agregarComponente(JComponent componente) {
@@ -244,7 +332,7 @@ public class GestionInventarioUI extends javax.swing.JFrame {
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().
-                getImage(ClassLoader.getSystemResource("imagenes/ecommerce.png"));
+                getImage(ClassLoader.getSystemResource("icono.png"));
         return retValue;
     }
 

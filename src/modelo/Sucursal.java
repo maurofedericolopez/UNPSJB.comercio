@@ -64,7 +64,7 @@ public class Sucursal implements Serializable {
 
     @Override
     public String toString() {
-        return "" + getNumero();
+        return "sucursal N°" + getNumero();
     }
 
     /**

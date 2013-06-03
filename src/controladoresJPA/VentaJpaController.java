@@ -21,6 +21,7 @@ public class VentaJpaController extends Observable implements Serializable {
     private EntityManagerFactory emf = null;
     private PuntoVentaJpaController puntoDeVentaJpaController;
     private ProductoJpaController productoJpaController;
+    private OperacionJpaController operacionJpaController;
     private PuntoVenta puntoDeVenta = null;
     private MedioDePago medioDePago = null;
     private ArrayList<ItemVenta> itemsDeVenta = new ArrayList();
@@ -29,9 +30,10 @@ public class VentaJpaController extends Observable implements Serializable {
      * Construye un nuevo controlador para las entidades <code>MedioDePago</code>, <code>Venta</code> e <code>ItemVenta</code>.
      */
     public VentaJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
         puntoDeVentaJpaController = ControllerSingleton.getPuntoVentaJpaController();
         productoJpaController = ControllerSingleton.getProductoJpaController();
+        operacionJpaController = new OperacionJpaController();
     }
 
     private EntityManager getEntityManager() {
@@ -642,6 +644,7 @@ public class VentaJpaController extends Observable implements Serializable {
             }
             venta.setItems(itemsDeVenta);
             editarVenta(venta);
+            operacionJpaController.registrarOperacionVenta(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), venta);
             itemsDeVenta.clear();
             notificarCambios();
         } else {
@@ -707,6 +710,33 @@ public class VentaJpaController extends Observable implements Serializable {
             }
         }
         return null;
+    }
+
+    public ArrayList<ItemVenta> obtenerVentasPorMes(Date fecha) {
+        EntityManager em = getEntityManager();
+        try {
+            fecha.setDate(1);
+            Date hasta = fecha;
+            if(hasta.getMonth() < 12) {
+                hasta.setMonth(hasta.getMonth() + 1);
+            } else {
+                hasta.setMonth(1);
+            }
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<Venta> cq = cb.createQuery(Venta.class);
+            Root<Venta> root = cq.from(Venta.class);
+            cq.select(root).where(cb.between(root.get("fecha").as(Date.class), fecha, hasta));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<ItemVenta> items = new ArrayList();
+            for(Object o : array) {
+                items.addAll(((Venta) o).getItems());
+            }
+            return items;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
     /**

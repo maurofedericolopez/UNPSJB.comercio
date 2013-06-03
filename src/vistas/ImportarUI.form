@@ -16,7 +16,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="etiquetaCodigoProducto" alignment="0" max="32767" attributes="0"/>
@@ -36,9 +36,9 @@
                               <Component id="etiquetaFechaVencimiento" alignment="1" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="campoFechaProduccion" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
-                              <Component id="campoFechaVencimiento" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="campoFechaProduccion" pref="109" max="32767" attributes="0"/>
+                              <Component id="campoFechaVencimiento" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -72,14 +72,14 @@
                       <Component id="campoCantidad" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="etiquetaFechaProduccion" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoFechaProduccion" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaProduccion" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaProduccion" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="etiquetaFechaVencimiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="campoFechaVencimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaVencimiento" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaVencimiento" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
@@ -106,13 +106,6 @@
               <Font name="Tahoma" size="12" style="0"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Fecha producci&#xf3;n"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaProduccion">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaVencimiento">
@@ -159,13 +152,6 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCancelarActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaVencimiento">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="botonGuardar">
           <Properties>
             <Property name="text" type="java.lang.String" value="Guardar"/>
@@ -174,6 +160,10 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonGuardarActionPerformed"/>
           </Events>
         </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaProduccion">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaVencimiento">
+        </Component>
       </SubComponents>
     </Container>
   </NonVisualComponents>
@@ -181,7 +171,7 @@
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
         <TitledBorder justification="2" title="Importar Lotes de Productos">
-          <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
+          <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
         </TitledBorder>
       </Border>
     </Property>
@@ -302,10 +292,12 @@
                           <Component id="etiquetaSucursalAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="etiquetaFechaRemito" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoFechaRemito" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="campoAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="etiquetaFechaRemito" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="campoAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="campoFechaRemito" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -325,13 +317,6 @@
                 <Property name="text" type="java.lang.String" value="Fecha remito"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JFormattedTextField" name="campoFechaRemito">
-              <Properties>
-                <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-                  <Format subtype="1" type="1"/>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JLabel" name="etiquetaSucursalAlmacen">
               <Properties>
                 <Property name="text" type="java.lang.String" value="N&#xfa;mero de sucursal y de almac&#xe9;n donde se alojar&#xe1;n los lotes"/>
@@ -346,6 +331,8 @@
               <Events>
                 <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="campoAlmacenItemStateChanged"/>
               </Events>
+            </Component>
+            <Component class="com.toedter.calendar.JDateChooser" name="campoFechaRemito">
             </Component>
           </SubComponents>
         </Container>

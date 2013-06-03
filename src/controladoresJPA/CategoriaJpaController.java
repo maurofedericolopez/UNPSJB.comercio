@@ -24,7 +24,7 @@ public class CategoriaJpaController extends Observable implements Serializable {
      * Construye un nuevo controlador para la entidad <code>Categoria</code>.
      */
     public CategoriaJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
     }
 
     private EntityManagerFactory emf = null;

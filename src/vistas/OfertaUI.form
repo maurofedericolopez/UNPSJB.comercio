@@ -62,13 +62,15 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="campoPorcentajeDescuentoProducto" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campoFechaInicioProducto" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campoFechaFinProducto" alignment="0" max="32767" attributes="0"/>
                       <Component id="botonCrearOfertaProducto" alignment="0" pref="164" max="32767" attributes="0"/>
                       <Component id="campoCodigoProducto" max="32767" attributes="0"/>
+                      <Component id="campoFechaInicioProducto" max="32767" attributes="0"/>
+                      <Component id="campoFechaFinProducto" max="32767" attributes="0"/>
+                      <Component id="campoPorcentajeDescuentoProducto" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="533" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" pref="65" max="-2" attributes="0"/>
+                  <EmptySpace pref="464" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -81,18 +83,19 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoPorcentajeDescuentoProducto" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaPorcentajeDescuentoProducto" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeDescuentoProducto" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoFechaInicioProducto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaFechaInicioProducto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaInicioProducto" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaInicioProducto" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoFechaFinProducto" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaFechaFinProducto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaFinProducto" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaFinProducto" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonCrearOfertaProducto" min="-2" max="-2" attributes="0"/>
@@ -112,35 +115,14 @@
             <Property name="text" type="java.lang.String" value="Indique el porcentaje de descuento"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeDescuentoProducto">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format format="#0.00%" subtype="-1" type="3"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaInicioProducto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indique la fecha de inicio de la oferta"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaInicioProducto">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaFinProducto">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indique la fecha de fin de la oferta"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaFinProducto">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonCrearOfertaProducto">
@@ -152,6 +134,22 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="campoCodigoProducto">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaInicioProducto">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaFinProducto">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(Ej. 15%)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeDescuentoProducto">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="0" type="3"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -194,12 +192,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="campoCategoria" max="32767" attributes="0"/>
-                      <Component id="campoPorcentajeDescuentoCategoria" max="32767" attributes="0"/>
+                      <Component id="botonCrearOfertaCategoria" pref="164" max="32767" attributes="0"/>
                       <Component id="campoFechaInicioCategoria" max="32767" attributes="0"/>
                       <Component id="campoFechaFinCategoria" max="32767" attributes="0"/>
-                      <Component id="botonCrearOfertaCategoria" min="-2" pref="164" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeDescuentoCategoria" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="533" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel2" min="-2" pref="65" max="-2" attributes="0"/>
+                  <EmptySpace pref="464" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -212,18 +212,19 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoPorcentajeDescuentoCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaPorcentajeDescuentoCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeDescuentoCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoFechaInicioCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaFechaInicioCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaInicioCategoria" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaInicioCategoria" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoFechaFinCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaFechaFinCategoria" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaFinCategoria" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaFinCategoria" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonCrearOfertaCategoria" min="-2" max="-2" attributes="0"/>
@@ -241,7 +242,7 @@
         <Component class="javax.swing.JComboBox" name="campoCategoria">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.CategoriaComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.CategoriaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -250,35 +251,14 @@
             <Property name="text" type="java.lang.String" value="Indique el porcentaje de descuento"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeDescuentoCategoria">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="0" type="3"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaInicioCategoria">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indique la fecha de inicio de la oferta"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaInicioCategoria">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaFinCategoria">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indique la fecha de fin de la oferta"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaFinCategoria">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonCrearOfertaCategoria">
@@ -288,6 +268,22 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCrearOfertaCategoriaActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaInicioCategoria">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaFinCategoria">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(Ej. 15%)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeDescuentoCategoria">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="0" type="3"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -330,12 +326,14 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="campoMarca" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campoPorcentajeDescuentoMarca" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campoFechaInicioMarca" alignment="0" max="32767" attributes="0"/>
-                      <Component id="campoFechaFinMarca" alignment="0" max="32767" attributes="0"/>
-                      <Component id="botonCrearOfertaMarca" alignment="0" min="-2" pref="164" max="-2" attributes="0"/>
+                      <Component id="botonCrearOfertaMarca" alignment="0" pref="164" max="32767" attributes="0"/>
+                      <Component id="campoFechaInicioMarca" max="32767" attributes="0"/>
+                      <Component id="campoFechaFinMarca" max="32767" attributes="0"/>
+                      <Component id="campoPorcentajeDescuentoMarca" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="533" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jLabel3" min="-2" pref="65" max="-2" attributes="0"/>
+                  <EmptySpace pref="464" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -348,18 +346,19 @@
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoPorcentajeDescuentoMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaPorcentajeDescuentoMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoPorcentajeDescuentoMarca" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoFechaInicioMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaFechaInicioMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaInicioMarca" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaInicioMarca" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoFechaFinMarca" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="etiquetaFechaFinMarca" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="etiquetaFechaFinMarca" min="-2" max="-2" attributes="0"/>
+                      <Component id="campoFechaFinMarca" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonCrearOfertaMarca" min="-2" max="-2" attributes="0"/>
@@ -377,7 +376,7 @@
         <Component class="javax.swing.JComboBox" name="campoMarca">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.CategoriaComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.CategoriaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -386,35 +385,14 @@
             <Property name="text" type="java.lang.String" value="Indique el porcentaje de descuento"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeDescuentoMarca">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="0" type="3"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaInicioMarca">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indique la fecha de inicio de la oferta"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaInicioMarca">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaFechaFinMarca">
           <Properties>
             <Property name="text" type="java.lang.String" value="Indique la fecha de fin de la oferta"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoFechaFinMarca">
-          <Properties>
-            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
-              <Format subtype="1" type="1"/>
-            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JButton" name="botonCrearOfertaMarca">
@@ -424,6 +402,22 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCrearOfertaMarcaActionPerformed"/>
           </Events>
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaInicioMarca">
+        </Component>
+        <Component class="com.toedter.calendar.JDateChooser" name="campoFechaFinMarca">
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="(Ej. 15%)"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JFormattedTextField" name="campoPorcentajeDescuentoMarca">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="0" type="3"/>
+            </Property>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

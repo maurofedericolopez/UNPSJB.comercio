@@ -17,7 +17,7 @@ public class OrigenComboBoxModel extends AbstractListModel implements ComboBoxMo
 
     public OrigenComboBoxModel() {
         super();
-        origenes = ControllerSingleton.getOrigenJpaController().obtenerTodosLosOrigen();
+        origenes = ControllerSingleton.getOrigenJpaController().obtenerTodosLosOrigenes();
     }
 
     @Override

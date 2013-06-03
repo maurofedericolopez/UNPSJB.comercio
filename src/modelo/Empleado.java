@@ -8,26 +8,40 @@ import javax.persistence.*;
  * @author Mauro Federico Lopez
  */
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Empleado implements Serializable {
-    private static final long serialVersionUID = 1L;
+    private static long serialVersionUID = 1L;
+
+    /**
+     * @return the serialVersionUID
+     */
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    /**
+     * @param aSerialVersionUID the serialVersionUID to set
+     */
+    public static void setSerialVersionUID(long aSerialVersionUID) {
+        serialVersionUID = aSerialVersionUID;
+    }
     @Id
+    @Column(name = "idEmpleado")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column(unique = true)
-    private Long dni;
-    @Column(length = 60)
+    @Column(length = 50)
     private String apellido;
-    @Column(length = 60)
+    @Column(length = 50)
     private String nombre;
     @Column(length = 100, unique = true)
-    private String nombreUsuario;
+    private String username;
     @Column(length = 100)
-    private String contraseña;
+    private String password;
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
+        hash += (getId() != null ? getId().hashCode() : 0);
         return hash;
     }
 
@@ -38,7 +52,7 @@ public class Empleado implements Serializable {
             return false;
         }
         Empleado other = (Empleado) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
+        if ((this.getId() == null && other.getId() != null) || (this.getId() != null && !this.id.equals(other.id))) {
             return false;
         }
         return true;
@@ -46,7 +60,77 @@ public class Empleado implements Serializable {
 
     @Override
     public String toString() {
-        return "comercio.modelo.Empleado[ id=" + id + " ]";
+        return apellido + " " + nombre;
+    }
+
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @return the apellido
+     */
+    public String getApellido() {
+        return apellido;
+    }
+
+    /**
+     * @param apellido the apellido to set
+     */
+    public void setApellido(String apellido) {
+        this.apellido = apellido.toUpperCase();
+    }
+
+    /**
+     * @return the nombre
+     */
+    public String getNombre() {
+        return nombre;
+    }
+
+    /**
+     * @param nombre the nombre to set
+     */
+    public void setNombre(String nombre) {
+        this.nombre = nombre.toUpperCase();
+    }
+
+    /**
+     * @return the username
+     */
+    public String getUsername() {
+        return username;
+    }
+
+    /**
+     * @param username the username to set
+     */
+    public void setUsername(String username) {
+        this.username = username.toUpperCase();
+    }
+
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
+
+    /**
+     * @param password the password to set
+     */
+    public void setPassword(String password) {
+        this.password = password.toUpperCase();
     }
 
 }

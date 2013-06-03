@@ -42,7 +42,7 @@ public class VencimientoProximoUI extends javax.swing.JPanel {
         etiquetaAlmacen = new javax.swing.JLabel();
         campoAlmacen = new javax.swing.JComboBox();
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consulta de productos próximos a vencer", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Consulta de productos próximos a vencer", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());

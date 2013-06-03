@@ -148,4 +148,8 @@ public class ItemVenta implements Serializable {
         this.descuento = descuento;
     }
 
+    public Double getTotal() {
+        return getPrecio() * getCantidad() * getDescuento();
+    }
+
 }

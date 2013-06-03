@@ -29,7 +29,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Transferencia de productos a un almac&#xe9;n">
-              <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
+              <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -63,10 +63,10 @@
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="campoCantidadProductoA" alignment="0" max="32767" attributes="0"/>
                               <Component id="campoAlmacenOrigen" alignment="0" pref="164" max="32767" attributes="0"/>
                               <Component id="campoAlmacenDestino" alignment="0" max="32767" attributes="0"/>
                               <Component id="campoCodigoLoteA" max="32767" attributes="0"/>
+                              <Component id="campoCantidadProductoA" alignment="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" attributes="0">
@@ -82,27 +82,27 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace pref="65" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="58" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="campoCodigoLoteA" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaCodigoLoteA" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="campoCantidadProductoA" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaCantidadProductoA" alignment="3" max="32767" attributes="0"/>
+                      <Component id="campoCantidadProductoA" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="campoAlmacenOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaAlmacenOrigen" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="campoAlmacenDestino" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="etiquetaAlmacenDestino" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="botonTransferenciaAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="botonCancelarTransferenciaAlmacen" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -125,8 +125,6 @@
             <Property name="text" type="java.lang.String" value="Cantidad a transferir"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JFormattedTextField" name="campoCantidadProductoA">
-        </Component>
         <Component class="javax.swing.JLabel" name="etiquetaAlmacenOrigen">
           <Properties>
             <Property name="text" type="java.lang.String" value="Almac&#xe9;n de origen"/>
@@ -135,7 +133,7 @@
         <Component class="javax.swing.JComboBox" name="campoAlmacenOrigen">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.AlmacenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -147,7 +145,7 @@
         <Component class="javax.swing.JComboBox" name="campoAlmacenDestino">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.AlmacenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -167,6 +165,13 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonCancelarTransferenciaAlmacenActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JFormattedTextField" name="campoCantidadProductoA">
+          <Properties>
+            <Property name="formatterFactory" type="javax.swing.JFormattedTextField$AbstractFormatterFactory" editor="org.netbeans.modules.form.editors.AbstractFormatterFactoryEditor">
+              <Format subtype="0" type="0"/>
+            </Property>
+          </Properties>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="panelTransferenciaPuntoDeVenta">
@@ -174,7 +179,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Transferencia de productos a un punto de venta">
-              <Font PropertyName="font" name="Tahoma" size="12" style="1"/>
+              <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
             </TitledBorder>
           </Border>
         </Property>
@@ -253,7 +258,7 @@
                       <Component id="botonTransferenciaPuntoDeVenta" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="botonCancelarTransferenciaPuntoDeVenta" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="31" max="32767" attributes="0"/>
+                  <EmptySpace pref="24" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -286,7 +291,7 @@
         <Component class="javax.swing.JComboBox" name="campoAlmacen">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.AlmacenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -298,7 +303,7 @@
         <Component class="javax.swing.JComboBox" name="campoPuntoDeVenta">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.PuntoDeVentaComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.PuntoDeVentaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>

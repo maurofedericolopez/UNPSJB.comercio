@@ -1,6 +1,5 @@
 package vistas;
 
-import comercio.ControllerSingleton;
 import controladoresJPA.EgresoJpaController;
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +31,7 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
         egresos = egresoJpaController.obtenerTodosLosEgresos();
         egresoTableModel.setEgresos(egresos);
         loteEgresadoTableModel = new LoteEgresadoTableModel();
-        tablaLotesEgresados.setModel(egresoTableModel);
+        tablaLotesEgresados.setModel(loteEgresadoTableModel);
     }
 
     /**
@@ -46,11 +45,11 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
 
         panel = new javax.swing.JPanel();
         etiquetaBuscarPorFecha = new javax.swing.JLabel();
-        campoFecha = new javax.swing.JFormattedTextField();
         botonBuscarPorFecha = new javax.swing.JButton();
         etiquetaBuscarPorCodigo = new javax.swing.JLabel();
         campoCodigo = new javax.swing.JTextField();
         botonBuscarPorCodigo = new javax.swing.JButton();
+        campoFecha = new com.toedter.calendar.JDateChooser();
         jspTablaEgresos = new javax.swing.JScrollPane();
         tablaEgresos = new javax.swing.JTable();
         panelObservaciones = new javax.swing.JPanel();
@@ -59,6 +58,7 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
         jspAreaDeTexto = new javax.swing.JScrollPane();
         areaDeTextoObservaciones = new javax.swing.JTextArea();
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Egresos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
@@ -67,8 +67,6 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
         panel.setMinimumSize(new java.awt.Dimension(900, 74));
 
         etiquetaBuscarPorFecha.setText("Buscar egreso por fecha");
-
-        campoFecha.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
         botonBuscarPorFecha.setText("Buscar egreso por fecha");
         botonBuscarPorFecha.addActionListener(new java.awt.event.ActionListener() {
@@ -97,8 +95,8 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
                     .addComponent(etiquetaBuscarPorCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campoFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                    .addComponent(campoCodigo))
+                    .addComponent(campoCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+                    .addComponent(campoFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(botonBuscarPorCodigo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -109,10 +107,11 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etiquetaBuscarPorFecha)
-                    .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(botonBuscarPorFecha))
+                .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(etiquetaBuscarPorFecha)
+                        .addComponent(botonBuscarPorFecha))
+                    .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(etiquetaBuscarPorCodigo)
@@ -182,10 +181,14 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void botonBuscarPorFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarPorFechaActionPerformed
-        Date fecha = (Date) campoFecha.getValue();
-        egresos = egresoJpaController.obtenerEgresosPorFecha(fecha);
-        egresoTableModel.setEgresos(egresos);
-        campoFecha.setValue(null);
+        Date fecha = campoFecha.getDate();
+        if(fecha != null) {
+            egresos = egresoJpaController.obtenerEgresosPorFecha(fecha);
+            egresoTableModel.setEgresos(egresos);
+            campoFecha.updateUI();
+        } else {
+            JOptionPane.showMessageDialog(null, "No ha seleccionado ninguna fecha.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_botonBuscarPorFechaActionPerformed
 
     private void botonBuscarPorCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarPorCodigoActionPerformed
@@ -216,7 +219,7 @@ public class ConsultaEgresosUI extends javax.swing.JPanel {
     private javax.swing.JButton botonBuscarPorCodigo;
     private javax.swing.JButton botonBuscarPorFecha;
     private javax.swing.JTextField campoCodigo;
-    private javax.swing.JFormattedTextField campoFecha;
+    private com.toedter.calendar.JDateChooser campoFecha;
     private javax.swing.JLabel etiquetaBuscarPorCodigo;
     private javax.swing.JLabel etiquetaBuscarPorFecha;
     private javax.swing.JScrollPane jspAreaDeTexto;

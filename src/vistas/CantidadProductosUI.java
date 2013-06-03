@@ -224,6 +224,7 @@ public class CantidadProductosUI extends javax.swing.JPanel {
                 .addContainerGap(14, Short.MAX_VALUE))
         );
 
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cantidad de productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());

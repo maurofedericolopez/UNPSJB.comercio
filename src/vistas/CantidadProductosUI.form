@@ -65,7 +65,7 @@
         <Component class="javax.swing.JComboBox" name="campoAlmacenLote">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.AlmacenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -146,7 +146,7 @@
         <Component class="javax.swing.JComboBox" name="campoAlmacen">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.AlmacenComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.AlmacenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -241,7 +241,7 @@
         <Component class="javax.swing.JComboBox" name="campoPuntoDeVenta">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.PuntoDeVentaComboBoxModel()" type="code"/>
+              <Connection code="new vistas.modelos.PuntoDeVentaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -264,6 +264,13 @@
     </Container>
   </NonVisualComponents>
   <Properties>
+    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+      <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+        <TitledBorder justification="2" title="Cantidad de productos">
+          <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
+        </TitledBorder>
+      </Border>
+    </Property>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[900, 500]"/>
     </Property>

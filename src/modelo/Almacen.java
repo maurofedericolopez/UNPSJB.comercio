@@ -33,6 +33,7 @@ public class Almacen implements Serializable {
     @Column(name = "idAlmacen")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(unique = true)
     private Long numero;
     @ManyToOne
     private Sucursal sucursal;
@@ -61,7 +62,7 @@ public class Almacen implements Serializable {
 
     @Override
     public String toString() {
-        return "Almacén N°" + getNumero() + " de la Sucursal N°" + getSucursal().getNumero();
+        return "almacén N°" + getNumero() + " de la " + getSucursal().toString();
     }
 
     /**

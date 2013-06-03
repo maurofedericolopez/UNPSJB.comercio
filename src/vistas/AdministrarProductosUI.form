@@ -160,7 +160,7 @@
         <Component class="javax.swing.JComboBox" name="campoMarcaNuevo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.MarcaComboBoxModel()" type="code"/>
+              <Connection code="new MarcaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -175,7 +175,7 @@
         <Component class="javax.swing.JComboBox" name="campoOrigenNuevo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.OrigenComboBoxModel()" type="code"/>
+              <Connection code="new OrigenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -190,7 +190,7 @@
         <Component class="javax.swing.JComboBox" name="campoUnidadNuevo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.UnidadComboBoxModel()" type="code"/>
+              <Connection code="new UnidadComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -205,7 +205,7 @@
         <Component class="javax.swing.JComboBox" name="campoCategoriaNuevo">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.CategoriaComboBoxModel()" type="code"/>
+              <Connection code="new CategoriaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -378,7 +378,7 @@
         <Component class="javax.swing.JComboBox" name="campoMarcaEditar">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.MarcaComboBoxModel()" type="code"/>
+              <Connection code="new MarcaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -393,7 +393,7 @@
         <Component class="javax.swing.JComboBox" name="campoOrigenEditar">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.OrigenComboBoxModel()" type="code"/>
+              <Connection code="new OrigenComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -408,7 +408,7 @@
         <Component class="javax.swing.JComboBox" name="campoUnidadEditar">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.UnidadComboBoxModel()" type="code"/>
+              <Connection code="new UnidadComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -423,7 +423,7 @@
         <Component class="javax.swing.JComboBox" name="campoCategoriaEditar">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.CategoriaComboBoxModel()" type="code"/>
+              <Connection code="new CategoriaComboBoxModel()" type="code"/>
             </Property>
           </Properties>
         </Component>
@@ -450,7 +450,7 @@
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
         <TitledBorder justification="2" title="Administrar Productos">
-          <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
+          <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
         </TitledBorder>
       </Border>
     </Property>
@@ -493,9 +493,8 @@
       <SubComponents>
         <Component class="javax.swing.JTable" name="tablaProductos">
           <Properties>
-            <Property name="autoCreateRowSorter" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new comercio.vistas.modelos.ProductoTableModel()" type="code"/>
+              <Connection code="new ProductoTableModel()" type="code"/>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0"/>

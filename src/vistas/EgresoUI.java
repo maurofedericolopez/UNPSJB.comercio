@@ -119,7 +119,7 @@ public class EgresoUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Egresar Lotes de Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Egresar Lotes de Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
@@ -238,7 +238,7 @@ public class EgresoUI extends javax.swing.JPanel {
                 .addComponent(botonAgregarLote)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonQuitarLote)
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addContainerGap(199, Short.MAX_VALUE))
         );
 
         add(panelBotones, java.awt.BorderLayout.LINE_START);

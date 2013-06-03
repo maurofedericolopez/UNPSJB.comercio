@@ -1,14 +1,17 @@
 package vistas;
 
+import comercio.ControllerSingleton;
 import controladoresJPA.VentaJpaController;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ItemEvent;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import modelo.Empleado;
 import modelo.MedioDePago;
-import modelo.PuntoVenta;
 import modelo.Vendedor;
 import vistas.modelos.ItemDeVentaTableModel;
 
@@ -18,7 +21,6 @@ import vistas.modelos.ItemDeVentaTableModel;
  */
 public class GestionVentaUI extends javax.swing.JFrame {
 
-    private Vendedor vendedor;
     private VentaJpaController ventaJpaController;
     private ItemDeVentaTableModel itemDeVentaTableModel;
 
@@ -27,10 +29,16 @@ public class GestionVentaUI extends javax.swing.JFrame {
      */
     public GestionVentaUI() {
         initComponents();
+        Vendedor vendedor = (Vendedor) ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion();
         ventaJpaController = new VentaJpaController();
+        ventaJpaController.setPuntoDeVenta(vendedor.getPuntoVenta());
         itemDeVentaTableModel = new ItemDeVentaTableModel(ventaJpaController);
         tablaItemsDeVenta.setModel(itemDeVentaTableModel);
+        etiquetaVendedor.setText(vendedor.toString());
+        etiquetaSucursal.setText("Sucursal N°" + vendedor.getPuntoVenta().getSucursal().getNumero().toString());
+        etiquetaPuntoDeVenta.setText("Punto de venta N°" + vendedor.getPuntoVenta().getNumero().toString());
         repintarVentana();
+        
     }
 
     /**
@@ -49,7 +57,6 @@ public class GestionVentaUI extends javax.swing.JFrame {
         etiquetaSucursal = new javax.swing.JLabel();
         etiquetaVendedor = new javax.swing.JLabel();
         campoFecha = new javax.swing.JFormattedTextField();
-        campoPuntoDeVenta = new javax.swing.JComboBox();
         jsp = new javax.swing.JScrollPane();
         tablaItemsDeVenta = new javax.swing.JTable();
         panelDespues = new javax.swing.JPanel();
@@ -70,7 +77,7 @@ public class GestionVentaUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Venta");
-        setIconImages(null);
+        setIconImage(getIconImage());
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(950, 550));
         setResizable(false);
@@ -84,6 +91,11 @@ public class GestionVentaUI extends javax.swing.JFrame {
         etiquetaPuntoDeVenta.setText("Punto de venta N°");
 
         botonCerrarSesion.setText("Cerrar Sesión");
+        botonCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonCerrarSesionActionPerformed(evt);
+            }
+        });
 
         etiquetaFecha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         etiquetaFecha.setForeground(new java.awt.Color(240, 240, 240));
@@ -106,13 +118,6 @@ public class GestionVentaUI extends javax.swing.JFrame {
         campoFecha.setToolTipText("");
         campoFecha.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        campoPuntoDeVenta.setModel(new vistas.modelos.PuntoDeVentaComboBoxModel());
-        campoPuntoDeVenta.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                campoPuntoDeVentaItemStateChanged(evt);
-            }
-        });
-
         javax.swing.GroupLayout panelPrimeroLayout = new javax.swing.GroupLayout(panelPrimero);
         panelPrimero.setLayout(panelPrimeroLayout);
         panelPrimeroLayout.setHorizontalGroup(
@@ -126,12 +131,9 @@ public class GestionVentaUI extends javax.swing.JFrame {
                         .addComponent(etiquetaFecha)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(campoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 457, Short.MAX_VALUE)
                 .addGroup(panelPrimeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPrimeroLayout.createSequentialGroup()
-                        .addComponent(campoPuntoDeVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 252, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 338, Short.MAX_VALUE)
-                        .addComponent(botonCerrarSesion))
+                    .addComponent(botonCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(etiquetaVendedor, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
@@ -146,9 +148,7 @@ public class GestionVentaUI extends javax.swing.JFrame {
                 .addGroup(panelPrimeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(botonCerrarSesion)
                     .addGroup(panelPrimeroLayout.createSequentialGroup()
-                        .addGroup(panelPrimeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(etiquetaPuntoDeVenta)
-                            .addComponent(campoPuntoDeVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(etiquetaPuntoDeVenta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelPrimeroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(etiquetaFecha)
@@ -378,22 +378,6 @@ public class GestionVentaUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonCancelarVentaActionPerformed
 
-    private void campoPuntoDeVentaItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_campoPuntoDeVentaItemStateChanged
-        if(evt.getStateChange() == ItemEvent.SELECTED) {
-            PuntoVenta puntoDeVenta = (PuntoVenta) campoPuntoDeVenta.getSelectedItem();
-            ventaJpaController.setPuntoDeVenta(puntoDeVenta);
-            etiquetaSucursal.setText("Sucursal N°" + puntoDeVenta.getSucursal().getNumero().toString());
-            etiquetaPuntoDeVenta.setText("Punto de venta N°" + puntoDeVenta.getNumero().toString());
-            campoPuntoDeVenta.setEnabled(false);
-            tablaItemsDeVenta.setEnabled(true);
-            botonIngresarProducto.setEnabled(true);
-            campoMedioDePago.setEnabled(true);
-            botonFinalizarVenta.setEnabled(true);
-            botonCancelarVenta.setEnabled(true);
-            botonEliminarItemVenta.setEnabled(true);
-        }
-    }//GEN-LAST:event_campoPuntoDeVentaItemStateChanged
-
     private void campoMedioDePagoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_campoMedioDePagoItemStateChanged
         if(evt.getStateChange() == ItemEvent.SELECTED) {
             MedioDePago medioDePago = (MedioDePago) campoMedioDePago.getSelectedItem();
@@ -409,6 +393,10 @@ public class GestionVentaUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonFinalizarVentaActionPerformed
+
+    private void botonCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCerrarSesionActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_botonCerrarSesionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -463,7 +451,6 @@ public class GestionVentaUI extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField campoFecha;
     private javax.swing.JComboBox campoMedioDePago;
     private javax.swing.JFormattedTextField campoMontoTotal;
-    private javax.swing.JComboBox campoPuntoDeVenta;
     private javax.swing.JLabel etiquetaCantidadProducto;
     private javax.swing.JLabel etiquetaCodigoProducto;
     private javax.swing.JLabel etiquetaFecha;
@@ -485,13 +472,15 @@ public class GestionVentaUI extends javax.swing.JFrame {
         campoFecha.setValue(new Date());
         campoCantidadProducto.setValue(1);
         campoCodigoProducto.setText("");
-        campoPuntoDeVenta.setEnabled(true);
         tablaItemsDeVenta.setEnabled(false);
-        botonIngresarProducto.setEnabled(false);
-        campoMedioDePago.setEnabled(false);
-        botonFinalizarVenta.setEnabled(false);
-        botonCancelarVenta.setEnabled(false);
-        botonEliminarItemVenta.setEnabled(false);
+        botonFinalizarVenta.setEnabled(true);
+    }
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icono.png"));
+        return retValue;
     }
 
 }

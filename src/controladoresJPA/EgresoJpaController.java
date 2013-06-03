@@ -20,6 +20,7 @@ public class EgresoJpaController extends Observable implements Serializable {
     private EntityManagerFactory emf = null;
     private LoteJpaController loteJpaController;
     private AlmacenJpaController almacenJpaController;
+    private OperacionJpaController operacionJpaController;
 
     private Almacen almacen = null;
     private ArrayList<LoteEgresado> lotesEgresados = new ArrayList();
@@ -29,9 +30,10 @@ public class EgresoJpaController extends Observable implements Serializable {
      * Construye un nuevo controlador para la entidad <code>Egreso</code>.
      */
     public EgresoJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
         loteJpaController = ControllerSingleton.getLoteJpaController();
         almacenJpaController = ControllerSingleton.getAlmacenJpaController();
+        operacionJpaController = new OperacionJpaController();
     }
 
     private EntityManager getEntityManager() {
@@ -158,30 +160,6 @@ public class EgresoJpaController extends Observable implements Serializable {
             if (em != null) {
                 em.close();
             }
-        }
-    }
-
-    private List<Egreso> encontrarEgresoEntities() {
-        return encontrarEgresoEntities(true, -1, -1);
-    }
-
-    private List<Egreso> encontrarEgresoEntities(int maxResults, int firstResult) {
-        return encontrarEgresoEntities(false, maxResults, firstResult);
-    }
-
-    private List<Egreso> encontrarEgresoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Egreso.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
         }
     }
 
@@ -342,6 +320,7 @@ public class EgresoJpaController extends Observable implements Serializable {
             loteEgresado.setEgreso(egreso);
             loteJpaController.crearLoteEgresado(loteEgresado);
         }
+        operacionJpaController.registrarOperacionEgreso(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), egreso);
     }
 
     /**
@@ -350,11 +329,20 @@ public class EgresoJpaController extends Observable implements Serializable {
      * @return egresos
      */
     public ArrayList<Egreso> obtenerTodosLosEgresos() {
-        Object[] array = encontrarEgresoEntities().toArray();
-        ArrayList<Egreso> egresos = new ArrayList();
-        for(Object o : array)
-            egresos.add((Egreso) o);
-        return egresos;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Egreso.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Egreso> egresos = new ArrayList();
+            for(Object o : array)
+                egresos.add((Egreso) o);
+            return egresos;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
     /**
@@ -396,10 +384,10 @@ public class EgresoJpaController extends Observable implements Serializable {
             CriteriaQuery<Egreso> cq = cb.createQuery(Egreso.class);
             Root<Egreso> root = cq.from(Egreso.class);
             cq.select(root);
-            cq.where(cb.equal(root.get("codigi"), codigo.toUpperCase()));
+            cq.where(cb.equal(root.get("codigo"), codigo.toUpperCase()));
             return em.createQuery(cq).getSingleResult();
         } catch(NoResultException ex) {
-            throw new Exception("El egreso con el codigo " + codigo + " no está registrado");
+            throw new Exception("El egreso con el codigo '" + codigo + "' no está registrado.");
         } finally {
             em.close();
         }

@@ -1,6 +1,5 @@
 package vistas;
 
-import comercio.ControllerSingleton;
 import controladoresJPA.TransferenciaJpaController;
 import javax.swing.JOptionPane;
 import modelo.Almacen;
@@ -19,7 +18,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
      */
     public TransferenciaUI() {
         initComponents();
-        transferenciaJpaController = ControllerSingleton.getTransferenciaJpaController();
+        transferenciaJpaController = new TransferenciaJpaController();
     }
 
     /**
@@ -35,13 +34,13 @@ public class TransferenciaUI extends javax.swing.JPanel {
         etiquetaCodigoLoteA = new javax.swing.JLabel();
         campoCodigoLoteA = new javax.swing.JTextField();
         etiquetaCantidadProductoA = new javax.swing.JLabel();
-        campoCantidadProductoA = new javax.swing.JFormattedTextField();
         etiquetaAlmacenOrigen = new javax.swing.JLabel();
         campoAlmacenOrigen = new javax.swing.JComboBox();
         etiquetaAlmacenDestino = new javax.swing.JLabel();
         campoAlmacenDestino = new javax.swing.JComboBox();
         botonTransferenciaAlmacen = new javax.swing.JButton();
         botonCancelarTransferenciaAlmacen = new javax.swing.JButton();
+        campoCantidadProductoA = new javax.swing.JFormattedTextField();
         panelTransferenciaPuntoDeVenta = new javax.swing.JPanel();
         etiquetaCodigoLoteP = new javax.swing.JLabel();
         campoCodigoLoteP = new javax.swing.JTextField();
@@ -58,7 +57,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
         setMinimumSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
 
-        panelTransferenciaAlmacen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferencia de productos a un almacén", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        panelTransferenciaAlmacen.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferencia de productos a un almacén", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         panelTransferenciaAlmacen.setMaximumSize(new java.awt.Dimension(900, 250));
         panelTransferenciaAlmacen.setMinimumSize(new java.awt.Dimension(900, 250));
 
@@ -88,6 +87,8 @@ public class TransferenciaUI extends javax.swing.JPanel {
             }
         });
 
+        campoCantidadProductoA.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter()));
+
         javax.swing.GroupLayout panelTransferenciaAlmacenLayout = new javax.swing.GroupLayout(panelTransferenciaAlmacen);
         panelTransferenciaAlmacen.setLayout(panelTransferenciaAlmacenLayout);
         panelTransferenciaAlmacenLayout.setHorizontalGroup(
@@ -104,10 +105,10 @@ public class TransferenciaUI extends javax.swing.JPanel {
                             .addComponent(etiquetaAlmacenDestino, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelTransferenciaAlmacenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(campoCantidadProductoA)
                             .addComponent(campoAlmacenOrigen, 0, 164, Short.MAX_VALUE)
                             .addComponent(campoAlmacenDestino, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(campoCodigoLoteA)))
+                            .addComponent(campoCodigoLoteA)
+                            .addComponent(campoCantidadProductoA)))
                     .addGroup(panelTransferenciaAlmacenLayout.createSequentialGroup()
                         .addComponent(botonTransferenciaAlmacen, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -117,14 +118,14 @@ public class TransferenciaUI extends javax.swing.JPanel {
         panelTransferenciaAlmacenLayout.setVerticalGroup(
             panelTransferenciaAlmacenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelTransferenciaAlmacenLayout.createSequentialGroup()
-                .addContainerGap(65, Short.MAX_VALUE)
+                .addGap(58, 58, 58)
                 .addGroup(panelTransferenciaAlmacenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoCodigoLoteA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(etiquetaCodigoLoteA))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelTransferenciaAlmacenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoCantidadProductoA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaCantidadProductoA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(etiquetaCantidadProductoA, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoCantidadProductoA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelTransferenciaAlmacenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(campoAlmacenOrigen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,7 +143,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
 
         add(panelTransferenciaAlmacen, java.awt.BorderLayout.CENTER);
 
-        panelTransferenciaPuntoDeVenta.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferencia de productos a un punto de venta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 12))); // NOI18N
+        panelTransferenciaPuntoDeVenta.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Transferencia de productos a un punto de venta", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         panelTransferenciaPuntoDeVenta.setMaximumSize(new java.awt.Dimension(900, 250));
         panelTransferenciaPuntoDeVenta.setMinimumSize(new java.awt.Dimension(900, 250));
         panelTransferenciaPuntoDeVenta.setPreferredSize(new java.awt.Dimension(900, 250));
@@ -223,7 +224,7 @@ public class TransferenciaUI extends javax.swing.JPanel {
                 .addGroup(panelTransferenciaPuntoDeVentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonTransferenciaPuntoDeVenta)
                     .addComponent(botonCancelarTransferenciaPuntoDeVenta))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         add(panelTransferenciaPuntoDeVenta, java.awt.BorderLayout.PAGE_END);
@@ -268,8 +269,9 @@ public class TransferenciaUI extends javax.swing.JPanel {
             Almacen almacenDestino = (Almacen) campoAlmacenDestino.getSelectedItem();
             transferenciaJpaController.transferirProductosAlmacen(codigoLote, cantidad, almacenOrigen, almacenDestino);
             JOptionPane.showMessageDialog(null, "Se ha realizado la operación con éxito.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, ex, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_botonTransferenciaAlmacenActionPerformed
 
@@ -297,4 +299,16 @@ public class TransferenciaUI extends javax.swing.JPanel {
     private javax.swing.JPanel panelTransferenciaAlmacen;
     private javax.swing.JPanel panelTransferenciaPuntoDeVenta;
     // End of variables declaration//GEN-END:variables
+
+    private void limpiarCampos() {
+        this.campoAlmacen.setSelectedItem(null);
+        this.campoAlmacenDestino.setSelectedItem(null);
+        this.campoAlmacenOrigen.setSelectedItem(null);
+        this.campoCantidadProductoA.setValue(null);
+        this.campoCantidadProductoP.setValue(null);
+        this.campoCodigoLoteA.setText("");
+        this.campoCodigoLoteP.setText("");
+        this.campoPuntoDeVenta.setSelectedItem(null);
+    }
+
 }

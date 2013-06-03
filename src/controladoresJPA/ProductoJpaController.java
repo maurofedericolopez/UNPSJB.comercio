@@ -5,7 +5,11 @@ import controladoresJPA.exceptions.CodigoProductoNoDisponibleException;
 import controladoresJPA.exceptions.CodigoProductoNoRegistradoException;
 import controladoresJPA.exceptions.NonexistentEntityException;
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Observable;
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,11 +25,14 @@ import modelo.*;
  */
 public class ProductoJpaController extends Observable implements Serializable {
 
+    private OperacionJpaController operacionJpaController;
+
     /**
      * Construye un nuevo controlador para las entidades <code>Producto</code>, <code>PrecioAnterior</code> y <code>Oferta</code>.
      */
     public ProductoJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
+        operacionJpaController = new OperacionJpaController();
     }
     private EntityManagerFactory emf = null;
 
@@ -259,78 +266,6 @@ public class ProductoJpaController extends Observable implements Serializable {
         }
     }
 
-    private List<Producto> encontrarProductoEntities() {
-        return encontrarProductoEntities(true, -1, -1);
-    }
-
-    private List<PrecioAnterior> encontrarPrecioAnteriorEntities() {
-        return encontrarPrecioAnteriorEntities(true, -1, -1);
-    }
-
-    private List<Oferta> encontrarOfertaEntities() {
-        return encontrarOfertaEntities(true, -1, -1);
-    }
-
-    private List<Producto> encontrarProductoEntities(int maxResults, int firstResult) {
-        return encontrarProductoEntities(false, maxResults, firstResult);
-    }
-
-    private List<PrecioAnterior> encontrarPrecioAnteriorEntities(int maxResults, int firstResult) {
-        return encontrarPrecioAnteriorEntities(false, maxResults, firstResult);
-    }
-
-    private List<Oferta> encontrarOfertaEntities(int maxResults, int firstResult) {
-        return encontrarOfertaEntities(false, maxResults, firstResult);
-    }
-
-    private List<Producto> encontrarProductoEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Producto.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    private List<PrecioAnterior> encontrarPrecioAnteriorEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(PrecioAnterior.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
-    private List<Oferta> encontrarOfertaEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Oferta.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     /**
      * Devuelve un objeto <code>Producto</code> buscado por su id en la base de datos.
      * @param id el <code>id</code> del producto en la base de datos.
@@ -475,11 +410,20 @@ public class ProductoJpaController extends Observable implements Serializable {
      * @return productos
      */
     public ArrayList<Producto> obtenerTodosLosProductos() {
-        ArrayList<Producto> productos = new ArrayList();
-        Object[] array = encontrarProductoEntities().toArray();
-        for(Object o : array)
-            productos.add((Producto) o);
-        return productos;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Producto.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Producto> productos = new ArrayList();
+            for(Object o : array)
+                productos.add((Producto) o);
+            return productos;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
     /**
@@ -593,6 +537,7 @@ public class ProductoJpaController extends Observable implements Serializable {
         crearPrecioAnterior(precioAnterior);
         producto.setPrecioActual(nuevoPrecio);
         editarProducto(producto);
+        operacionJpaController.registrarOperacionModificacionDePrecioDeUnProducto(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), producto);
     }
 
     /**
@@ -642,15 +587,16 @@ public class ProductoJpaController extends Observable implements Serializable {
      * @throws CodigoProductoNoDisponibleException Se lanza si el codigo del producto indicado no está registrado en la base de datos.
      */
     public void registrarProducto(Producto producto) throws CodigoProductoNoDisponibleException {
-        codigoProductoDisponible(producto.getCodigo());
-        
+        Boolean codigoProductoDisponible = codigoProductoDisponible(producto.getCodigo());
 
         PrecioAnterior nuevoPrecio = new PrecioAnterior();
         nuevoPrecio.setValor(producto.getPrecioActual());
         nuevoPrecio.setFecha(new Date(new Date().getTime()));
         nuevoPrecio.setProducto(producto);
 
+        crearProducto(producto);
         crearPrecioAnterior(nuevoPrecio);
+        operacionJpaController.registrarOperacionCreacionDeProducto(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), producto);
     }
 
     /**
@@ -674,7 +620,7 @@ public class ProductoJpaController extends Observable implements Serializable {
      * @param fechaFin es la fecha de finalización de la oferta.
      * @throws Exception 
      */
-    public void crearOfertaParaProducto(Producto producto, Double descuento, Date fechaInicio, Date fechaFin) throws Exception {
+    private void crearOfertaParaProducto(Producto producto, Double descuento, Date fechaInicio, Date fechaFin) throws Exception {
         if(descuento < 0.0) {
             descuento = 0.0;
         } else
@@ -693,12 +639,14 @@ public class ProductoJpaController extends Observable implements Serializable {
                     oferta.setFechaFin(fechaFin);
                     oferta.setFechaInicio(fechaInicio);
                     editarOferta(oferta);
+                    operacionJpaController.registrarOperacionCreacionDeOfertaParaUnProducto(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), producto);
                 }
             } else {
                 oferta.setDescuento(descuento);
                 oferta.setFechaFin(fechaFin);
                 oferta.setFechaInicio(fechaInicio);
                 editarOferta(oferta);
+                operacionJpaController.registrarOperacionCreacionDeOfertaParaUnProducto(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), producto);
             }
         } else {
             oferta = new Oferta();
@@ -708,6 +656,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             crearOferta(oferta);
             producto.setOferta(oferta);
             editarProducto(producto);
+            operacionJpaController.registrarOperacionCreacionDeOfertaParaUnProducto(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), producto);
         }
     }
 
@@ -726,6 +675,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             while(i.hasNext()) {
                 crearOfertaParaProducto(i.next(), descuento, fechaInicio, fechaFin);
             }
+            oferta = new Oferta();
             oferta.setDescuento(descuento);
             oferta.setFechaInicio(fechaInicio);
             oferta.setFechaFin(fechaFin);
@@ -761,6 +711,7 @@ public class ProductoJpaController extends Observable implements Serializable {
             while(i.hasNext()) {
                 crearOfertaParaProducto(i.next(), descuento, fechaInicio, fechaFin);
             }
+            oferta = new Oferta();
             oferta.setDescuento(descuento);
             oferta.setFechaInicio(fechaInicio);
             oferta.setFechaFin(fechaFin);
@@ -779,6 +730,66 @@ public class ProductoJpaController extends Observable implements Serializable {
                 editarOferta(oferta);
             }
         }
+    }
+
+    public Double varianzaDelPrecioDeUnProducto(Date desde, Date hasta, Producto producto) {
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            CriteriaQuery<PrecioAnterior> cq = cb.createQuery(PrecioAnterior.class);
+            Root<PrecioAnterior> root = cq.from(PrecioAnterior.class);
+            cq.select(root);
+
+            List<Predicate> predicateList = new ArrayList<Predicate>();
+            Predicate fechaPredicate, productoPredicate;
+
+            if (desde != null && hasta != null && (!desde.after(hasta))) {
+                fechaPredicate = cb.between(root.get("fecha").as(Date.class), desde, hasta);
+                predicateList.add(fechaPredicate);
+            }
+
+            if (producto != null) {
+                productoPredicate = cb.equal(root.get("producto"), producto);
+                predicateList.add(productoPredicate);
+            }
+ 
+            Predicate[] predicates = new Predicate[predicateList.size()];
+            predicateList.toArray(predicates);
+            cq.where(predicates);
+
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            if(array.length > 0) {
+                ArrayList<Double> precios = new ArrayList();
+                for(Object o : array) {
+                    precios.add(((PrecioAnterior) o).getValor());
+                }
+                return calcularVarianza(precios);
+            }
+
+            return 0.0;
+        } catch(NoResultException ex) {
+            return 0.0;
+        } finally {
+            em.close();
+        }
+    }
+
+    private Double calcularVarianza(ArrayList<Double> precios) {
+        Double media = 0.0;
+        Integer tamaño = precios.size();
+        Iterator<Double> i = precios.iterator();
+        while(i.hasNext()) {
+            media += i.next();
+        }
+        media /= tamaño;
+
+        Double temp = 0.0;
+        i = precios.iterator();
+        while(i.hasNext()) {
+            Double d = i.next();
+            temp += (d - media) * (d - media);
+        }
+        return temp/tamaño;
     }
 
 }

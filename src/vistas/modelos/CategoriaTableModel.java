@@ -3,13 +3,13 @@ package vistas.modelos;
 import comercio.ControllerSingleton;
 import controladoresJPA.CategoriaJpaController;
 import controladoresJPA.exceptions.NonexistentEntityException;
-import modelo.Categoria;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.AbstractTableModel;
+import modelo.Categoria;
 
 /**
  *

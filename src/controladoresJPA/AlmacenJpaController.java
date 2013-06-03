@@ -6,10 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.swing.JOptionPane;
@@ -23,13 +20,15 @@ import modelo.*;
 public class AlmacenJpaController implements Serializable {
 
     private LoteJpaController loteJpaController;
+    private OperacionJpaController operacionJpaController;
 
     /**
      * Construye un nuevo controlador para la entidad <code>Almacen</code>.
      */
     public AlmacenJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
         loteJpaController = new LoteJpaController();
+        operacionJpaController = new OperacionJpaController();
     }
     private EntityManagerFactory emf = null;
 
@@ -141,7 +140,7 @@ public class AlmacenJpaController implements Serializable {
             if (msg == null || msg.length() == 0) {
                 Long id = almacen.getId();
                 if (encontrarAlmacen(id) == null) {
-                    throw new NonexistentEntityException("The almacen with id " + id + " no longer exists.");
+                    throw new NonexistentEntityException("El almacén que desea actualizar en la base de datos no existe.");
                 }
             }
             throw ex;
@@ -167,7 +166,7 @@ public class AlmacenJpaController implements Serializable {
                 almacen = em.getReference(Almacen.class, id);
                 almacen.getId();
             } catch (EntityNotFoundException enfe) {
-                throw new NonexistentEntityException("The almacen with id " + id + " no longer exists.", enfe);
+                throw new NonexistentEntityException("El almacen que desea eliminar de la base de datos no existe.", enfe);
             }
             Sucursal sucursal = almacen.getSucursal();
             if (sucursal != null) {
@@ -185,30 +184,6 @@ public class AlmacenJpaController implements Serializable {
             if (em != null) {
                 em.close();
             }
-        }
-    }
-
-    private List<Almacen> encontrarAlmacenEntities() {
-        return encontrarAlmacenEntities(true, -1, -1);
-    }
-
-    private List<Almacen> encontrarAlmacenEntities(int maxResults, int firstResult) {
-        return encontrarAlmacenEntities(false, maxResults, firstResult);
-    }
-
-    private List<Almacen> encontrarAlmacenEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Almacen.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
         }
     }
 
@@ -249,11 +224,20 @@ public class AlmacenJpaController implements Serializable {
      * @return almacenes
      */
     public ArrayList<Almacen> obtenerTodosLosAlmacenes() {
-        ArrayList<Almacen> almacenes = new ArrayList();
-        Object[] array = encontrarAlmacenEntities().toArray();
-        for(Object o : array)
-            almacenes.add((Almacen) o);
-        return almacenes;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Almacen.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Almacen> almacenes = new ArrayList();
+            for(Object o : array)
+                almacenes.add((Almacen) o);
+            return almacenes;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
     /**
@@ -319,7 +303,9 @@ public class AlmacenJpaController implements Serializable {
             int showOptionDialog = JOptionPane.showOptionDialog(null, msg, "Corregir Inventario", JOptionPane.YES_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
             if(showOptionDialog == 0) {
                 loteAlmacenado.setCantidad(cantidad);
-                loteJpaController.editarLoteAlmacenado(loteAlmacenado);}
+                loteJpaController.editarLoteAlmacenado(loteAlmacenado);
+                operacionJpaController.registrarOperacionCorreccionDeInventario(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), loteAlmacenado);
+            }
         } else {
             throw new Exception("El almacén no contiene este lote.");
         }

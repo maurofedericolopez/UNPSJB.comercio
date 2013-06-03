@@ -38,33 +38,36 @@ public class OfertaUI extends javax.swing.JPanel {
         panelOfertaProducto = new javax.swing.JPanel();
         etiquetaCodigoProducto = new javax.swing.JLabel();
         etiquetaPorcentajeDescuentoProducto = new javax.swing.JLabel();
-        campoPorcentajeDescuentoProducto = new javax.swing.JFormattedTextField();
         etiquetaFechaInicioProducto = new javax.swing.JLabel();
-        campoFechaInicioProducto = new javax.swing.JFormattedTextField();
         etiquetaFechaFinProducto = new javax.swing.JLabel();
-        campoFechaFinProducto = new javax.swing.JFormattedTextField();
         botonCrearOfertaProducto = new javax.swing.JButton();
         campoCodigoProducto = new javax.swing.JTextField();
+        campoFechaInicioProducto = new com.toedter.calendar.JDateChooser();
+        campoFechaFinProducto = new com.toedter.calendar.JDateChooser();
+        jLabel1 = new javax.swing.JLabel();
+        campoPorcentajeDescuentoProducto = new javax.swing.JFormattedTextField();
         panelOfertaCategoria = new javax.swing.JPanel();
         etiquetaCategoria = new javax.swing.JLabel();
         campoCategoria = new javax.swing.JComboBox();
         etiquetaPorcentajeDescuentoCategoria = new javax.swing.JLabel();
-        campoPorcentajeDescuentoCategoria = new javax.swing.JFormattedTextField();
         etiquetaFechaInicioCategoria = new javax.swing.JLabel();
-        campoFechaInicioCategoria = new javax.swing.JFormattedTextField();
         etiquetaFechaFinCategoria = new javax.swing.JLabel();
-        campoFechaFinCategoria = new javax.swing.JFormattedTextField();
         botonCrearOfertaCategoria = new javax.swing.JButton();
+        campoFechaInicioCategoria = new com.toedter.calendar.JDateChooser();
+        campoFechaFinCategoria = new com.toedter.calendar.JDateChooser();
+        jLabel2 = new javax.swing.JLabel();
+        campoPorcentajeDescuentoCategoria = new javax.swing.JFormattedTextField();
         panelOfertaMarca = new javax.swing.JPanel();
         etiquetaMarca = new javax.swing.JLabel();
         campoMarca = new javax.swing.JComboBox();
         etiquetaPorcentajeDescuentoMarca = new javax.swing.JLabel();
-        campoPorcentajeDescuentoMarca = new javax.swing.JFormattedTextField();
         etiquetaFechaInicioMarca = new javax.swing.JLabel();
-        campoFechaInicioMarca = new javax.swing.JFormattedTextField();
         etiquetaFechaFinMarca = new javax.swing.JLabel();
-        campoFechaFinMarca = new javax.swing.JFormattedTextField();
         botonCrearOfertaMarca = new javax.swing.JButton();
+        campoFechaInicioMarca = new com.toedter.calendar.JDateChooser();
+        campoFechaFinMarca = new com.toedter.calendar.JDateChooser();
+        jLabel3 = new javax.swing.JLabel();
+        campoPorcentajeDescuentoMarca = new javax.swing.JFormattedTextField();
 
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
@@ -79,15 +82,9 @@ public class OfertaUI extends javax.swing.JPanel {
 
         etiquetaPorcentajeDescuentoProducto.setText("Indique el porcentaje de descuento");
 
-        campoPorcentajeDescuentoProducto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00%"))));
-
         etiquetaFechaInicioProducto.setText("Indique la fecha de inicio de la oferta");
 
-        campoFechaInicioProducto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-
         etiquetaFechaFinProducto.setText("Indique la fecha de fin de la oferta");
-
-        campoFechaFinProducto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         botonCrearOfertaProducto.setText("Crear Oferta");
         botonCrearOfertaProducto.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +92,10 @@ public class OfertaUI extends javax.swing.JPanel {
                 botonCrearOfertaProductoActionPerformed(evt);
             }
         });
+
+        jLabel1.setText("(Ej. 15%)");
+
+        campoPorcentajeDescuentoProducto.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
 
         javax.swing.GroupLayout panelOfertaProductoLayout = new javax.swing.GroupLayout(panelOfertaProducto);
         panelOfertaProducto.setLayout(panelOfertaProductoLayout);
@@ -109,12 +110,14 @@ public class OfertaUI extends javax.swing.JPanel {
                     .addComponent(etiquetaCodigoProducto, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(campoPorcentajeDescuentoProducto)
-                    .addComponent(campoFechaInicioProducto)
-                    .addComponent(campoFechaFinProducto)
                     .addComponent(botonCrearOfertaProducto, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
-                    .addComponent(campoCodigoProducto))
-                .addContainerGap(533, Short.MAX_VALUE))
+                    .addComponent(campoCodigoProducto)
+                    .addComponent(campoFechaInicioProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoFechaFinProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoPorcentajeDescuentoProducto))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         panelOfertaProductoLayout.setVerticalGroup(
             panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -124,16 +127,17 @@ public class OfertaUI extends javax.swing.JPanel {
                     .addComponent(campoCodigoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPorcentajeDescuentoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaPorcentajeDescuentoProducto))
+                    .addComponent(etiquetaPorcentajeDescuentoProducto)
+                    .addComponent(jLabel1)
+                    .addComponent(campoPorcentajeDescuentoProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFechaInicioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaFechaInicioProducto))
+                .addGroup(panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etiquetaFechaInicioProducto)
+                    .addComponent(campoFechaInicioProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFechaFinProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaFechaFinProducto))
+                .addGroup(panelOfertaProductoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etiquetaFechaFinProducto)
+                    .addComponent(campoFechaFinProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonCrearOfertaProducto)
                 .addGap(0, 7, Short.MAX_VALUE))
@@ -152,15 +156,9 @@ public class OfertaUI extends javax.swing.JPanel {
 
         etiquetaPorcentajeDescuentoCategoria.setText("Indique el porcentaje de descuento");
 
-        campoPorcentajeDescuentoCategoria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
-
         etiquetaFechaInicioCategoria.setText("Indique la fecha de inicio de la oferta");
 
-        campoFechaInicioCategoria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-
         etiquetaFechaFinCategoria.setText("Indique la fecha de fin de la oferta");
-
-        campoFechaFinCategoria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         botonCrearOfertaCategoria.setText("Crear Oferta");
         botonCrearOfertaCategoria.addActionListener(new java.awt.event.ActionListener() {
@@ -168,6 +166,10 @@ public class OfertaUI extends javax.swing.JPanel {
                 botonCrearOfertaCategoriaActionPerformed(evt);
             }
         });
+
+        jLabel2.setText("(Ej. 15%)");
+
+        campoPorcentajeDescuentoCategoria.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
 
         javax.swing.GroupLayout panelOfertaCategoriaLayout = new javax.swing.GroupLayout(panelOfertaCategoria);
         panelOfertaCategoria.setLayout(panelOfertaCategoriaLayout);
@@ -183,11 +185,13 @@ public class OfertaUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campoCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(campoPorcentajeDescuentoCategoria)
-                    .addComponent(campoFechaInicioCategoria)
-                    .addComponent(campoFechaFinCategoria)
-                    .addComponent(botonCrearOfertaCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(533, Short.MAX_VALUE))
+                    .addComponent(botonCrearOfertaCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(campoFechaInicioCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoFechaFinCategoria, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoPorcentajeDescuentoCategoria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         panelOfertaCategoriaLayout.setVerticalGroup(
             panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -197,16 +201,17 @@ public class OfertaUI extends javax.swing.JPanel {
                     .addComponent(etiquetaCategoria))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPorcentajeDescuentoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaPorcentajeDescuentoCategoria))
+                    .addComponent(etiquetaPorcentajeDescuentoCategoria)
+                    .addComponent(jLabel2)
+                    .addComponent(campoPorcentajeDescuentoCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFechaInicioCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaFechaInicioCategoria))
+                .addGroup(panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etiquetaFechaInicioCategoria)
+                    .addComponent(campoFechaInicioCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFechaFinCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaFechaFinCategoria))
+                .addGroup(panelOfertaCategoriaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etiquetaFechaFinCategoria)
+                    .addComponent(campoFechaFinCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonCrearOfertaCategoria)
                 .addGap(0, 27, Short.MAX_VALUE))
@@ -225,15 +230,9 @@ public class OfertaUI extends javax.swing.JPanel {
 
         etiquetaPorcentajeDescuentoMarca.setText("Indique el porcentaje de descuento");
 
-        campoPorcentajeDescuentoMarca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
-
         etiquetaFechaInicioMarca.setText("Indique la fecha de inicio de la oferta");
 
-        campoFechaInicioMarca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
-
         etiquetaFechaFinMarca.setText("Indique la fecha de fin de la oferta");
-
-        campoFechaFinMarca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getDateInstance(java.text.DateFormat.SHORT))));
 
         botonCrearOfertaMarca.setText("Crear Oferta");
         botonCrearOfertaMarca.addActionListener(new java.awt.event.ActionListener() {
@@ -241,6 +240,10 @@ public class OfertaUI extends javax.swing.JPanel {
                 botonCrearOfertaMarcaActionPerformed(evt);
             }
         });
+
+        jLabel3.setText("(Ej. 15%)");
+
+        campoPorcentajeDescuentoMarca.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(java.text.NumberFormat.getPercentInstance())));
 
         javax.swing.GroupLayout panelOfertaMarcaLayout = new javax.swing.GroupLayout(panelOfertaMarca);
         panelOfertaMarca.setLayout(panelOfertaMarcaLayout);
@@ -256,11 +259,13 @@ public class OfertaUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(campoMarca, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(campoPorcentajeDescuentoMarca)
-                    .addComponent(campoFechaInicioMarca)
-                    .addComponent(campoFechaFinMarca)
-                    .addComponent(botonCrearOfertaMarca, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(533, Short.MAX_VALUE))
+                    .addComponent(botonCrearOfertaMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(campoFechaInicioMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoFechaFinMarca, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(campoPorcentajeDescuentoMarca))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(464, Short.MAX_VALUE))
         );
         panelOfertaMarcaLayout.setVerticalGroup(
             panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,16 +275,17 @@ public class OfertaUI extends javax.swing.JPanel {
                     .addComponent(etiquetaMarca))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoPorcentajeDescuentoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaPorcentajeDescuentoMarca))
+                    .addComponent(etiquetaPorcentajeDescuentoMarca)
+                    .addComponent(jLabel3)
+                    .addComponent(campoPorcentajeDescuentoMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFechaInicioMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaFechaInicioMarca))
+                .addGroup(panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etiquetaFechaInicioMarca)
+                    .addComponent(campoFechaInicioMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(campoFechaFinMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(etiquetaFechaFinMarca))
+                .addGroup(panelOfertaMarcaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(etiquetaFechaFinMarca)
+                    .addComponent(campoFechaFinMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(botonCrearOfertaMarca)
                 .addGap(0, 7, Short.MAX_VALUE))
@@ -293,14 +299,11 @@ public class OfertaUI extends javax.swing.JPanel {
             camposOfertaProductoCompletos();
             String codigoProducto = campoCodigoProducto.getText();
             Double descuento = ((Number) campoPorcentajeDescuentoProducto.getValue()).doubleValue();
-            Date fechaInicio = (Date) campoFechaInicioProducto.getValue();
-            Date fechaFin = (Date) campoFechaFinProducto.getValue();
+            Date fechaInicio = campoFechaInicioProducto.getDate();
+            Date fechaFin = campoFechaFinProducto.getDate();
             productoJpaController.crearOfertaParaProducto(codigoProducto, descuento, fechaInicio, fechaFin);
-            campoCodigoProducto.setText("");
-            campoPorcentajeDescuentoProducto.setValue(null);
-            campoFechaInicioProducto.setValue(null);
-            campoFechaFinProducto.setValue(null);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
         } catch(CampoIncompletoException ex) {
             ex.mostrarDialogo();
         } catch (Exception ex) {
@@ -310,16 +313,14 @@ public class OfertaUI extends javax.swing.JPanel {
 
     private void botonCrearOfertaCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearOfertaCategoriaActionPerformed
         try {
+            camposOfertaCategoriaCompletos();
             Categoria categoria = (Categoria) campoCategoria.getSelectedItem();
             Double descuento = ((Number) campoPorcentajeDescuentoCategoria.getValue()).doubleValue();
-            Date fechaInicio = (Date) campoFechaInicioCategoria.getValue();
-            Date fechaFin = (Date) campoFechaFinCategoria.getValue();
+            Date fechaInicio = campoFechaInicioCategoria.getDate();
+            Date fechaFin = campoFechaFinCategoria.getDate();
             productoJpaController.crearOfertaParaProductosDeUnaCategoria(categoria, descuento, fechaInicio, fechaFin);
-            campoCategoria.setSelectedItem(null);
-            campoPorcentajeDescuentoCategoria.setValue(null);
-            campoFechaInicioCategoria.setValue(null);
-            campoFechaFinCategoria.setValue(null);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
         } catch(CampoIncompletoException ex) {
             ex.mostrarDialogo();
         } catch (Exception ex) {
@@ -329,16 +330,14 @@ public class OfertaUI extends javax.swing.JPanel {
 
     private void botonCrearOfertaMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonCrearOfertaMarcaActionPerformed
         try {
+            camposOfertaMarcaCompletos();
             Marca marca = (Marca) campoMarca.getSelectedItem();
             Double descuento = ((Number) campoPorcentajeDescuentoMarca.getValue()).doubleValue();
-            Date fechaInicio = (Date) campoFechaInicioMarca.getValue();
-            Date fechaFin = (Date) campoFechaFinMarca.getValue();
+            Date fechaInicio = campoFechaInicioMarca.getDate();
+            Date fechaFin = campoFechaFinMarca.getDate();
             productoJpaController.crearOfertaParaProductosDeUnaMarca(marca, descuento, fechaInicio, fechaFin);
-            campoCategoria.setSelectedItem(null);
-            campoPorcentajeDescuentoMarca.setValue(null);
-            campoFechaInicioMarca.setValue(null);
-            campoFechaFinMarca.setValue(null);
             JOptionPane.showMessageDialog(null, "Se ha completó la operación.", "Enhorabuena", JOptionPane.INFORMATION_MESSAGE);
+            limpiarCampos();
         } catch(CampoIncompletoException ex) {
             ex.mostrarDialogo();
         } catch (Exception ex) {
@@ -352,12 +351,12 @@ public class OfertaUI extends javax.swing.JPanel {
     private javax.swing.JButton botonCrearOfertaProducto;
     private javax.swing.JComboBox campoCategoria;
     private javax.swing.JTextField campoCodigoProducto;
-    private javax.swing.JFormattedTextField campoFechaFinCategoria;
-    private javax.swing.JFormattedTextField campoFechaFinMarca;
-    private javax.swing.JFormattedTextField campoFechaFinProducto;
-    private javax.swing.JFormattedTextField campoFechaInicioCategoria;
-    private javax.swing.JFormattedTextField campoFechaInicioMarca;
-    private javax.swing.JFormattedTextField campoFechaInicioProducto;
+    private com.toedter.calendar.JDateChooser campoFechaFinCategoria;
+    private com.toedter.calendar.JDateChooser campoFechaFinMarca;
+    private com.toedter.calendar.JDateChooser campoFechaFinProducto;
+    private com.toedter.calendar.JDateChooser campoFechaInicioCategoria;
+    private com.toedter.calendar.JDateChooser campoFechaInicioMarca;
+    private com.toedter.calendar.JDateChooser campoFechaInicioProducto;
     private javax.swing.JComboBox campoMarca;
     private javax.swing.JFormattedTextField campoPorcentajeDescuentoCategoria;
     private javax.swing.JFormattedTextField campoPorcentajeDescuentoMarca;
@@ -374,6 +373,9 @@ public class OfertaUI extends javax.swing.JPanel {
     private javax.swing.JLabel etiquetaPorcentajeDescuentoCategoria;
     private javax.swing.JLabel etiquetaPorcentajeDescuentoMarca;
     private javax.swing.JLabel etiquetaPorcentajeDescuentoProducto;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel panelOfertaCategoria;
     private javax.swing.JPanel panelOfertaMarca;
     private javax.swing.JPanel panelOfertaProducto;
@@ -384,9 +386,9 @@ public class OfertaUI extends javax.swing.JPanel {
             throw new CampoIncompletoException("No ha indicado el código del producto.");
         if(campoPorcentajeDescuentoProducto.getValue() == null)
             throw new CampoIncompletoException("No ha indicado el porcentaje de descuento.");
-        if(campoFechaInicioProducto.getValue() == null)
+        if(campoFechaInicioProducto.getDate() == null)
             throw new CampoIncompletoException("No ha indicado la fecha de inicio de la oferta.");
-        if(campoFechaFinProducto.getValue() == null)
+        if(campoFechaFinProducto.getDate() == null)
             throw new CampoIncompletoException("No ha indicado la fecha de fin de la oferta.");
     }
 
@@ -395,9 +397,9 @@ public class OfertaUI extends javax.swing.JPanel {
             throw new CampoIncompletoException("No ha seleccionado una categoría.");
         if(campoPorcentajeDescuentoCategoria.getValue() == null)
             throw new CampoIncompletoException("No ha indicado el porcentaje de descuento.");
-        if(campoFechaInicioCategoria.getValue() == null)
+        if(campoFechaInicioCategoria.getDate() == null)
             throw new CampoIncompletoException("No ha indicado la fecha de inicio de la oferta.");
-        if(campoFechaFinCategoria.getValue() == null)
+        if(campoFechaFinCategoria.getDate() == null)
             throw new CampoIncompletoException("No ha indicado la fecha de fin de la oferta.");
     }
 
@@ -406,10 +408,25 @@ public class OfertaUI extends javax.swing.JPanel {
             throw new CampoIncompletoException("No ha seleccionado una marca.");
         if(campoPorcentajeDescuentoMarca.getValue() == null)
             throw new CampoIncompletoException("No ha indicado el porcentaje de descuento.");
-        if(campoFechaInicioMarca.getValue() == null)
+        if(campoFechaInicioMarca.getDate() == null)
             throw new CampoIncompletoException("No ha indicado la fecha de inicio de la oferta.");
-        if(campoFechaFinMarca.getValue() == null)
+        if(campoFechaFinMarca.getDate() == null)
             throw new CampoIncompletoException("No ha indicado la fecha de fin de la oferta.");
+    }
+
+    private void limpiarCampos() {
+        campoCodigoProducto.setText("");
+        campoPorcentajeDescuentoProducto.setValue(null);
+        campoFechaInicioProducto.setDate(null);
+        campoFechaFinProducto.setDate(null);
+        campoCategoria.setSelectedItem(null);
+        campoPorcentajeDescuentoCategoria.setValue(null);
+        campoFechaInicioCategoria.setDate(null);
+        campoFechaFinCategoria.setDate(null);
+        campoMarca.setSelectedItem(null);
+        campoPorcentajeDescuentoMarca.setValue(null);
+        campoFechaInicioMarca.setDate(null);
+        campoFechaFinMarca.setDate(null);
     }
 
 }

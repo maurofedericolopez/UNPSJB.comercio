@@ -15,6 +15,7 @@ public class TransferenciaJpaController implements Serializable {
     private LoteJpaController loteJpaController;
     private AlmacenJpaController almacenJpaController;
     private PuntoVentaJpaController puntoVentaJpaController;
+    private OperacionJpaController operacionJpaController;
 
     /**
      * Construye un nuevo controlador para realizar las transferencias de productos.
@@ -23,6 +24,7 @@ public class TransferenciaJpaController implements Serializable {
         loteJpaController = ControllerSingleton.getLoteJpaController();
         almacenJpaController = ControllerSingleton.getAlmacenJpaController();
         puntoVentaJpaController = ControllerSingleton.getPuntoVentaJpaController();
+        operacionJpaController = new OperacionJpaController();
     }
 
     /**
@@ -41,6 +43,7 @@ public class TransferenciaJpaController implements Serializable {
         almacenJpaController.descontarDeAlmacen(almacen, lote, cantidad);
         Producto producto = lote.getProducto();
         puntoVentaJpaController.aumentarStockEnVenta(puntoDeVenta, producto, cantidad);
+        operacionJpaController.registrarOperacionTransferenciaDeLotesDeProductos(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), almacen, puntoDeVenta, lote, cantidad);
     }
 
     /**
@@ -58,6 +61,7 @@ public class TransferenciaJpaController implements Serializable {
         Lote lote = loteJpaController.buscarLotePorCodigo(codigoLote);
         almacenJpaController.descontarDeAlmacen(almacenOrigen, lote, cantidad);
         almacenJpaController.aumentarStockEnAlmacen(almacenDestino, lote, cantidad);
+        operacionJpaController.registrarOperacionTransferenciaDeLotesDeProductos(ControllerSingleton.getEmpleadoJpaController().getEmpleadoQueInicioSesion(), almacenOrigen, almacenDestino, lote, cantidad);
     }
 
     /**

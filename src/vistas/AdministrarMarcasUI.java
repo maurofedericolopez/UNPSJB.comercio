@@ -3,10 +3,10 @@ package vistas;
 import comercio.ControllerSingleton;
 import controladoresJPA.MarcaJpaController;
 import controladoresJPA.exceptions.NonexistentEntityException;
-import modelo.Marca;
-import vistas.modelos.MarcaTableModel;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import modelo.Marca;
+import vistas.modelos.MarcaTableModel;
 
 /**
  *
@@ -35,7 +35,6 @@ public class AdministrarMarcasUI extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         nuevaMarcaUI = new javax.swing.JDialog();
         etiquetaNombre = new javax.swing.JLabel();
@@ -50,7 +49,6 @@ public class AdministrarMarcasUI extends javax.swing.JPanel {
         botonEliminarMarca = new javax.swing.JButton();
 
         nuevaMarcaUI.setTitle("Nueva marca");
-        nuevaMarcaUI.setMaximumSize(new java.awt.Dimension(245, 97));
         nuevaMarcaUI.setMinimumSize(new java.awt.Dimension(245, 97));
 
         etiquetaNombre.setText("Nombre");
@@ -98,7 +96,7 @@ public class AdministrarMarcasUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrar Marcas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrar Marcas", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(900, 500));

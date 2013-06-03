@@ -4,12 +4,8 @@ import comercio.ControllerSingleton;
 import controladoresJPA.exceptions.NonexistentEntityException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityNotFoundException;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import modelo.Marca;
@@ -21,7 +17,7 @@ import modelo.Marca;
 public class MarcaJpaController extends Observable implements Serializable {
 
     public MarcaJpaController() {
-        this.emf = ControllerSingleton.getEmf();
+        this.emf = ControllerSingleton.getEntityManagerFactory();
     }
     private EntityManagerFactory emf = null;
 
@@ -104,30 +100,6 @@ public class MarcaJpaController extends Observable implements Serializable {
         }
     }
 
-    private List<Marca> encontrarMarcaEntities() {
-        return encontrarMarcaEntities(true, -1, -1);
-    }
-
-    private List<Marca> encontrarMarcaEntities(int maxResults, int firstResult) {
-        return encontrarMarcaEntities(false, maxResults, firstResult);
-    }
-
-    private List<Marca> encontrarMarcaEntities(boolean all, int maxResults, int firstResult) {
-        EntityManager em = getEntityManager();
-        try {
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(Marca.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-        } finally {
-            em.close();
-        }
-    }
-
     /**
      * Devuelve un objeto <code>Marca</code> buscado por su id en la base de datos.
      * @param id
@@ -165,11 +137,20 @@ public class MarcaJpaController extends Observable implements Serializable {
      * @return 
      */
     public ArrayList<Marca> obtenerTodasLasMarcas() {
-        ArrayList<Marca> marcas = new ArrayList();
-        Object[] array = encontrarMarcaEntities().toArray();
-        for(Object o : array)
-            marcas.add((Marca) o);
-        return marcas;
+        EntityManager em = getEntityManager();
+        try {
+            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+            cq.select(cq.from(Marca.class));
+            Object[] array = em.createQuery(cq).getResultList().toArray();
+            ArrayList<Marca> marcas = new ArrayList();
+            for(Object o : array)
+                marcas.add((Marca) o);
+            return marcas;
+        } catch (NoResultException ex) {
+            return new ArrayList();
+        } finally {
+            em.close();
+        }
     }
 
     private void notificarCambios() {

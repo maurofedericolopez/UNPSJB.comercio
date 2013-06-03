@@ -1,6 +1,8 @@
 package vistas;
 
 import java.awt.BorderLayout;
+import java.awt.Image;
+import java.awt.Toolkit;
 import javax.swing.JComponent;
 
 /**
@@ -25,19 +27,86 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panelInicioSesion = new javax.swing.JPanel();
+        etiquetaNombreDeUsuario = new javax.swing.JLabel();
+        campoUsername = new javax.swing.JTextField();
+        etiquetaContraseña = new javax.swing.JLabel();
+        campoPassword = new javax.swing.JPasswordField();
+        botonIniciarSesion = new javax.swing.JButton();
         barraDeMenu = new javax.swing.JMenuBar();
         menuOperaciones = new javax.swing.JMenu();
         itemMenuModificarPrecioPorPorcentaje = new javax.swing.JMenuItem();
         itemMenuCrearOfertaTemporal = new javax.swing.JMenuItem();
+        itemMenuCerrarSesion = new javax.swing.JMenuItem();
         menuReportes = new javax.swing.JMenu();
         itemMenuVentasMensual = new javax.swing.JMenuItem();
         itemMenuVentaPorCategoria = new javax.swing.JMenuItem();
         itemMenuVentaPorMarca = new javax.swing.JMenuItem();
         itemMenuEgresoProductos = new javax.swing.JMenuItem();
-        itemMenuVariacionPrecios = new javax.swing.JMenuItem();
+        itemMenuVariacionPreciosProducto = new javax.swing.JMenuItem();
+        itemMenuVariacionPreciosCategoria = new javax.swing.JMenuItem();
+        itemMenuVariacionPreciosMarca = new javax.swing.JMenuItem();
+        itemMenuOperacion = new javax.swing.JMenuItem();
+
+        panelInicioSesion.setMaximumSize(new java.awt.Dimension(900, 500));
+        panelInicioSesion.setMinimumSize(new java.awt.Dimension(900, 500));
+
+        etiquetaNombreDeUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaNombreDeUsuario.setText("Nombre de usuario");
+
+        campoUsername.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        etiquetaContraseña.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        etiquetaContraseña.setText("Contraseña");
+
+        campoPassword.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+
+        botonIniciarSesion.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        botonIniciarSesion.setText("Iniciar Sesión");
+        botonIniciarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonIniciarSesionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelInicioSesionLayout = new javax.swing.GroupLayout(panelInicioSesion);
+        panelInicioSesion.setLayout(panelInicioSesionLayout);
+        panelInicioSesionLayout.setHorizontalGroup(
+            panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                .addGap(268, 268, 268)
+                .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                        .addComponent(etiquetaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(campoPassword)
+                            .addComponent(botonIniciarSesion, javax.swing.GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)))
+                    .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                        .addComponent(etiquetaNombreDeUsuario)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(campoUsername)))
+                .addGap(0, 250, Short.MAX_VALUE))
+        );
+        panelInicioSesionLayout.setVerticalGroup(
+            panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelInicioSesionLayout.createSequentialGroup()
+                .addGap(128, 128, 128)
+                .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(campoUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(etiquetaNombreDeUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelInicioSesionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(etiquetaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(botonIniciarSesion)
+                .addContainerGap(279, Short.MAX_VALUE))
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Gestion Gerencia");
+        setIconImage(getIconImage());
         setLocationByPlatform(true);
         setMinimumSize(new java.awt.Dimension(950, 550));
         setResizable(false);
@@ -59,6 +128,14 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
             }
         });
         menuOperaciones.add(itemMenuCrearOfertaTemporal);
+
+        itemMenuCerrarSesion.setText("Cerrar sesión");
+        itemMenuCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuCerrarSesionActionPerformed(evt);
+            }
+        });
+        menuOperaciones.add(itemMenuCerrarSesion);
 
         barraDeMenu.add(menuOperaciones);
 
@@ -96,8 +173,37 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
         });
         menuReportes.add(itemMenuEgresoProductos);
 
-        itemMenuVariacionPrecios.setText("Variación de precios");
-        menuReportes.add(itemMenuVariacionPrecios);
+        itemMenuVariacionPreciosProducto.setText("Variación de precios de un producto");
+        itemMenuVariacionPreciosProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuVariacionPreciosProductoActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuVariacionPreciosProducto);
+
+        itemMenuVariacionPreciosCategoria.setText("Variación de precios de productos de una categoría");
+        itemMenuVariacionPreciosCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuVariacionPreciosCategoriaActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuVariacionPreciosCategoria);
+
+        itemMenuVariacionPreciosMarca.setText("Variación de precios de productos de una marca");
+        itemMenuVariacionPreciosMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuVariacionPreciosMarcaActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuVariacionPreciosMarca);
+
+        itemMenuOperacion.setText("Registro de movimiento de inventario");
+        itemMenuOperacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemMenuOperacionActionPerformed(evt);
+            }
+        });
+        menuReportes.add(itemMenuOperacion);
 
         barraDeMenu.add(menuReportes);
 
@@ -129,6 +235,31 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
     private void itemMenuEgresoProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuEgresoProductosActionPerformed
         agregarComponente(new ConsultaEgresosUI());
     }//GEN-LAST:event_itemMenuEgresoProductosActionPerformed
+
+    private void botonIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonIniciarSesionActionPerformed
+        String username = campoUsername.getText();
+        String password = campoPassword.getText();
+    }//GEN-LAST:event_botonIniciarSesionActionPerformed
+
+    private void itemMenuCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuCerrarSesionActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_itemMenuCerrarSesionActionPerformed
+
+    private void itemMenuVariacionPreciosProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVariacionPreciosProductoActionPerformed
+        agregarComponente(new VariacionPrecioProductoUI());
+    }//GEN-LAST:event_itemMenuVariacionPreciosProductoActionPerformed
+
+    private void itemMenuOperacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuOperacionActionPerformed
+        agregarComponente(new RegistroMovimientoInventarioUI());
+    }//GEN-LAST:event_itemMenuOperacionActionPerformed
+
+    private void itemMenuVariacionPreciosCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVariacionPreciosCategoriaActionPerformed
+        agregarComponente(new VariacionPrecioCategoriaUI());
+    }//GEN-LAST:event_itemMenuVariacionPreciosCategoriaActionPerformed
+
+    private void itemMenuVariacionPreciosMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemMenuVariacionPreciosMarcaActionPerformed
+        agregarComponente(new VariacionPrecioMarcaUI());
+    }//GEN-LAST:event_itemMenuVariacionPreciosMarcaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -174,15 +305,25 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuBar barraDeMenu;
+    private javax.swing.JButton botonIniciarSesion;
+    private javax.swing.JPasswordField campoPassword;
+    private javax.swing.JTextField campoUsername;
+    private javax.swing.JLabel etiquetaContraseña;
+    private javax.swing.JLabel etiquetaNombreDeUsuario;
+    private javax.swing.JMenuItem itemMenuCerrarSesion;
     private javax.swing.JMenuItem itemMenuCrearOfertaTemporal;
     private javax.swing.JMenuItem itemMenuEgresoProductos;
     private javax.swing.JMenuItem itemMenuModificarPrecioPorPorcentaje;
-    private javax.swing.JMenuItem itemMenuVariacionPrecios;
+    private javax.swing.JMenuItem itemMenuOperacion;
+    private javax.swing.JMenuItem itemMenuVariacionPreciosCategoria;
+    private javax.swing.JMenuItem itemMenuVariacionPreciosMarca;
+    private javax.swing.JMenuItem itemMenuVariacionPreciosProducto;
     private javax.swing.JMenuItem itemMenuVentaPorCategoria;
     private javax.swing.JMenuItem itemMenuVentaPorMarca;
     private javax.swing.JMenuItem itemMenuVentasMensual;
     private javax.swing.JMenu menuOperaciones;
     private javax.swing.JMenu menuReportes;
+    private javax.swing.JPanel panelInicioSesion;
     // End of variables declaration//GEN-END:variables
 
     private void agregarComponente(JComponent componente) {
@@ -192,4 +333,14 @@ public class GestionGerenciaUI extends javax.swing.JFrame {
         componente.updateUI();
         pack();
     }
+
+    
+
+    @Override
+    public Image getIconImage() {
+        Image retValue = Toolkit.getDefaultToolkit().
+                getImage(ClassLoader.getSystemResource("icono.png"));
+        return retValue;
+    }
+
 }

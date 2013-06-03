@@ -97,7 +97,7 @@
     <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
       <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
         <TitledBorder justification="2" title="Egresar Lotes de Productos">
-          <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
+          <Font PropertyName="font" name="Tahoma" size="18" style="1"/>
         </TitledBorder>
       </Border>
     </Property>
@@ -301,7 +301,7 @@
                   <Component id="botonAgregarLote" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="botonQuitarLote" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="204" max="32767" attributes="0"/>
+                  <EmptySpace pref="199" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

@@ -26,11 +26,12 @@
     <class>modelo.GestorInventario</class>
     <class>modelo.PuntoVenta</class>
     <class>modelo.LoteRemito</class>
+    <class>modelo.Operacion</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/comercio"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://192.168.0.101:3306/comercio"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.user" value="administrador"/>
     </properties>
   </persistence-unit>
 </persistence>

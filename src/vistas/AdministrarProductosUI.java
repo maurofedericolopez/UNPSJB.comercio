@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.NumberFormatter;
 import modelo.*;
-import vistas.modelos.ProductoTableModel;
+import vistas.modelos.*;
 
 /**
  *
@@ -103,22 +103,22 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         etiquetaMarcaNuevo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaMarcaNuevo.setText("Marca");
 
-        campoMarcaNuevo.setModel(new vistas.modelos.MarcaComboBoxModel());
+        campoMarcaNuevo.setModel(new MarcaComboBoxModel());
 
         etiquetaOrigenNuevo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaOrigenNuevo.setText("Origen");
 
-        campoOrigenNuevo.setModel(new vistas.modelos.OrigenComboBoxModel());
+        campoOrigenNuevo.setModel(new OrigenComboBoxModel());
 
         etiquetaUnidadNuevo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaUnidadNuevo.setText("Unidad");
 
-        campoUnidadNuevo.setModel(new vistas.modelos.UnidadComboBoxModel());
+        campoUnidadNuevo.setModel(new UnidadComboBoxModel());
 
         etiquetaCategoriaNuevo.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaCategoriaNuevo.setText("Categoría");
 
-        campoCategoriaNuevo.setModel(new vistas.modelos.CategoriaComboBoxModel());
+        campoCategoriaNuevo.setModel(new CategoriaComboBoxModel());
 
         botonGuardarNuevo.setText("Guardar");
         botonGuardarNuevo.addActionListener(new java.awt.event.ActionListener() {
@@ -230,22 +230,22 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
         etiquetaMarcaEditar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaMarcaEditar.setText("Marca");
 
-        campoMarcaEditar.setModel(new vistas.modelos.MarcaComboBoxModel());
+        campoMarcaEditar.setModel(new MarcaComboBoxModel());
 
         etiquetaOrigenEditar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaOrigenEditar.setText("Origen");
 
-        campoOrigenEditar.setModel(new vistas.modelos.OrigenComboBoxModel());
+        campoOrigenEditar.setModel(new OrigenComboBoxModel());
 
         etiquetaUnidadEditar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaUnidadEditar.setText("Unidad");
 
-        campoUnidadEditar.setModel(new vistas.modelos.UnidadComboBoxModel());
+        campoUnidadEditar.setModel(new UnidadComboBoxModel());
 
         etiquetaCategoriaEditar.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         etiquetaCategoriaEditar.setText("Categoría");
 
-        campoCategoriaEditar.setModel(new vistas.modelos.CategoriaComboBoxModel());
+        campoCategoriaEditar.setModel(new CategoriaComboBoxModel());
 
         botonGuardarEditar.setText("Guardar");
         botonGuardarEditar.addActionListener(new java.awt.event.ActionListener() {
@@ -292,7 +292,7 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
                                 .addComponent(campoMarcaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(campoUnidadEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(campoCategoriaEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(editarProductoUILayout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(botonGuardarEditar)
@@ -338,14 +338,13 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrar Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14))); // NOI18N
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Administrar Productos", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 18))); // NOI18N
         setMaximumSize(new java.awt.Dimension(900, 500));
         setMinimumSize(new java.awt.Dimension(900, 500));
         setPreferredSize(new java.awt.Dimension(900, 500));
         setLayout(new java.awt.BorderLayout());
 
-        tablaProductos.setAutoCreateRowSorter(true);
-        tablaProductos.setModel(new vistas.modelos.ProductoTableModel());
+        tablaProductos.setModel(new ProductoTableModel());
         tablaProductos.getTableHeader().setReorderingAllowed(false);
         jsp.setViewportView(tablaProductos);
 
@@ -413,7 +412,7 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
             nuevoProducto.setUnidad((Unidad) campoUnidadNuevo.getSelectedItem());
             nuevoProducto.setOrigen((Origen) campoOrigenNuevo.getSelectedItem());
             nuevoProducto.setPrecioActual(((Number) campoPrecioNuevo.getValue()).doubleValue());
-            productoJpaController.registrarProducto(producto);
+            productoJpaController.registrarProducto(nuevoProducto);
             limpiarCampos();
             nuevoProductoUI.setVisible(false);
         } catch(CampoIncompletoException ex) {
@@ -554,9 +553,9 @@ public class AdministrarProductosUI extends javax.swing.JPanel {
             throw new CampoIncompletoException("No ha seleccionado una marca.");
         if(campoOrigenNuevo.getSelectedItem() == null)
             throw new CampoIncompletoException("No ha seleccionado un origen.");
-        if(campoUnidadNuevo.getSelectedItem() != null)
+        if(campoUnidadNuevo.getSelectedItem() == null)
             throw new CampoIncompletoException("No ha seleccionado una unidad.");
-        if(campoCategoriaNuevo.getSelectedItem() != null)
+        if(campoCategoriaNuevo.getSelectedItem() == null)
             throw new CampoIncompletoException("No ha seleccionado una categoría.");
     }
 
